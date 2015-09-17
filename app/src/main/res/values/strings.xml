@@ -9,4 +9,5 @@
     <string name="maintenance_home_header">Maintenance Page</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_enter_token">EnterToken</string>
+    <string name="title_activity_display_maintenance">DisplayMaintenance</string>
 </resources>

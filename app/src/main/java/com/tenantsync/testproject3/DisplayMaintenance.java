@@ -1,16 +1,15 @@
 package com.tenantsync.testproject3;
 
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.TextView;
-import android.content.Intent;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,33 +24,30 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MaintenanceHome extends AppCompatActivity {
-
+public class DisplayMaintenance extends ListActivity {
     private Context context;
     private String serial;
     private String token;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maintenance_home);
-        context=this;
-        // This is how we will get the Android ID of the device
-        serial=android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+    public void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
+        //setContentView(R.layout.activity_maintenance_main);
+        //serial=android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
         // This is getting the internal security token of the device this is done at initial boot of app
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        token = preferences.getString("securitytoken", "n/a");
+        //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //token = preferences.getString("securitytoken", "n/a");
+       // String[] values = new String[]{ "Android", "iPhone", "WindowsMobile",
+       //         "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
+       //         "Linux", "OS/2" };
+        String[] values = new String[]{"loading"};
+        // use your custom layout
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.activity_display_maintenance, R.id.label, values);
+        setListAdapter(adapter);
+        getActiveMaintenance();
     }
 
-    public void viewMaintenance(View view) {
-        System.out.println("In viewMaintenance");
-        Intent intent = new Intent(this, DisplayMaintenance.class);
-        startActivity(intent);
-    }
-
-    public void createMaintenance(View view) {
-        // Instantiate the RequestQueue.
-        // This is a volley request with a get including headers
+    private void getActiveMaintenance() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest myReq = new StringRequest(Request.Method.GET,
@@ -76,13 +72,11 @@ public class MaintenanceHome extends AppCompatActivity {
                 System.out.println("serial is: '" + serial + "'");
                 System.out.println("token is: '" + token + "'");
                 params.put("serial", "f0832247461623e1");
-                params.put("token", token);
+                params.put("token", "a4345B32");
                 return params;
             };
         };
         queue.add(myReq);
-        Intent intent = new Intent(this, DisplayMaintenance.class);
-        startActivity(intent);
     }
 
     private void handleMaintenanceAll(String incomingMaintenance) {
@@ -90,11 +84,14 @@ public class MaintenanceHome extends AppCompatActivity {
         try {
             JSONArray json = new JSONArray(incomingMaintenance);
             System.out.println("jsonArray: " + json.toString());
+            String[] values = new String[json.length()+1];
+            values[0]="Create New Maintenance Request";
             for(int i=0;i<json.length();i++) {
                 JSONObject jsonTempArray = json.getJSONObject(i);
                 System.out.println("temparray " + i + ": " + jsonTempArray.toString());
                 if(jsonTempArray.has("message")) {
                     System.out.println("message is: " + jsonTempArray.getString("message"));
+                    values[i+1]=jsonTempArray.getString("message");
                 }
                 if(jsonTempArray.has("id")) {
                     System.out.println("id is: " + jsonTempArray.getString("id"));
@@ -106,6 +103,9 @@ public class MaintenanceHome extends AppCompatActivity {
                     System.out.println("status is: " + jsonTempArray.getString("status"));
                 }
             }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    R.layout.activity_display_maintenance, R.id.label, values);
+            setListAdapter(adapter);
         }
         catch (Exception e) {
             System.out.println("exception in jsonkey");
@@ -114,24 +114,8 @@ public class MaintenanceHome extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_maintenance_home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        String item = (String) getListAdapter().getItem(position);
+        Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
     }
 }

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.android.volley.Request;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_main);
         context=this;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -155,10 +157,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    ////////////////////////////////////////////
+    // This function disables the back button //
+    ////////////////////////////////////////////
     @Override
     public void onBackPressed() {
         // This is disabling the back button for this activity.  We never want this activity to
         // close without our consent.
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    // This function disables dialogues which keeps the power from turning off //
+    /////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(!hasFocus) {
+            // Close every kind of system dialog
+            Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+            sendBroadcast(closeDialog);
+        }
     }
 
     @Override
