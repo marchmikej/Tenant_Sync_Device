@@ -22,7 +22,6 @@ public class AppContext extends Application {
         System.out.println("In AppContext onCreate");
         instance = this;
         registerKioskModeScreenOffReceiver();
-        startKioskService();
     }
 
     private void registerKioskModeScreenOffReceiver() {
@@ -36,14 +35,11 @@ public class AppContext extends Application {
     public PowerManager.WakeLock getWakeLock() {
         System.out.println("In AppContext getWakeLock");
         if(wakeLock == null) {
+            System.out.println("In AppContext getWakeLock part 2");
             // lazy loading: first call, create wakeLock via PowerManager.
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "wakeup");
         }
         return wakeLock;
-    }
-
-    private void startKioskService() { // ... and this method
-        startService(new Intent(this, KioskService.class));
     }
 }

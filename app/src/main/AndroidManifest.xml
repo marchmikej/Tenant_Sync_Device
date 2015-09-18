@@ -8,23 +8,23 @@
     </uses-permission>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-
     <application
         android:name="com.tenantsync.testproject3.AppContext"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
+
         <receiver android:name=".BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <service android:name=".KioskService" android:exported="false"/>
+
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,14 +34,17 @@
         </activity>
         <activity
             android:name=".MaintenanceHome"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_maintenance_home" >
         </activity>
         <activity
             android:name=".EnterToken"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_enter_token" >
         </activity>
         <activity
             android:name=".DisplayMaintenance"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_display_maintenance" >
         </activity>
 

@@ -36,6 +36,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_main);
         context=this;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -49,6 +56,29 @@ public class MainActivity extends AppCompatActivity {
         else {
             System.out.println("securitytoken is: " + securityToken);
         }
+        String serial = preferences.getString("serial", "n/a");
+        if(serial.equals("n/a"))
+        {
+            System.out.println("No serial!");
+            SharedPreferences.Editor edit = preferences.edit();
+            edit.putString("serial", android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID));
+            edit.commit();
+        }
+        else {
+            System.out.println("securitytoken is: " + securityToken);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
     public void goToMaintenance(View view) {
@@ -57,7 +87,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToContact(View view) {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         // Instantiate the RequestQueue.
+        /*
         // This is a volley request with a POST including headers
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -95,66 +133,15 @@ public class MainActivity extends AppCompatActivity {
             };
         };
         queue.add(myReq);
+        */
     }
 
     public void goToPayRent(View view) {
-        // Instantiate the RequestQueue.
-        // This is a volley request with a get including headers
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        StringRequest myReq = new StringRequest(Request.Method.GET,
-                "http://rootedindezign.com/api/request",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        System.out.println("Response is: " + response.toString());
-                        handleMaintenanceAll(response.toString());
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println("That didn't work!");
-                    }
-                }) {
-
-            public Map<String, String> getHeaders() throws
-                    com.android.volley.AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("serial", "f0832247461623e1");
-                params.put("token", "a4345B32");
-                return params;
-            };
-        };
-        queue.add(myReq);
-    }
-
-    private void handleMaintenanceAll(String incomingMaintenance) {
-        System.out.println("Incoming maintenance: " + incomingMaintenance);
-        try {
-            JSONArray json = new JSONArray(incomingMaintenance);
-            System.out.println("jsonArray: " + json.toString());
-            for(int i=0;i<json.length();i++) {
-                JSONObject jsonTempArray = json.getJSONObject(i);
-                System.out.println("temparray " + i + ": " + jsonTempArray.toString());
-                if(jsonTempArray.has("message")) {
-                    System.out.println("message is: " + jsonTempArray.getString("message"));
-                }
-                if(jsonTempArray.has("id")) {
-                    System.out.println("id is: " + jsonTempArray.getString("id"));
-                }
-                if(jsonTempArray.has("device_id")) {
-                    System.out.println("device_id is: " + jsonTempArray.getString("device_id"));
-                }
-                if(jsonTempArray.has("status")) {
-                    System.out.println("status is: " + jsonTempArray.getString("status"));
-                }
-            }
-        }
-        catch (Exception e) {
-            System.out.println("exception in jsonkey");
-            e.printStackTrace();
-        }
+        setContentView(R.layout.activity_main_rentdue);
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
     ////////////////////////////////////////////
@@ -178,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
             sendBroadcast(closeDialog);
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

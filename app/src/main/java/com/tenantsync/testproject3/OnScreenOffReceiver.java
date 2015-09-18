@@ -28,8 +28,9 @@ public class OnScreenOffReceiver extends BroadcastReceiver {
 
     private void wakeUpDevice(AppContext context) {
         System.out.println("In OnScreenOffReceiver wakeUpDevice");
-        PowerManager.WakeLock wakeLock = context.getWakeLock(); // get WakeLock reference via AppContext
+        PowerManager.WakeLock wakeLock = context.getWakeLock(); // get WakeLock reference via AppContextwell
         if (wakeLock.isHeld()) {
+            System.out.println("In OnScreenOffReceiver and wakeupdevic wakelock.release");
             wakeLock.release(); // release old wake lock
         }
 

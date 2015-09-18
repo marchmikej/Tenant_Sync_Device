@@ -22,23 +22,31 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class DisplayMaintenance extends ListActivity {
     private Context context;
     private String serial;
     private String token;
+    private MySQLConnect mySQL;
 
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        //setContentView(R.layout.activity_maintenance_main);
-        //serial=android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-        // This is getting the internal security token of the device this is done at initial boot of app
-        //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        //token = preferences.getString("securitytoken", "n/a");
-       // String[] values = new String[]{ "Android", "iPhone", "WindowsMobile",
-       //         "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-       //         "Linux", "OS/2" };
+        context = this;
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        token = preferences.getString("securitytoken", "n/a");
+        serial = preferences.getString("serial", "n/a");
+        mySQL = new MySQLConnect();
+        System.out.println("token: " + token);
+        System.out.println("serial: " + serial);
         String[] values = new String[]{"loading"};
         // use your custom layout
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -51,7 +59,7 @@ public class DisplayMaintenance extends ListActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest myReq = new StringRequest(Request.Method.GET,
-                "http://rootedindezign.com/api/request",
+                mySQL.getApiBase(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -63,6 +71,7 @@ public class DisplayMaintenance extends ListActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("Error communicating with maintenance API");
+                        finish();
                     }
                 }) {
 
@@ -71,8 +80,8 @@ public class DisplayMaintenance extends ListActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 System.out.println("serial is: '" + serial + "'");
                 System.out.println("token is: '" + token + "'");
-                params.put("serial", "f0832247461623e1");
-                params.put("token", "a4345B32");
+                params.put("token", token);
+                params.put("serial", serial);
                 return params;
             };
         };
@@ -82,22 +91,26 @@ public class DisplayMaintenance extends ListActivity {
     private void handleMaintenanceAll(String incomingMaintenance) {
         System.out.println("Incoming maintenance: " + incomingMaintenance);
         try {
-            JSONArray json = new JSONArray(incomingMaintenance);
-            System.out.println("jsonArray: " + json.toString());
+            JSONObject json = new JSONObject(incomingMaintenance);
+            System.out.println("jsonObject: " + json.toString());
+            System.out.println("json size: " + json.length());
             String[] values = new String[json.length()+1];
             values[0]="Create New Maintenance Request";
-            for(int i=0;i<json.length();i++) {
-                JSONObject jsonTempArray = json.getJSONObject(i);
-                System.out.println("temparray " + i + ": " + jsonTempArray.toString());
-                if(jsonTempArray.has("message")) {
-                    System.out.println("message is: " + jsonTempArray.getString("message"));
-                    values[i+1]=jsonTempArray.getString("message");
+            Iterator<String> keys = json.keys();
+            int i=0;
+            //for(int i=0;i<json.length();i++) {
+            while(keys.hasNext()){
+                i++;
+                String key = keys.next();
+                JSONObject jsonTempArray = json.getJSONObject(key);
+                System.out.println("temparray " + key + ": " + jsonTempArray.toString());
+                if(jsonTempArray.has("request")) {
+                    System.out.println("request is: " + jsonTempArray.getString("request"));
+                    values[i] = jsonTempArray.getString("request");
                 }
-                if(jsonTempArray.has("id")) {
-                    System.out.println("id is: " + jsonTempArray.getString("id"));
-                }
-                if(jsonTempArray.has("device_id")) {
-                    System.out.println("device_id is: " + jsonTempArray.getString("device_id"));
+
+                if(jsonTempArray.has("response")) {
+                    System.out.println("response is: " + jsonTempArray.getString("response"));
                 }
                 if(jsonTempArray.has("status")) {
                     System.out.println("status is: " + jsonTempArray.getString("status"));
@@ -110,6 +123,7 @@ public class DisplayMaintenance extends ListActivity {
         catch (Exception e) {
             System.out.println("exception in jsonkey");
             e.printStackTrace();
+            finish();
         }
     }
 
