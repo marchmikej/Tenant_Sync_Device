@@ -19,13 +19,6 @@
         android:id="@+id/createMaintenance"
         android:onClick="createMaintenance" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Outstanding Maintenance"
-        android:id="@+id/viewMaintenance"
-        android:onClick="viewMaintenance" />
-
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"

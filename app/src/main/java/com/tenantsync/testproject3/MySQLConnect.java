@@ -23,11 +23,15 @@ import java.util.Map;
  */
 public class MySQLConnect {
     public static final String API_BASE= "http://rootedindezign.com/api/request";
-    //public static final String API_BASE= "http://rootedindezign.com/api/device";
+    public static final String API_SUMMARY= "http://rootedindezign.com/api/device";
     public MySQLConnect() {
     }
 
     public static String getApiBase() {
         return API_BASE;
+    }
+
+    public static String getApiSummary() {
+        return API_SUMMARY;
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TestProject3</string>
+    <string name="app_name">Tenant Sync</string>
 
     <string name="maintenance_button">Maintenance</string>
     <string name="contact_button">Contact</string>
