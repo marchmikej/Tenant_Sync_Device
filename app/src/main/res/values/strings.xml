@@ -10,4 +10,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_enter_token">EnterToken</string>
     <string name="title_activity_display_maintenance">DisplayMaintenance</string>
+    <string name="title_activity_web_view_interface">WebViewInterface</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_web_view">WebView</string>
+    <string name="title_activity_web_interface">WebInterface</string>
+    <string name="title_activity_conversation_home">ConversationHome</string>
+    <string name="message_elipses">Message...</string>
 </resources>

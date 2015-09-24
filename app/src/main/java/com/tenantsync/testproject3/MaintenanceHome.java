@@ -70,6 +70,7 @@ public class MaintenanceHome extends ListActivity {
     }
 
     public void createMaintenance(View view) {
+
         // Instantiate the RequestQueue.
         // This is a volley request with a get including headers
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -104,6 +105,7 @@ public class MaintenanceHome extends ListActivity {
         Intent intent = new Intent(this, DisplayMaintenance.class);
         startActivity(intent);
     }
+
     private void getActiveMaintenance() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
