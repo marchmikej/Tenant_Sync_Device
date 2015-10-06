@@ -1,14 +1,20 @@
 package com.tenantsync.testproject3;
 
+import android.app.Activity;
 import android.app.ListActivity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -25,11 +31,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class DisplayMaintenance extends ListActivity {
+public class DisplayMaintenance extends Activity {
     private Context context;
     private String serial;
     private String token;
-    private MySQLConnect mySQL;
 
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -42,29 +47,53 @@ public class DisplayMaintenance extends ListActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        setContentView(R.layout.activity_display_maintenance);
         token = preferences.getString("securitytoken", "n/a");
         serial = preferences.getString("serial", "n/a");
-        mySQL = new MySQLConnect();
-        System.out.println("token: " + token);
-        System.out.println("serial: " + serial);
-        String[] values = new String[]{"loading"};
-        // use your custom layout
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.activity_display_maintenance, R.id.label, values);
-        setListAdapter(adapter);
-        getActiveMaintenance();
+        Intent intent = getIntent();
+        String request = intent.getStringExtra(MySQLConnect.DISPLAY_REQUEST);
+        String response = intent.getStringExtra(MySQLConnect.DISPLAY_RESPONSE);
+        TextView requestView = (TextView) findViewById(R.id.request);
+        requestView.setText(request);
+        TextView responseView = (TextView) findViewById(R.id.response);
+        responseView.setText(response);
+    }
+
+    // handler for received Intents for the "my-event" event
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Extract data included in the Intent
+            String message = intent.getStringExtra("message");
+            Log.d("receiver", "Got message: " + message);
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Register mMessageReceiver to receive messages.
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("refresh"));
+    }
+
+    @Override
+    protected void onPause() {
+        // Unregister since the activity is not visible
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        super.onPause();
+        finish();
     }
 
     private void getActiveMaintenance() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest myReq = new StringRequest(Request.Method.GET,
-                mySQL.getApiBase(),
+                MySQLConnect.API_BASE,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         System.out.println("Response is: " + response.toString());
-                        handleMaintenanceAll(response.toString());
                     }
                 },
                 new Response.ErrorListener() {
@@ -86,50 +115,5 @@ public class DisplayMaintenance extends ListActivity {
             };
         };
         queue.add(myReq);
-    }
-
-    private void handleMaintenanceAll(String incomingMaintenance) {
-        System.out.println("Incoming maintenance: " + incomingMaintenance);
-        try {
-            JSONObject json = new JSONObject(incomingMaintenance);
-            System.out.println("jsonObject: " + json.toString());
-            System.out.println("json size: " + json.length());
-            String[] values = new String[json.length()+1];
-            values[0]="Create New Maintenance Request";
-            Iterator<String> keys = json.keys();
-            int i=0;
-            //for(int i=0;i<json.length();i++) {
-            while(keys.hasNext()){
-                i++;
-                String key = keys.next();
-                JSONObject jsonTempArray = json.getJSONObject(key);
-                System.out.println("temparray " + key + ": " + jsonTempArray.toString());
-                if(jsonTempArray.has("request")) {
-                    System.out.println("request is: " + jsonTempArray.getString("request"));
-                    values[i] = jsonTempArray.getString("request");
-                }
-
-                if(jsonTempArray.has("response")) {
-                    System.out.println("response is: " + jsonTempArray.getString("response"));
-                }
-                if(jsonTempArray.has("status")) {
-                    System.out.println("status is: " + jsonTempArray.getString("status"));
-                }
-            }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    R.layout.activity_display_maintenance, R.id.label, values);
-            setListAdapter(adapter);
-        }
-        catch (Exception e) {
-            System.out.println("exception in jsonkey");
-            e.printStackTrace();
-            finish();
-        }
-    }
-
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        String item = (String) getListAdapter().getItem(position);
-        Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
     }
 }

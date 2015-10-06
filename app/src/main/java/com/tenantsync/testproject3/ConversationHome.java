@@ -1,12 +1,19 @@
 package com.tenantsync.testproject3;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -18,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -32,26 +40,23 @@ public class ConversationHome extends Activity {
     private ListView messagesList;
     private String serial;
     private String token;
-    private MySQLConnect mySQL;
+    private String messageBody;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messaging);
-
         context = this;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         token = preferences.getString("securitytoken", "n/a");
         serial = preferences.getString("serial", "n/a");
-        mySQL = new MySQLConnect();
 
         messagesList = (ListView) findViewById(R.id.listMessages);
         messageAdapter = new MessageAdapter(this);
         messagesList.setAdapter(messageAdapter);
-        populateMessageHistory();
 
         messageBodyField = (EditText) findViewById(R.id.messageBodyField);
-
+        messageBody="";
         findViewById(R.id.btnSend).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,41 +66,90 @@ public class ConversationHome extends Activity {
         getSummary();
     }
 
-    //get previous messages from parse & display
-    private void populateMessageHistory() {
-        String[] tempMessageArray = {"first message is a super huge message that just keeps going and going and going and going and going and going and going and going and going and going and then keep going and going and more and more and more and going and more and more and more and going and going and going", "second message", "third message"};
-        for (int i = 0; i < tempMessageArray.length; i++) {
-            /*
-            if (messageList.get(i).get("senderId").toString().equals(currentUserId)) {
-                messageAdapter.addMessage(message, MessageAdapter.DIRECTION_OUTGOING);
-            } else {
-                messageAdapter.addMessage(message, MessageAdapter.DIRECTION_INCOMING);
-            } */
-            if (tempMessageArray[i].equals("second message")) {
-                System.out.println("!!!Adding message: " + tempMessageArray[i]);
-                messageAdapter.addMessage(tempMessageArray[i], MessageAdapter.DIRECTION_OUTGOING);
-            } else {
-                System.out.println("!!!Adding message: " + tempMessageArray[i]);
-                messageAdapter.addMessage(tempMessageArray[i], MessageAdapter.DIRECTION_INCOMING);
+    // handler for received Intents for the "my-event" event
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Extract data included in the Intent
+            String message = intent.getStringExtra("message");
+            if(message.startsWith("NEWMESSAGE:")) {
+                messageAdapter.addMessage(message.substring(12), MessageAdapter.DIRECTION_OUTGOING);
             }
         }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Register mMessageReceiver to receive messages.
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("refresh"));
+    }
+
+    @Override
+    protected void onPause() {
+        // Unregister since the activity is not visible
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        super.onPause();
+        finish();
     }
 
     private void sendMessage() {
-        String messageBody = messageBodyField.getText().toString();
+        messageBody = messageBodyField.getText().toString();
         if (messageBody.isEmpty()) {
             Toast.makeText(this, "Please enter a message", Toast.LENGTH_LONG).show();
             return;
         }
+        messageBodyField.setText("");
         //Send message to server here
         System.out.println("Tried sending message: " + messageBody.toString());
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest myReq = new StringRequest(Request.Method.POST,
+                MySQLConnect.API_SEND_MESSAGE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        System.out.println("Response is: " + response.toString());
+                        messageAdapter.addMessage(messageBody, MessageAdapter.DIRECTION_INCOMING);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("That didn't work!");
+                    }
+                }) {
+
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                System.out.println("putting: " + messageBody);
+                params.put("message",messageBody);
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws
+                    com.android.volley.AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                System.out.println("serial is: '" + serial + "'");
+                System.out.println("token is: '" + token + "'");
+                params.put("token", token);
+                params.put("serial", serial);
+                return params;
+            };
+        };
+        queue.add(myReq);
     }
 
     private void getSummary() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest myReq = new StringRequest(Request.Method.GET,
-                mySQL.getApiSummary(),
+                MySQLConnect.API_SEND_MESSAGE,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -126,33 +180,29 @@ public class ConversationHome extends Activity {
     private void handleSummary(String incomingSummary) {
         System.out.println("Incoming Summary: " + incomingSummary);
         try {
-            JSONObject json = new JSONObject(incomingSummary);
-            System.out.println("jsonObject: " + json.toString());
-            System.out.println("json size: " + json.length());
-            Iterator<String> keys = json.keys();
-            int numberOfTickets = 0;
-            int numberOfMessages = 0;
-            while(keys.hasNext()){
-                String key = keys.next();
-                System.out.println("Key " + key);
-                if(!json.isNull(key)) {
-                    System.out.println("1111111");
-                    if(key.equals("messages")) {
-                        JSONObject jsonTempArray = json.getJSONObject(key);
-                        System.out.println("Temparray " + key + ": " + jsonTempArray.toString());
-                        Iterator<String> messageKeys = jsonTempArray.keys();
-                        while(messageKeys.hasNext()) {
-                            numberOfMessages++;
-                            String messageKey = messageKeys.next();
-                            System.out.println("messageKey: " + messageKey);
-                            JSONObject jsonMessageTemp = jsonTempArray.getJSONObject(messageKey);
-                            System.out.println("jsonMessageTemp: " + jsonMessageTemp.toString());
-                        }
+            JSONArray json = new JSONArray(incomingSummary);
+            System.out.println("xxjsonObject: " + json.toString());
+            System.out.println("xxjson size: " + json.length());
+            for(int i=0;i<json.length();i++) {
+                JSONObject jsonMessageObject = json.getJSONObject(i);
+                System.out.println("jsonMArray: " + jsonMessageObject.toString());
+                String messageBody="";
+                if(!jsonMessageObject.isNull("body")) {
+                    messageBody=jsonMessageObject.getString("body");
+                }
+
+                if(!jsonMessageObject.isNull("is_from_device")) {
+                    System.out.println("xxis_from_device: " + jsonMessageObject.getInt("is_from_device"));
+                    if (jsonMessageObject.getInt("is_from_device")== 0) {
+                        messageAdapter.addMessage(messageBody, MessageAdapter.DIRECTION_OUTGOING);
+                    } else {
+                        messageAdapter.addMessage(messageBody, MessageAdapter.DIRECTION_INCOMING);
                     }
                 }
+                else {
+                    messageAdapter.addMessage(messageBody, MessageAdapter.DIRECTION_OUTGOING);
+                }
             }
-            System.out.println("Number of tickets: " + numberOfTickets);
-            System.out.println("Number of messages: " + numberOfMessages);
         }
         catch (Exception e) {
             System.out.println("exception in json");

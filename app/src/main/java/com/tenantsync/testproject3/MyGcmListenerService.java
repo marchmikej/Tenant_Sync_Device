@@ -47,7 +47,7 @@ public class MyGcmListenerService extends GcmListenerService {
         */
         Intent intent = new Intent("refresh");
         // add data
-        intent.putExtra("message", "data");
+        intent.putExtra("message", message);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         // [START_EXCLUDE]
         /**

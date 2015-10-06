@@ -15,7 +15,7 @@
     <application
         android:name=".AppContext"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/tenantsync_logo"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme" >
@@ -88,20 +88,21 @@
         </service>
 
         <activity
-            android:name=".WebView"
-            android:label="@string/title_activity_web_view" >
-        </activity>
-        <activity
-            android:name=".WebViewInterface"
-            android:label="@string/title_activity_web_view_interface" >
-        </activity>
-        <activity
             android:name=".WebInterface"
             android:label="@string/title_activity_web_interface" >
         </activity>
         <activity
             android:name=".ConversationHome"
             android:label="@string/title_activity_conversation_home" >
+        </activity>
+        <activity
+            android:name=".CreateMaintenance"
+            android:label="@string/title_activity_create_maintenance" >
+        </activity>
+        <activity
+            android:name=".PayRentForm"
+            android:label="@string/title_activity_pay_rent_form"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 

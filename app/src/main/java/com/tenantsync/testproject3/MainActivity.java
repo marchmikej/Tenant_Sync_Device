@@ -18,8 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -41,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private Context context;
-    private MySQLConnect mySQL;
     private String serial;
     private String token;
 
@@ -58,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_main);
+        // Keep screen on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         context=this;
-        mySQL = new MySQLConnect();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         token = preferences.getString("securitytoken", "n/a");
         if(token.equals("n/a"))
@@ -113,9 +115,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
-            String message = intent.getStringExtra("message");
-            Log.d("receiver", "Got message: " + message);
-            getSummary();
+            String incomingMessage = intent.getStringExtra("message");
+            if(incomingMessage.startsWith("NEWMESSAGE:")) {
+                Button button = (Button)findViewById(R.id.contactButton);
+                button.setText("New Message!!!");
+            }
         }
     };
 
@@ -137,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest myReq = new StringRequest(Request.Method.GET,
-                mySQL.getApiSummary(),
+                MySQLConnect.API_SUMMARY,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -281,11 +285,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToPayRent(View view) {
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        setContentView(R.layout.activity_main_rentdue);
+        //setContentView(R.layout.activity_main_rentdue);
+        Intent intent = new Intent(this, PayRentForm.class);
+        startActivity(intent);
     }
 
     ////////////////////////////////////////////

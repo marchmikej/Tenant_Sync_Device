@@ -24,6 +24,11 @@ import java.util.Map;
 public class MySQLConnect {
     public static final String API_BASE= "http://rootedindezign.com/api/request";
     public static final String API_SUMMARY= "http://rootedindezign.com/api/device";
+    public static final String API_SEND_MESSAGE= "http://rootedindezign.com/api/message";
+    public static final String API_SEND_RENT= "http://rootedindezign.com/api/pay";
+    public static final String DISPLAY_REQUEST= "display_request";
+    public static final String DISPLAY_RESPONSE= "display_response";
+
     public MySQLConnect() {
     }
 
