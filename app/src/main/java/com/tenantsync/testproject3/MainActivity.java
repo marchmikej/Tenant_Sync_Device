@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println("In onCreate");
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
         setContentView(R.layout.activity_main);
         // Keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         System.out.println("In onResume");
+
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -104,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
         // Register mMessageReceiver to receive messages.
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter("refresh"));
@@ -116,9 +120,20 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
             String incomingMessage = intent.getStringExtra("message");
+            System.out.println("xxxReceived GCM message: " + incomingMessage);
             if(incomingMessage.startsWith("NEWMESSAGE:")) {
+                // New Message Received
                 Button button = (Button)findViewById(R.id.contactButton);
                 button.setText("New Message!!!");
+            }
+            if(incomingMessage.startsWith("NEWMAINTENANCE:")) {
+                // New Message Received
+                Button button = (Button)findViewById(R.id.maintenanceButton);
+                button.setText("Maintenance Update!!!");
+            }
+            if(incomingMessage.startsWith("REFRESH:")) {
+                // Requires a refresh on home screen
+                getSummary();
             }
         }
     };
@@ -242,46 +257,6 @@ public class MainActivity extends AppCompatActivity {
     public void goToContact(View view) {
         Intent intent = new Intent(this, ConversationHome.class);
         startActivity(intent);
-        // Instantiate the RequestQueue.
-        /*
-        // This is a volley request with a POST including headers
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        StringRequest myReq = new StringRequest(Request.Method.POST,
-                "http://rootedindezign.com/api/request",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        System.out.println("Response is: " + response.toString());
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println("That didn't work!");
-                    }
-                }) {
-
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("message","Test Maintenace request");
-
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws
-                    com.android.volley.AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("serial", "f0832247461623e1");
-                params.put("token", "a4345B32");
-                return params;
-            };
-        };
-        queue.add(myReq);
-        */
     }
 
     public void goToPayRent(View view) {
@@ -293,11 +268,11 @@ public class MainActivity extends AppCompatActivity {
     ////////////////////////////////////////////
     // This function disables the back button //
     ////////////////////////////////////////////
-    //@Override
-    //public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
         // This is disabling the back button for this activity.  We never want this activity to
         // close without our consent.
-    //}
+    }
 
     /////////////////////////////////////////////////////////////////////////////
     // This function disables dialogues which keeps the power from turning off //
@@ -309,6 +284,13 @@ public class MainActivity extends AppCompatActivity {
             // Close every kind of system dialog
             Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             sendBroadcast(closeDialog);
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
 

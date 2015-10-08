@@ -28,6 +28,8 @@ public class MySQLConnect {
     public static final String API_SEND_RENT= "http://rootedindezign.com/api/pay";
     public static final String DISPLAY_REQUEST= "display_request";
     public static final String DISPLAY_RESPONSE= "display_response";
+    public static final String SEND_RENT_CONFIRMATION= "send_rent_data";
+    public static final String RENT_CONFIRMATION_ERROR= "rent_payment_error";
 
     public MySQLConnect() {
     }

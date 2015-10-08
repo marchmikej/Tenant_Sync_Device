@@ -18,5 +18,6 @@
     <string name="title_activity_conversation_home">ConversationHome</string>
     <string name="message_elipses">Message...</string>
     <string name="title_activity_create_maintenance">CreateMaintenance</string>
-    <string name="title_activity_pay_rent_form">PayRentForm</string>
+    <string name="title_activity_pay_rent_form">Enter Payment Information</string>
+    <string name="title_activity_rent_confirmation_form">Payment Confirmation</string>
 </resources>

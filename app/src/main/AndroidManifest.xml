@@ -28,6 +28,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -89,19 +90,30 @@
 
         <activity
             android:name=".WebInterface"
-            android:label="@string/title_activity_web_interface" >
+            android:label="@string/title_activity_web_interface"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ConversationHome"
-            android:label="@string/title_activity_conversation_home" >
+            android:label="@string/title_activity_conversation_home"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".CreateMaintenance"
-            android:label="@string/title_activity_create_maintenance" >
+            android:label="@string/title_activity_create_maintenance"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".PayRentForm"
             android:label="@string/title_activity_pay_rent_form"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".RentConfirmationForm"
+            android:label="@string/title_activity_rent_confirmation_form"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>

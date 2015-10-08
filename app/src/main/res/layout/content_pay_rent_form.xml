@@ -13,8 +13,26 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/editTextCardHolder"
+        android:text="Card Holder"
         android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/cardholder"
+        android:layout_below="@+id/editTextCardHolder"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:text="Card Number"
+        android:layout_below="@+id/cardholder"
         android:layout_alignParentStart="true" />
 
     <EditText
@@ -29,32 +47,58 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Expiration Date"
         android:id="@+id/editText3"
         android:layout_below="@+id/creditcardnumber"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/expiration"
-        android:layout_below="@+id/editText3"
         android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText5"
-        android:layout_below="@+id/expiration"
+        android:text="MM"
+        android:id="@+id/mm"
+        android:layout_below="@+id/editText3"
         android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:ems="10"
+        android:ems="2"
+        android:id="@+id/expirationMonth"
+        android:layout_below="@+id/mm"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="YY"
+        android:id="@+id/yy"
+        android:layout_below="@+id/expirationMonth"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="2"
+        android:id="@+id/expirationYear"
+        android:layout_below="@+id/yy"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText5"
+        android:text="cvv"
+        android:layout_below="@+id/expirationYear"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="3"
         android:id="@+id/cvv"
+        android:layout_below="@+id/editText5"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true" />
 
@@ -64,6 +108,8 @@
         android:text="Submit Payment"
         android:id="@+id/submitbutton"
         android:layout_below="@+id/cvv"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:onClick="submitpayment" />
+
 
 </RelativeLayout>

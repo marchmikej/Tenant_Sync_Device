@@ -51,7 +51,7 @@ public class MaintenanceHome extends ListActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        setContentView(R.layout.activity_maintenance_home);
+        setContentView(R.layout.activity_maintenance_home_two);
         context=this;
         // This is how we will get the Android ID of the device
         serial=android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
@@ -60,7 +60,7 @@ public class MaintenanceHome extends ListActivity {
         token = preferences.getString("securitytoken", "n/a");
 
         valuesMaintenance = new MaintenaceRequest[1];
-        valuesMaintenance[0] = new MaintenaceRequest("No Outstanding Maintenance", "");
+        valuesMaintenance[0] = new MaintenaceRequest("Loading ...", "");
         myMaintenanceListAdapter adapter = new myMaintenanceListAdapter(this, valuesMaintenance);
         setListAdapter(adapter);
 
@@ -98,6 +98,10 @@ public class MaintenanceHome extends ListActivity {
         startActivity(intent);
     }
 
+    public void goback(View view) {
+        finish();
+    }
+
     private void getActiveMaintenance() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -106,14 +110,14 @@ public class MaintenanceHome extends ListActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("Response is: " + response.toString());
+                        System.out.println("zzzResponse is: " + response.toString());
                         handleMaintenanceAll(response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("Error communicating with maintenance API");
+                        System.out.println("zzzError communicating with maintenance API");
                         finish();
                     }
                 }) {
@@ -121,8 +125,8 @@ public class MaintenanceHome extends ListActivity {
             public Map<String, String> getHeaders() throws
                     com.android.volley.AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                System.out.println("serial is: '" + serial + "'");
-                System.out.println("token is: '" + token + "'");
+                System.out.println("zzzserial is: '" + serial + "'");
+                System.out.println("zzztoken is: '" + token + "'");
                 params.put("token", token);
                 params.put("serial", serial);
                 return params;
@@ -132,11 +136,11 @@ public class MaintenanceHome extends ListActivity {
     }
 
     private void handleMaintenanceAll(String incomingMaintenance) {
-        System.out.println("Incoming maintenance: " + incomingMaintenance);
+        System.out.println("zzzIncoming maintenance: " + incomingMaintenance);
         try {
             JSONObject json = new JSONObject(incomingMaintenance);
-            System.out.println("jsonObject: " + json.toString());
-            System.out.println("json size: " + json.length());
+            System.out.println("zzzjsonObject: " + json.toString());
+            System.out.println("zzzjson size: " + json.length());
             valuesMaintenance = new MaintenaceRequest[json.length()];
             Iterator<String> keys = json.keys();
             int i=0;
@@ -145,17 +149,17 @@ public class MaintenanceHome extends ListActivity {
                 String incomingRequest= "";
                 String key = keys.next();
                 JSONObject jsonTempArray = json.getJSONObject(key);
-                System.out.println("temparray " + key + ": " + jsonTempArray.toString());
+                System.out.println("zzztemparray " + key + ": " + jsonTempArray.toString());
                 if(!jsonTempArray.isNull("request")) {
-                    System.out.println("request is: " + jsonTempArray.getString("request"));
+                    System.out.println("zzzrequest is: " + jsonTempArray.getString("request"));
                     incomingRequest=jsonTempArray.getString("request");
                 }
                 if(!jsonTempArray.isNull("response")) {
-                    System.out.println("response is: " + jsonTempArray.getString("response"));
+                    System.out.println("zzzresponse is: " + jsonTempArray.getString("response"));
                     incomingResponse=(jsonTempArray.getString("response"));
                 }
                 if(!jsonTempArray.isNull("status")) {
-                    System.out.println("status is: " + jsonTempArray.getString("status"));
+                    System.out.println("zzzstatus is: " + jsonTempArray.getString("status"));
                 }
                 valuesMaintenance[i] = new MaintenaceRequest(incomingRequest, incomingResponse);
                 i++;
@@ -164,7 +168,7 @@ public class MaintenanceHome extends ListActivity {
             setListAdapter(adapter);
         }
         catch (Exception e) {
-            System.out.println("exception in jsonkey");
+            System.out.println("zzzexception in jsonkey");
             e.printStackTrace();
             finish();
         }
@@ -180,11 +184,31 @@ public class MaintenanceHome extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         MaintenaceRequest item = (MaintenaceRequest) getListAdapter().getItem(position);
-        if(!item.getRequest().equals("No Outstanding Maintenance")) {
+        if(!item.getRequest().equals("Loading ...")) {
             Intent intent = new Intent(this, DisplayMaintenance.class);
             intent.putExtra(MySQLConnect.DISPLAY_REQUEST, item.getRequest());
             intent.putExtra(MySQLConnect.DISPLAY_RESPONSE, item.getResponse());
             startActivity(intent);
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    // This function disables dialogues which keeps the power from turning off //
+    /////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(!hasFocus) {
+            // Close every kind of system dialog
+            Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+            sendBroadcast(closeDialog);
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
 }

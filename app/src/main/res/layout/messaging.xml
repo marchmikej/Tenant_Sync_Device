@@ -29,10 +29,20 @@
         android:layout_alignParentBottom="true">
 
 
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:id="@+id/goback"
+            android:src="@drawable/go_back_button"
+            android:layout_alignBottom="@+id/btnSend"
+            android:layout_toLeftOf="@+id/messageBodyField"
+            android:onClick="goback" />
+
         <EditText
             android:layout_marginBottom="-4dp"
             android:id="@+id/messageBodyField"
-            android:layout_width="match_parent"
+            android:layout_width="465dp"
             android:layout_height="match_parent"
             android:hint="@string/message_elipses"
             android:textSize="14sp"

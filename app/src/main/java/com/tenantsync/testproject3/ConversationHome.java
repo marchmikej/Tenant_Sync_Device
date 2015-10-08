@@ -63,6 +63,7 @@ public class ConversationHome extends Activity {
                 sendMessage();
             }
         });
+
         getSummary();
     }
 
@@ -91,6 +92,10 @@ public class ConversationHome extends Activity {
         // Unregister since the activity is not visible
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onPause();
+        finish();
+    }
+
+    public void goback(View view) {
         finish();
     }
 
@@ -207,6 +212,26 @@ public class ConversationHome extends Activity {
         catch (Exception e) {
             System.out.println("exception in json");
             e.printStackTrace();
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    // This function disables dialogues which keeps the power from turning off //
+    /////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(!hasFocus) {
+            // Close every kind of system dialog
+            Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+            sendBroadcast(closeDialog);
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
 }

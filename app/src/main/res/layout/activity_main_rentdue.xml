@@ -15,25 +15,27 @@
         android:textSize="65sp"
         android:text="Rent Due"
         android:id="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp" />
+        android:layout_marginTop="75dp"
+        android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="330dp"
-        android:layout_height="120dp"
-        android:textSize="20sp"
+        android:layout_width="450dp"
+        android:layout_height="170dp"
+        android:textSize="25sp"
         android:text="@string/maintenance_button"
         android:id="@+id/maintenanceButton"
-        android:layout_marginTop="92dp"
+        android:drawableLeft="@drawable/maintenance_icon_64"
+        android:layout_marginTop="180dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:onClick="goToMaintenance" />
 
     <Button
-        android:layout_width="330dp"
-        android:layout_height="120dp"
-        android:textSize="20sp"
+        android:layout_width="450dp"
+        android:layout_height="170dp"
+        android:textSize="25sp"
         android:layout_centerInParent="true"
+        android:drawableLeft="@drawable/conversation_icon_64"
         android:text="@string/contact_button"
         android:id="@+id/contactButton"
         android:layout_marginTop="28dp"
@@ -42,10 +44,11 @@
         android:onClick="goToContact"/>
 
     <Button
-        android:layout_width="330dp"
-        android:layout_height="120dp"
-        android:textSize="20sp"
+        android:layout_width="450dp"
+        android:layout_height="170dp"
+        android:textSize="25sp"
         android:text="@string/pay_rent_button"
+        android:drawableLeft="@drawable/payment_icon_64"
         android:id="@+id/payRentButton"
         android:layout_marginTop="35dp"
         android:layout_below="@+id/contactButton"
