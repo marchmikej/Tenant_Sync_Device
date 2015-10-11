@@ -60,7 +60,7 @@ public class MaintenanceHome extends ListActivity {
         token = preferences.getString("securitytoken", "n/a");
 
         valuesMaintenance = new MaintenaceRequest[1];
-        valuesMaintenance[0] = new MaintenaceRequest("Loading ...", "");
+        valuesMaintenance[0] = new MaintenaceRequest("Loading ...", "", "", "", "");
         myMaintenanceListAdapter adapter = new myMaintenanceListAdapter(this, valuesMaintenance);
         setListAdapter(adapter);
 
@@ -147,6 +147,10 @@ public class MaintenanceHome extends ListActivity {
             while(keys.hasNext()){
                 String incomingResponse = "";
                 String incomingRequest= "";
+                String incomingStatus="";
+                String incomingAppointment="";
+                String incomingId="";
+
                 String key = keys.next();
                 JSONObject jsonTempArray = json.getJSONObject(key);
                 System.out.println("zzztemparray " + key + ": " + jsonTempArray.toString());
@@ -160,8 +164,17 @@ public class MaintenanceHome extends ListActivity {
                 }
                 if(!jsonTempArray.isNull("status")) {
                     System.out.println("zzzstatus is: " + jsonTempArray.getString("status"));
+                    incomingStatus=(jsonTempArray.getString("status"));
                 }
-                valuesMaintenance[i] = new MaintenaceRequest(incomingRequest, incomingResponse);
+                if(!jsonTempArray.isNull("appointment")) {
+                    System.out.println("zzzappointment is: " + jsonTempArray.getString("appointment"));
+                    incomingAppointment=(jsonTempArray.getString("appointment"));
+                }
+                if(!jsonTempArray.isNull("id")) {
+                    System.out.println("zzzid is: " + jsonTempArray.getString("id"));
+                    incomingId=(jsonTempArray.getString("id"));
+                }
+                valuesMaintenance[i] = new MaintenaceRequest(incomingRequest, incomingResponse, incomingStatus, incomingAppointment, incomingId);
                 i++;
             }
             myMaintenanceListAdapter adapter = new myMaintenanceListAdapter(this, valuesMaintenance);
@@ -186,8 +199,11 @@ public class MaintenanceHome extends ListActivity {
         MaintenaceRequest item = (MaintenaceRequest) getListAdapter().getItem(position);
         if(!item.getRequest().equals("Loading ...")) {
             Intent intent = new Intent(this, DisplayMaintenance.class);
-            intent.putExtra(MySQLConnect.DISPLAY_REQUEST, item.getRequest());
-            intent.putExtra(MySQLConnect.DISPLAY_RESPONSE, item.getResponse());
+            intent.putExtra(MySQLConnect.DISPLAY_REQUEST, item.request);
+            intent.putExtra(MySQLConnect.DISPLAY_RESPONSE, item.response);
+            intent.putExtra(MySQLConnect.DISPLAY_APPTIME, item.appointment);
+            intent.putExtra(MySQLConnect.DISPLAY_MAINT_STATUS, item.status);
+            intent.putExtra(MySQLConnect.DISPLAY_MAINT_ID, item.id);
             startActivity(intent);
         }
     }

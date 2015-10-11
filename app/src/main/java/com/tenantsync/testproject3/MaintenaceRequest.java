@@ -14,6 +14,12 @@ public class MaintenaceRequest {
 
     public String request;
 
+    public String status;
+
+    public String appointment;
+
+    public String id;
+
     public String getResponse() {
         return response;
     }
@@ -24,9 +30,11 @@ public class MaintenaceRequest {
 
     public String response;
 
-    public MaintenaceRequest(String request, String response) {
+    public MaintenaceRequest(String request, String response, String status, String appointment, String id) {
         this.request = request;
         this.response = response;
+        this.status = status;
+        this.appointment = appointment;
+        this.id = id;
     }
-
 }

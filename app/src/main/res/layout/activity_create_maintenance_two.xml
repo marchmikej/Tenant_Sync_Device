@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:id="@+id/space1"
+        android:text=""
+        android:textColor="#44719a"
+        android:textSize="45px" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/whatproblem"
+        android:text="What&apos;s the problem?"
+        android:textColor="#44719a"
+        android:textSize="45px" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="45px"
+        android:id="@+id/request"
+        android:layout_weight="0.25" />
+
+    <Button
+        android:layout_width="220dp"
+        android:layout_height="45dp"
+        android:textSize="25px"
+        android:text="Submit"
+        android:id="@+id/createMaintenance"
+        android:onClick="createMaintenance"
+        android:layout_gravity="right"
+        android:background="#44719a"
+        android:textColor="#ffffff" />
+</LinearLayout>

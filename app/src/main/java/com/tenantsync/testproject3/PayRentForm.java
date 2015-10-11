@@ -37,7 +37,8 @@ public class PayRentForm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pay_rent_form);
+        //setContentView(R.layout.activity_pay_rent_form);
+        setContentView(R.layout.content_pay_rent_form_two);
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -45,18 +46,18 @@ public class PayRentForm extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         System.out.println("xxxInOnCreatePayRentForm");
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                finish();
-            }
-        });
+        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        //fab.setOnClickListener(new View.OnClickListener() {
+          //  @Override
+           // public void onClick(View view) {
+           //     Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+           //             .setAction("Action", null).show();
+           //     finish();
+          //  }
+        //});
         context = this;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         token = preferences.getString("securitytoken", "n/a");

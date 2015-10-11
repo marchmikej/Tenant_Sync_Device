@@ -35,6 +35,8 @@ public class DisplayMaintenance extends Activity {
     private Context context;
     private String serial;
     private String token;
+    private String id;
+    private String statusUpdate;
 
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -47,16 +49,22 @@ public class DisplayMaintenance extends Activity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        setContentView(R.layout.activity_display_maintenance);
+        setContentView(R.layout.activity_display_maintenance_two);
         token = preferences.getString("securitytoken", "n/a");
         serial = preferences.getString("serial", "n/a");
+        statusUpdate="";
         Intent intent = getIntent();
         String request = intent.getStringExtra(MySQLConnect.DISPLAY_REQUEST);
         String response = intent.getStringExtra(MySQLConnect.DISPLAY_RESPONSE);
+        String apptime = intent.getStringExtra(MySQLConnect.DISPLAY_APPTIME);
+        String mainStatus = intent.getStringExtra(MySQLConnect.DISPLAY_MAINT_STATUS);
+        id = intent.getStringExtra(MySQLConnect.DISPLAY_MAINT_ID);
         TextView requestView = (TextView) findViewById(R.id.request);
         requestView.setText(request);
         TextView responseView = (TextView) findViewById(R.id.response);
         responseView.setText(response);
+        TextView apptimeView = (TextView) findViewById(R.id.apptime);
+        apptimeView.setText(apptime);
     }
 
     // handler for received Intents for the "my-event" event
@@ -85,6 +93,66 @@ public class DisplayMaintenance extends Activity {
         finish();
     }
 
+    public void goback(View view) {
+        finish();
+    }
+
+    public void accept(View view) {
+        statusUpdate="scheduled";
+        sendRequest();
+    }
+
+    public void reject(View view) {
+        statusUpdate="rejected";
+        sendRequest();
+    }
+
+    private void sendRequest() {
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url=MySQLConnect.API_SEND_MAINT_UPDATE + "/" + id;
+        System.out.println("bbburl: " + url);
+        StringRequest myReq = new StringRequest(Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        System.out.println("bbbResponse is: " + response.toString());
+                        finish();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("bbbThat didn't work!");
+                        System.out.println("bbbError: " + error.getMessage());
+                    }
+                }) {
+
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                System.out.println("bbbputting: " + statusUpdate);
+                params.put("status",statusUpdate);
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws
+                    com.android.volley.AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                System.out.println("bbbserial is: '" + serial + "'");
+                System.out.println("bbbtoken is: '" + token + "'");
+                params.put("token", token);
+                params.put("serial", serial);
+                return params;
+            };
+        };
+        queue.add(myReq);
+    }
+
     private void getActiveMaintenance() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -93,13 +161,14 @@ public class DisplayMaintenance extends Activity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("Response is: " + response.toString());
+                        System.out.println("bbbResponse is: " + response.toString());
+                        finish();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("Error communicating with maintenance API");
+                        System.out.println("bbbError communicating with maintenance API");
                         finish();
                     }
                 }) {
@@ -107,8 +176,8 @@ public class DisplayMaintenance extends Activity {
             public Map<String, String> getHeaders() throws
                     com.android.volley.AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                System.out.println("serial is: '" + serial + "'");
-                System.out.println("token is: '" + token + "'");
+                System.out.println("bbbserial is: '" + serial + "'");
+                System.out.println("bbbtoken is: '" + token + "'");
                 params.put("token", token);
                 params.put("serial", serial);
                 return params;

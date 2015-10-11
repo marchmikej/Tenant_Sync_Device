@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:id="@+id/space1"
+        android:text=""
+        android:textColor="#44719a"
+        android:textSize="45px" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/amounttext"
+        android:text="Amount Due"
+        android:textColor="#44719a"
+        android:textSize="45px"
+        android:paddingLeft="10dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:id="@+id/space2"
+        android:text=""
+        android:textColor="#44719a"
+        android:textSize="45px" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/amountdue"
+        android:text="$300.00"
+        android:textColor="#58a35c"
+        android:textSize="110px"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:id="@+id/space3"
+        android:text=""
+        android:textColor="#44719a"
+        android:textSize="45px" />
+
+    <TextView
+        android:id="@+id/filler2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:text=""
+        android:textSize="1px"
+        android:background="#cbcbcb">
+    </TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:id="@+id/space4"
+        android:text=""
+        android:textColor="#44719a"
+        android:textSize="45px" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/paymenttext"
+            android:text="Payment Type"
+            android:textColor="#464646"
+            android:textSize="25px"
+            android:paddingStart="50dp" />
+
+        <Spinner
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/spinner" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:id="@+id/space5"
+        android:text=""
+        android:textColor="#44719a"
+        android:textSize="45px" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/cardholdertext"
+            android:text="Card Holder"
+            android:textColor="#464646"
+            android:textSize="25px"
+            android:paddingStart="50dp" />
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:inputType="text"
+            android:ems="30"
+            android:id="@+id/cardholder"
+            android:gravity="left" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:id="@+id/space6"
+        android:text=""
+        android:textColor="#44719a"
+        android:textSize="45px" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/cardnumbertext"
+            android:text="Card Number"
+            android:textColor="#464646"
+            android:textSize="25px"
+            android:paddingStart="50dp" />
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:inputType="number"
+            android:ems="30"
+            android:id="@+id/creditcardnumber"
+            android:gravity="left" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:id="@+id/space7"
+        android:text=""
+        android:textColor="#44719a"
+        android:textSize="45px" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/expirationtext"
+            android:text="Expiration"
+            android:textColor="#464646"
+            android:textSize="25px"
+            android:paddingStart="50dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:inputType="number"
+            android:ems="2"
+            android:id="@+id/expirationMonth"
+            android:gravity="left" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:inputType="number"
+            android:ems="2"
+            android:id="@+id/expirationYear"
+            android:gravity="left" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:id="@+id/space8"
+        android:text=""
+        android:textColor="#44719a"
+        android:textSize="45px" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/cvvtext"
+            android:text="CVV"
+            android:textColor="#464646"
+            android:textSize="25px"
+            android:paddingStart="50dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:inputType="number"
+            android:ems="3"
+            android:id="@+id/cvv"
+            android:gravity="left" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:id="@+id/space9"
+        android:text=""
+        android:textColor="#44719a"
+        android:textSize="45px" />
+
+    <Button
+        android:layout_width="92dp"
+        android:layout_height="40dp"
+        android:textSize="25px"
+        android:text="Pay"
+        android:onClick="submitpayment"
+        android:id="@+id/submitpaymentbutton"
+        android:layout_gravity="center"
+        android:background="#44719a"
+        android:textColor="#ffffff" />
+</LinearLayout>

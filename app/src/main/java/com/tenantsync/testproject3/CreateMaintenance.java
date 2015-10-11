@@ -36,7 +36,7 @@ public class CreateMaintenance extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_maintenance);
+        setContentView(R.layout.activity_create_maintenance_two);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         getWindow().getDecorView().setSystemUiVisibility(

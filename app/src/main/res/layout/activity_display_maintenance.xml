@@ -38,4 +38,38 @@
         android:textSize="20px" >
     </TextView>
 
+    <TextView
+        android:id="@+id/appttext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Maintenance Date"
+        android:textSize="40px" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/apptime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#2ac5ff"
+        android:textSize="20px" >
+    </TextView>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accept Time"
+            android:onClick="accept"
+            android:id="@+id/accept" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reject Time"
+            android:onClick="reject"
+            android:id="@+id/reject" />
+    </LinearLayout>
 </LinearLayout> 
