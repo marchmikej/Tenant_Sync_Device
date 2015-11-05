@@ -2,12 +2,15 @@ package com.tenantsync.testproject3;
 
 import android.app.Dialog;
 import android.app.DownloadManager;
+import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -59,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+        //Puts app in kiosk mode
+        //provisionOwner();
 
         setContentView(R.layout.activity_main_two);
         // Keep screen on
@@ -123,13 +130,13 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("xxxReceived GCM message: " + incomingMessage);
             if(incomingMessage.startsWith("NEWMESSAGE:")) {
                 // New Message Received
-                Button button = (Button)findViewById(R.id.contactButton);
-                button.setText("New Message!!!");
+                ImageButton button = (ImageButton)findViewById(R.id.contactButton);
+                button.setBackgroundColor(Color.YELLOW);
             }
             if(incomingMessage.startsWith("NEWMAINTENANCE:")) {
                 // New Message Received
-                Button button = (Button)findViewById(R.id.maintenanceButton);
-                button.setText("Maintenance Update!!!");
+                ImageButton button = (ImageButton)findViewById(R.id.maintenanceButton);
+                button.setBackgroundColor(Color.YELLOW);
             }
             if(incomingMessage.startsWith("REFRESH:")) {
                 // Requires a refresh on home screen
@@ -168,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("Error communicating with maintenance API");
+                        Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -268,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToPayRent(View view) {
         //setContentView(R.layout.activity_main_rentdue);
+        //stopLockTask();
         Intent intent = new Intent(this, PayRentForm.class);
         startActivity(intent);
     }
@@ -352,4 +361,27 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+/*
+     // This puts the app in kiosk mode if we are a device owner
+    private void provisionOwner() {
+
+        DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+        ComponentName mDeviceAdminSample = new ComponentName(this, BasicDeviceAdminReceiver.class);
+
+        if (mDPM.isDeviceOwnerApp(this.getPackageName())) {
+            System.out.println("isDeviceOwnerApp: YES");
+            String[] packages = {this.getPackageName()};
+            mDPM.setLockTaskPackages(mDeviceAdminSample, packages);
+        } else {
+            System.out.println("isDeviceOwnerApp: NO");
+        }
+
+        if (mDPM.isLockTaskPermitted(this.getPackageName())) {
+            System.out.println("isLockTaskPermitted: ALLOWED");
+            startLockTask();
+        } else {
+            System.out.println("isLockTaskPermitted: NOT ALLOWED");
+        }
+    }
+    */
 }

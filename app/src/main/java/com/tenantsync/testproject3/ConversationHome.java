@@ -105,6 +105,9 @@ public class ConversationHome extends Activity {
             Toast.makeText(this, "Please enter a message", Toast.LENGTH_LONG).show();
             return;
         }
+        if(messageBody.equals("End Screen Pinning 12345!!")) {
+            //stopLockTask();
+        }
         messageBodyField.setText("");
         //Send message to server here
         System.out.println("Tried sending message: " + messageBody.toString());
@@ -124,6 +127,7 @@ public class ConversationHome extends Activity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("That didn't work!");
+                        Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -166,6 +170,7 @@ public class ConversationHome extends Activity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("Error communicating with maintenance API");
+                        Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
                     }
                 }) {
 

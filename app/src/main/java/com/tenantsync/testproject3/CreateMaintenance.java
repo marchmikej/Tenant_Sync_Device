@@ -102,6 +102,8 @@ public class CreateMaintenance extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             System.out.println("That didn't work!");
+                            Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
+                            finish();
                         }
                     }) {
 

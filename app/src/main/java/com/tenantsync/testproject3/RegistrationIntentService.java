@@ -7,11 +7,19 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Dad on 9/21/2015.
@@ -70,8 +78,49 @@ public class RegistrationIntentService extends IntentService {
      *
      * @param token The new token.
      */
-    private void sendRegistrationToServer(String token) {
+    private void sendRegistrationToServer(final String token) {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final String tokenSend = preferences.getString("securitytoken", "n/a");
+        final String serial = preferences.getString("serial", "n/a");
         // Add custom implementation, as needed.
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest myReq = new StringRequest(Request.Method.POST,
+                MySQLConnect.API_SUMMARY,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println("GCMResponse is: " + response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("GCMThat didn't work!");
+                    }
+                }) {
+
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("routing_id",token);
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws
+                    com.android.volley.AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                System.out.println("serial is: '" + serial + "'");
+                System.out.println("tokensend is: '" + tokenSend + "'");
+                params.put("token", tokenSend);
+                params.put("serial", serial);
+                return params;
+            };
+        };
+        queue.add(myReq);
     }
 
     /**

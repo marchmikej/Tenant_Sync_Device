@@ -118,6 +118,7 @@ public class MaintenanceHome extends ListActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("zzzError communicating with maintenance API");
+                        Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
                         finish();
                     }
                 }) {
@@ -137,6 +138,16 @@ public class MaintenanceHome extends ListActivity {
 
     private void handleMaintenanceAll(String incomingMaintenance) {
         System.out.println("zzzIncoming maintenance: " + incomingMaintenance);
+        // This for when you have no outstanding requests
+        String dataCheck = incomingMaintenance.substring(2,47);
+        System.out.println("zzzdatacheck: " + dataCheck);
+        if(dataCheck.equals("There are no active requests for this device.")) {
+            valuesMaintenance[0] = new MaintenaceRequest("No Outstanding Requests", "", "", "", "");
+            myMaintenanceListAdapter adapter = new myMaintenanceListAdapter(this, valuesMaintenance);
+            setListAdapter(adapter);
+            return;
+        }
+
         try {
             JSONObject json = new JSONObject(incomingMaintenance);
             System.out.println("zzzjsonObject: " + json.toString());
@@ -197,7 +208,7 @@ public class MaintenanceHome extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         MaintenaceRequest item = (MaintenaceRequest) getListAdapter().getItem(position);
-        if(!item.getRequest().equals("Loading ...")) {
+        if(!item.getRequest().equals("Loading ...") && !item.getRequest().equals("No Outstanding Requests")) {
             Intent intent = new Intent(this, DisplayMaintenance.class);
             intent.putExtra(MySQLConnect.DISPLAY_REQUEST, item.request);
             intent.putExtra(MySQLConnect.DISPLAY_RESPONSE, item.response);

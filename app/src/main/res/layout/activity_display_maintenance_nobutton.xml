@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:id="@+id/space1"
+        android:text=""
+        android:textColor="#44719a"
+        android:textSize="45px" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/amounttext"
+        android:text="Problem"
+        android:textColor="#44719a"
+        android:textSize="45px"
+        android:paddingLeft="10dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:id="@+id/space2"
+        android:text=""
+        android:textColor="#464646"
+        android:textSize="30px" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/request"
+        android:text="Test Text"
+        android:textColor="#464646"
+        android:textSize="30px"
+        android:paddingLeft="10dp" />
+
+    <TextView
+        android:id="@+id/filler2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:text=""
+        android:textSize="1px"
+        android:background="#cbcbcb">
+    </TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/responetext"
+        android:text="Response"
+        android:textColor="#44719a"
+        android:textSize="45px"
+        android:paddingLeft="10dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:id="@+id/space3"
+        android:text=""
+        android:textColor="#464646"
+        android:textSize="30px" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/response"
+        android:text="More Test Text"
+        android:textColor="#464646"
+        android:textSize="30px"
+        android:paddingLeft="10dp" />
+
+    <TextView
+        android:id="@+id/filler3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:text=""
+        android:textSize="1px"
+        android:background="#cbcbcb">
+    </TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:id="@+id/space4"
+        android:text=""
+        android:textColor="#44719a"
+        android:textSize="1px" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appttext"
+        android:text="Appointment Date"
+        android:textColor="#464646"
+        android:textSize="45px"
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:id="@+id/space5"
+        android:text=""
+        android:textColor="#44719a"
+        android:textSize="1px" />
+
+    <TextView
+        android:id="@+id/apptime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#d82727"
+        android:textSize="20px"
+        android:layout_gravity="center">
+    </TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:id="@+id/space8"
+        android:text=""
+        android:textColor="#44719a"
+        android:textSize="1px" />
+
+</LinearLayout>

@@ -55,13 +55,14 @@ public class MessageAdapter extends BaseAdapter {
         if (convertView == null) {
             int res = 0;
             if (direction == DIRECTION_INCOMING) {
-                res = R.layout.message_right;
+                res = R.layout.message_right_two;
             } else if (direction == DIRECTION_OUTGOING) {
-                res = R.layout.message_left;
+                res = R.layout.message_left_two;
             }
             convertView = layoutInflater.inflate(res, viewGroup, false);
         }
         String message = messages.get(i).first;
+        //This sets the text in the bubble
         TextView txtMessage = (TextView) convertView.findViewById(R.id.txtMessage);
         txtMessage.setText(message);
         return convertView;

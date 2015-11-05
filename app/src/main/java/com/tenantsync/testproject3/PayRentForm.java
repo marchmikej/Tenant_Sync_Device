@@ -11,7 +11,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -33,6 +36,7 @@ public class PayRentForm extends AppCompatActivity {
     private Context context;
     private String serial;
     private String token;
+    Spinner spnr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,35 @@ public class PayRentForm extends AppCompatActivity {
         cvv2="000";
         card_holder="John Doe";
         //sendMessage();
+        final String[] paymentType = {
+                "Credit",
+                "Check"
+        };
+        spnr = (Spinner)findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, paymentType);
+
+        spnr.setAdapter(adapter);
+        spnr.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                               int arg2, long arg3) {
+
+                        int position = spnr.getSelectedItemPosition();
+                        Toast.makeText(getApplicationContext(),"You have selected "+paymentType[+position],Toast.LENGTH_LONG).show();
+                        // TODO Auto-generated method stub
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> arg0) {
+                        // TODO Auto-generated method stub
+
+                    }
+
+                }
+        );
     }
 
     @Override
@@ -106,6 +139,7 @@ public class PayRentForm extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("xxxThat didn't work!");
+                        Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
                         openConfirmationActivity(MySQLConnect.RENT_CONFIRMATION_ERROR);
                     }
                 }) {
@@ -113,12 +147,16 @@ public class PayRentForm extends AppCompatActivity {
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                System.out.println("xxxsending: " + exp + card_number + cvv2);
+                System.out.println("xxxexp: " + exp);
+                System.out.println("xxxcard_number: " + card_number);
+                System.out.println("xxxcvv2: " + cvv2);
+                System.out.println("xxxcard_holder: " + card_holder);
+
                 params.put("card_number", card_number);
                 params.put("exp", exp);
                 params.put("cvv2",cvv2);
-                params.put("card_holder",card_holder);
-
+                params.put("name",card_holder);
+                params.put("type","card");
                 return params;
             }
 
@@ -137,9 +175,11 @@ public class PayRentForm extends AppCompatActivity {
     }
 
     public void openConfirmationActivity(String sendInfo) {
+        System.out.println("Sending to RentConfirmationForm: " + sendInfo);
         Intent intent = new Intent(this, RentConfirmationForm.class);
         intent.putExtra(MySQLConnect.SEND_RENT_CONFIRMATION, sendInfo);
         startActivity(intent);
+        finish();
     }
 
     /////////////////////////////////////////////////////////////////////////////

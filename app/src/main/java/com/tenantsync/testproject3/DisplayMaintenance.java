@@ -13,6 +13,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +50,6 @@ public class DisplayMaintenance extends Activity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        setContentView(R.layout.activity_display_maintenance_two);
         token = preferences.getString("securitytoken", "n/a");
         serial = preferences.getString("serial", "n/a");
         statusUpdate="";
@@ -58,6 +58,15 @@ public class DisplayMaintenance extends Activity {
         String response = intent.getStringExtra(MySQLConnect.DISPLAY_RESPONSE);
         String apptime = intent.getStringExtra(MySQLConnect.DISPLAY_APPTIME);
         String mainStatus = intent.getStringExtra(MySQLConnect.DISPLAY_MAINT_STATUS);
+        System.out.println("bbbMAINT_STATUS is: " + mainStatus);
+        // HIDES REJECT AND ACCEPT BUTTONS IF THEY ARE NOT NEEDED
+        if(!mainStatus.equals("open")) {
+            System.out.println("bbbButtons not needed.");
+            setContentView(R.layout.activity_display_maintenance_nobutton);
+        } else {
+            setContentView(R.layout.activity_display_maintenance_two);
+        }
+
         id = intent.getStringExtra(MySQLConnect.DISPLAY_MAINT_ID);
         TextView requestView = (TextView) findViewById(R.id.request);
         requestView.setText(request);
@@ -98,11 +107,19 @@ public class DisplayMaintenance extends Activity {
     }
 
     public void accept(View view) {
+        Button accept = (Button) findViewById(R.id.accept);
+        accept.setVisibility(view.GONE);
+        Button reject = (Button) findViewById(R.id.reject);
+        reject.setVisibility(view.GONE);
         statusUpdate="scheduled";
         sendRequest();
     }
 
     public void reject(View view) {
+        Button accept = (Button) findViewById(R.id.accept);
+        accept.setVisibility(view.GONE);
+        Button reject = (Button) findViewById(R.id.reject);
+        reject.setVisibility(view.GONE);
         statusUpdate="rejected";
         sendRequest();
     }
@@ -119,7 +136,6 @@ public class DisplayMaintenance extends Activity {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         System.out.println("bbbResponse is: " + response.toString());
-                        finish();
                     }
                 },
                 new Response.ErrorListener() {
@@ -127,6 +143,7 @@ public class DisplayMaintenance extends Activity {
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("bbbThat didn't work!");
                         System.out.println("bbbError: " + error.getMessage());
+                        Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -169,6 +186,7 @@ public class DisplayMaintenance extends Activity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println("bbbError communicating with maintenance API");
+                        Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
                         finish();
                     }
                 }) {
