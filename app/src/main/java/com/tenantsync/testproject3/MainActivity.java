@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         //Puts app in kiosk mode
         //provisionOwner();
 
-        setContentView(R.layout.activity_main_two);
+        setContentView(R.layout.activity_main_three);
         // Keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         context=this;
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                         if(json.getInt(key)==0) {
                             setContentView(R.layout.activity_main);
                         } else if(json.getInt(key)>0) {
-                            setContentView(R.layout.activity_main_two);
+                            setContentView(R.layout.activity_main_three);
                         }
                         getWindow().getDecorView().setSystemUiVisibility(
                                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE

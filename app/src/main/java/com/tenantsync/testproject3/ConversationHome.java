@@ -45,7 +45,7 @@ public class ConversationHome extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.messaging);
+        setContentView(R.layout.messaging_two);
         context = this;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         token = preferences.getString("securitytoken", "n/a");

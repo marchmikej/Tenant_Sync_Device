@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@drawable/app_background"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:id="@+id/space1"
+        android:text=""
+        android:textSize="95px" />
+
+    <TextClock
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#668686"
+        android:textSize="75dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:id="@+id/space2"
+        android:text=""
+        android:textSize="95px" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ScheduledMaintenanceButton"
+            android:background="@drawable/confirm_maintenance_button_notpressed"
+            android:onClick="goToMaintenance" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:id="@+id/space3"
+        android:text=""
+        android:textSize="95px" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/newMessageButton"
+            android:background="@drawable/newmessage_button_notpressed"
+            android:onClick="goToContact" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="185dp"
+        android:id="@+id/space4"
+        android:text=""
+        android:textSize="95px" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/payRentButton"
+            android:background="@drawable/schedule_button_notpressed2"
+            android:onClick="goToPayRent"
+             />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/space5"
+            android:text=""
+            android:textSize="95px" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/maintenanceButton"
+            android:background="@drawable/maintenance_call_button_notpressed2"
+            android:onClick="goToMaintenance" />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/space6"
+            android:text=""
+            android:textSize="95px" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/contactButton"
+            android:background="@drawable/contact_button_notpressed2"
+            android:onClick="goToContact" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:id="@+id/space7"
+        android:text=""
+        android:textSize="95px" />
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="left"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="42dp"
+            android:layout_height="match_parent"
+            android:id="@+id/space8"
+            android:text=""
+            android:textSize="95px" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/payRentButtonText"
+            android:src="@drawable/schedule_payment_text"
+            />
+
+        <TextView
+            android:layout_width="38dp"
+            android:layout_height="match_parent"
+            android:id="@+id/space9"
+            android:text=""
+            android:textSize="95px" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/maintenanceButtonText"
+            android:src="@drawable/maintenance_call_text" />
+
+        <TextView
+            android:layout_width="63dp"
+            android:layout_height="match_parent"
+            android:id="@+id/space10"
+            android:text=""
+            android:textSize="95px" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/contactButtonText"
+            android:src="@drawable/contact_us_text" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/space11"
+        android:text=""
+        android:textSize="95px" />
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/technicalSupportText"
+            android:src="@drawable/technical_support_text" />
+
+    </LinearLayout>
+</LinearLayout>
