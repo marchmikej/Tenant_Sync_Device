@@ -6,31 +6,7 @@
     android:padding="10dp">
 
     <RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
-        android:layout_marginLeft="90dp">
-        <TextView
-            android:id="@+id/txtDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="Oct 12, 2015 4:38 pm"
-            android:textSize="12sp"
-            android:singleLine="true"
-            android:layout_alignParentRight="true"
-            android:paddingRight="10dp"
-            android:paddingBottom="6dp"
-            android:textColor="#464646"/>
-
-        <TextView
-            android:id="@+id/txtSender"
-            android:layout_alignParentLeft="true"
-            android:textColor="@color/sinch_purple"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="2dp"
-            android:paddingBottom="6dp"
-            android:textSize="12sp"
-            android:text=""
-            android:layout_alignBottom="@+id/txtDate"/>
+        android:layout_marginLeft="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -38,17 +14,28 @@
             android:layout_below="@+id/txtSender"
             android:layout_alignParentRight="true"
             android:padding="12dp"
-            android:background="@drawable/right_bubble_two"
+            android:background="@drawable/outgoing_message_box"
             >
 
             <TextView
-                android:id="@+id/txtMessage"
-                android:paddingRight="12dp"
+                android:id="@+id/txtDate"
+                android:paddingLeft="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:textColor="@android:color/white"
-                android:textSize="24sp"
+                android:textSize="18sp"
+                android:text="Nov 14 \n3:00 pm"
+                />
+
+            <TextView
+                android:id="@+id/txtMessage"
+                android:paddingLeft="135dp"
+                android:layout_width="wrap_content"
+                android:gravity="left"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
                 android:text="Hello, how are you?"
                 />
 
