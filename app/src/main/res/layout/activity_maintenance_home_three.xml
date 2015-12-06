@@ -9,15 +9,15 @@
         android:id="@+id/customactionbar"
         android:background="@drawable/action_bar_background"
         android:layout_height="wrap_content">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:id="@+id/showactivity"
-        android:src="@drawable/contact_heading_text" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:id="@+id/showactivity"
+            android:src="@drawable/schedule_maintenance_heading_text" />
 
         <TextView
-            android:layout_width="170dp"
+            android:layout_width="75dp"
             android:layout_height="match_parent"
             android:id="@+id/actionspace1"
             android:text=""
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/chatButton"
             android:onClick="goToContact"
-            android:background="@drawable/chat_bubble_green" />
+            android:background="@drawable/chat_bubble_white" />
 
         <TextView
             android:layout_width="20dp"
@@ -67,57 +67,47 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/maintenanceButton"
-            android:onClick="maintenanceHome"
-            android:background="@drawable/wrench_white" />
+            android:background="@drawable/wrench_green" />
     </LinearLayout>
-    <ListView
-        android:id="@+id/listMessages"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:transcriptMode="alwaysScroll"
-        android:layout_above="@+id/divider"
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_below="@+id/customactionbar"
-        android:padding="0dip"
-        android:divider="@null"
-        android:dividerHeight="0dp" android:stackFromBottom="true" tools:listitem="@layout/message_left"/>
-
-    <RelativeLayout
-        android:id="@+id/divider"
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:background="@color/off_white"
-        android:layout_above="@+id/relSendMessage" />
-
-    <RelativeLayout
-        android:id="@+id/relSendMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="65dp"
-        android:background="@android:color/white"
-        android:paddingLeft="10dp"
-        android:layout_alignParentBottom="true">
-
-
-        <EditText
-            android:layout_marginBottom="-4dp"
-            android:id="@+id/messageBodyField"
-            android:layout_width="465dp"
-            android:layout_height="match_parent"
-            android:hint="@string/message_elipses"
-            android:textSize="35sp"
-            android:textColor="@android:color/black"
-            android:layout_marginRight="10dp"
-            android:layout_alignTop="@+id/btnSend"
-            android:background="@android:color/white"
-            android:layout_alignBottom="@+id/btnSend"
-            android:layout_toLeftOf="@+id/btnSend"/>
+        android:id="@+id/maintenanceBar"
+        android:layout_height="85dp">
 
         <Button
-            android:id="@+id/btnSend"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/button_send" />
-    </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/viewSchedule"
+            android:background="@drawable/green_button"
+            android:text="View Schedule"
+            android:textColor="#ffffff" />
 
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:id="@+id/actionspace5"
+            android:text=""
+            android:textSize="95px" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scheduleMaintenance"
+            android:background="@drawable/white_button"
+            android:text="Schedule Maintenance"
+            android:onClick="createMaintenance"
+            android:textColor="#3e8d7d" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/maintenanceBar" >
+
+    </ListView>
 
 </RelativeLayout>

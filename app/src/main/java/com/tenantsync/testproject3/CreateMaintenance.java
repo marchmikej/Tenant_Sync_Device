@@ -1,5 +1,6 @@
 package com.tenantsync.testproject3;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +28,7 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CreateMaintenance extends AppCompatActivity {
+public class CreateMaintenance extends Activity {
     private Context context;
     private String messageBody;
     private String serial;
@@ -36,7 +37,6 @@ public class CreateMaintenance extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_maintenance_two);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         getWindow().getDecorView().setSystemUiVisibility(
@@ -46,6 +46,8 @@ public class CreateMaintenance extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+        setContentView(R.layout.activity_create_maintenance_three);
 
         messageBody="";
         context=this;
@@ -59,8 +61,14 @@ public class CreateMaintenance extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
-            String message = intent.getStringExtra("message");
-            Log.d("receiver", "Got message: " + message);
+            String incomingMessage = intent.getStringExtra("message");
+            System.out.println("xxxReceived GCM message: " + incomingMessage);
+            if(incomingMessage.startsWith("NEWMESSAGE:")) {
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor edit = preferences.edit();
+                edit.putString("outstandingmessage", "NOTVIEWED");
+                edit.commit();
+            }
         }
     };
 
@@ -77,6 +85,28 @@ public class CreateMaintenance extends AppCompatActivity {
         // Unregister since the activity is not visible
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onPause();
+        finish();
+    }
+
+    public void maintenanceHome(View view) {
+        Intent intent = new Intent(this, MaintenanceHome.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void goToContact(View view) {
+        Intent intent = new Intent(this, ConversationHome.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void schedulePayment(View view) {
+        Intent intent = new Intent(this, PayRentForm.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void goback(View view) {
         finish();
     }
 

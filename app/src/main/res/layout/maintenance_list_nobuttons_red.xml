@@ -8,7 +8,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal" android:layout_width="match_parent"
-        android:gravity="left"
+        android:gravity="center_vertical"
         android:id="@+id/top_view"
         android:background="@drawable/maintenance_red_background"
         android:layout_height="wrap_content">
@@ -17,58 +17,30 @@
             android:id="@+id/datetime"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
-            android:text="!!!!!"
+            android:text="Not Yet Scheduled"
             android:textColor="#ffffff"
             android:textSize="17px" >
         </TextView>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/accept"
-            android:background="@drawable/maintenance_accept_reject_button"
-            android:text="Accept"
-            android:onClick="accept"
-            android:textColor="#ffffff" />
-
-        <TextView
-            android:id="@+id/space1"
-            android:layout_width="15dp"
-            android:layout_height="match_parent"
-            android:textSize="30px" >
-        </TextView>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/reject"
-            android:background="@drawable/maintenance_accept_reject_button"
-            android:text="Reject"
-            android:textColor="#ffffff" />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
-        android:gravity="left"
+        android:gravity="center_vertical"
         android:id="@+id/bottom_view"
         android:background="@drawable/maintenance_white_background"
         android:layout_height="wrap_content">
-
         <TextView
             android:paddingLeft="20dp"
             android:id="@+id/response"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="blah blah"
             android:textColor="#ff0000"
             android:textSize="20px" >
         </TextView>
-
         <TextView
             android:id="@+id/request"
             android:paddingLeft="20dp"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="blah blah blah blah"

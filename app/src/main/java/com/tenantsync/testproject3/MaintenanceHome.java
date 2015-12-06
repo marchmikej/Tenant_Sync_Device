@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.content.Intent;
@@ -51,19 +52,20 @@ public class MaintenanceHome extends ListActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        setContentView(R.layout.activity_maintenance_home_two);
+        setContentView(R.layout.activity_maintenance_home_three);
         context=this;
         // This is how we will get the Android ID of the device
         serial=android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
         // This is getting the internal security token of the device this is done at initial boot of app
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         token = preferences.getString("securitytoken", "n/a");
-
+/*
+        This showed loading... but didn't look good with new layout
         valuesMaintenance = new MaintenaceRequest[1];
         valuesMaintenance[0] = new MaintenaceRequest("Loading ...", "", "", "", "");
         myMaintenanceListAdapter adapter = new myMaintenanceListAdapter(this, valuesMaintenance);
         setListAdapter(adapter);
-
+*/
         getActiveMaintenance();
     }
 
@@ -72,8 +74,14 @@ public class MaintenanceHome extends ListActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
-            String message = intent.getStringExtra("message");
-            Log.d("receiver", "Got message: " + message);
+            String incomingMessage = intent.getStringExtra("message");
+            System.out.println("xxxReceived GCM message: " + incomingMessage);
+            if(incomingMessage.startsWith("NEWMESSAGE:")) {
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor edit = preferences.edit();
+                edit.putString("outstandingmessage", "NOTVIEWED");
+                edit.commit();
+            }
         }
     };
 
@@ -93,13 +101,38 @@ public class MaintenanceHome extends ListActivity {
         finish();
     }
 
+    public void maintenanceHome(View view) {
+        Intent intent = new Intent(this, MaintenanceHome.class);
+        startActivity(intent);
+        finish();
+    }
+
     public void createMaintenance(View view) {
         Intent intent = new Intent(this, CreateMaintenance.class);
         startActivity(intent);
+        finish();
+    }
+
+    public void goToContact(View view) {
+        Intent intent = new Intent(this, ConversationHome.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void schedulePayment(View view) {
+        Intent intent = new Intent(this, PayRentForm.class);
+        startActivity(intent);
+        finish();
     }
 
     public void goback(View view) {
         finish();
+    }
+
+    public void accept(View view) {
+
+        //final int position = listview1.getPositionForView((View) view.getParent());
+        Toast.makeText(getApplicationContext(),"You have selected accept: ",Toast.LENGTH_LONG).show();
     }
 
     private void getActiveMaintenance() {
@@ -198,13 +231,15 @@ public class MaintenanceHome extends ListActivity {
         }
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_maintenance_home, menu);
         return true;
     }
-
+/*
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         MaintenaceRequest item = (MaintenaceRequest) getListAdapter().getItem(position);
@@ -218,7 +253,7 @@ public class MaintenanceHome extends ListActivity {
             startActivity(intent);
         }
     }
-
+*/
     /////////////////////////////////////////////////////////////////////////////
     // This function disables dialogues which keeps the power from turning off //
     /////////////////////////////////////////////////////////////////////////////

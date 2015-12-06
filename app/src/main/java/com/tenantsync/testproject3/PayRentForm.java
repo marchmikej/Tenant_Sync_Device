@@ -1,7 +1,10 @@
 package com.tenantsync.testproject3;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -27,7 +31,7 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PayRentForm extends AppCompatActivity {
+public class PayRentForm extends Activity {
 
     private String card_number;
     private String exp;
@@ -42,7 +46,7 @@ public class PayRentForm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_pay_rent_form);
-        setContentView(R.layout.content_pay_rent_form_two);
+        setContentView(R.layout.content_pay_rent_form_three);
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -102,9 +106,57 @@ public class PayRentForm extends AppCompatActivity {
         );
     }
 
+    // handler for received Intents for the "my-event" event
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Extract data included in the Intent
+            String incomingMessage = intent.getStringExtra("message");
+            System.out.println("xxxReceived GCM message: " + incomingMessage);
+            if(incomingMessage.startsWith("NEWMESSAGE:")) {
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor edit = preferences.edit();
+                edit.putString("outstandingmessage", "NOTVIEWED");
+                edit.commit();
+            }
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Register mMessageReceiver to receive messages.
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("refresh"));
+    }
+
     @Override
     protected void onPause() {
+        // Unregister since the activity is not visible
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onPause();
+        finish();
+    }
+
+    public void maintenanceHome(View view) {
+        Intent intent = new Intent(this, MaintenanceHome.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void goToContact(View view) {
+        Intent intent = new Intent(this, ConversationHome.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void schedulePayment(View view) {
+        Intent intent = new Intent(this, PayRentForm.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void goback(View view) {
         finish();
     }
 

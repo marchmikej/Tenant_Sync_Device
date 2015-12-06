@@ -28,6 +28,10 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -50,6 +54,9 @@ public class ConversationHome extends Activity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         token = preferences.getString("securitytoken", "n/a");
         serial = preferences.getString("serial", "n/a");
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putString("outstandingmessage", "viewed");
+        edit.commit();
 
         messagesList = (ListView) findViewById(R.id.listMessages);
         messageAdapter = new MessageAdapter(this);
@@ -74,7 +81,10 @@ public class ConversationHome extends Activity {
             // Extract data included in the Intent
             String message = intent.getStringExtra("message");
             if(message.startsWith("NEWMESSAGE:")) {
-                messageAdapter.addMessage(message.substring(12), MessageAdapter.DIRECTION_OUTGOING);
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Calendar cal = Calendar.getInstance();
+                System.out.println("xxxdate: " + dateFormat.format(cal.getTime())); //2014/08/06 16:00:22
+                messageAdapter.addMessage(new MessageContain(message.substring(12), MessageAdapter.DIRECTION_OUTGOING, dateFormat.format(cal.getTime())));
             }
         }
     };
@@ -95,6 +105,30 @@ public class ConversationHome extends Activity {
         finish();
     }
 
+    public void maintenanceHome(View view) {
+        Intent intent = new Intent(this, MaintenanceHome.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void createMaintenance(View view) {
+        Intent intent = new Intent(this, CreateMaintenance.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void goToContact(View view) {
+        Intent intent = new Intent(this, ConversationHome.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void schedulePayment(View view) {
+        Intent intent = new Intent(this, PayRentForm.class);
+        startActivity(intent);
+        finish();
+    }
+
     public void goback(View view) {
         finish();
     }
@@ -107,10 +141,9 @@ public class ConversationHome extends Activity {
         }
         if(messageBody.equals("End Screen Pinning 12345!!")) {
             //stopLockTask();
+            return;
         }
         messageBodyField.setText("");
-        //Send message to server here
-        System.out.println("Tried sending message: " + messageBody.toString());
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest myReq = new StringRequest(Request.Method.POST,
@@ -120,7 +153,10 @@ public class ConversationHome extends Activity {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         System.out.println("Response is: " + response.toString());
-                        messageAdapter.addMessage(messageBody, MessageAdapter.DIRECTION_INCOMING);
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Calendar cal = Calendar.getInstance();
+                        System.out.println("xxxdate: " + dateFormat.format(cal.getTime())); //2014/08/06 16:00:22
+                        messageAdapter.addMessage(new MessageContain(messageBody, MessageAdapter.DIRECTION_INCOMING, dateFormat.format(cal.getTime())));
                     }
                 },
                 new Response.ErrorListener() {
@@ -201,16 +237,32 @@ public class ConversationHome extends Activity {
                     messageBody=jsonMessageObject.getString("body");
                 }
 
+                String year = "";
+                String month = "";
+                String day = "";
+                String hour = "";
+                String minute = "";
+                String created_at="";
+                if(!jsonMessageObject.isNull("created_at")) {
+                    created_at =  jsonMessageObject.getString("created_at");
+                    System.out.println("xxxcreated_at: " + created_at);
+                    year = created_at.substring(0, 4);
+                    month = created_at.substring(5,7);
+                    day = created_at.substring(8,10);
+                    hour = created_at.substring(11,13);
+                    minute = created_at.substring(14,16);
+                }
+
                 if(!jsonMessageObject.isNull("is_from_device")) {
                     System.out.println("xxis_from_device: " + jsonMessageObject.getInt("is_from_device"));
                     if (jsonMessageObject.getInt("is_from_device")== 0) {
-                        messageAdapter.addMessage(messageBody, MessageAdapter.DIRECTION_OUTGOING);
+                        messageAdapter.addMessage(new MessageContain(messageBody, MessageAdapter.DIRECTION_OUTGOING, created_at));
                     } else {
-                        messageAdapter.addMessage(messageBody, MessageAdapter.DIRECTION_INCOMING);
+                        messageAdapter.addMessage(new MessageContain(messageBody, MessageAdapter.DIRECTION_INCOMING, created_at));
                     }
                 }
                 else {
-                    messageAdapter.addMessage(messageBody, MessageAdapter.DIRECTION_OUTGOING);
+                    messageAdapter.addMessage(new MessageContain(messageBody, MessageAdapter.DIRECTION_OUTGOING, created_at));
                 }
             }
         }

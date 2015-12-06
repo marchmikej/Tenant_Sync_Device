@@ -1,0 +1,260 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:background="@drawable/app_background"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:id="@+id/customactionbar"
+        android:background="@drawable/action_bar_background"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:id="@+id/showactivity"
+            android:src="@drawable/schedule_payment_heading" />
+
+        <TextView
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:id="@+id/actionspace1"
+            android:text=""
+            android:textSize="95px" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/homeButton"
+            android:background="@drawable/home_button_white"
+            android:onClick="goback" />
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:id="@+id/actionspace2"
+            android:text=""
+            android:textSize="95px" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/paymentButton"
+            android:background="@drawable/money_green" />
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:id="@+id/actionspace3"
+            android:text=""
+            android:textSize="95px" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chatButton"
+            android:onClick="goToContact"
+            android:background="@drawable/chat_bubble_white" />
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:id="@+id/actionspace4"
+            android:text=""
+            android:textSize="95px" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/maintenanceButton"
+            android:onClick="goToContact"
+            android:background="@drawable/wrench_white" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:id="@+id/spinnerlayout"
+        android:layout_below="@+id/customactionbar"
+        android:gravity="bottom"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:paddingLeft="26dp"
+            android:textColor="#c3bba7"
+            android:text="Payment Type"/>
+
+        <Spinner
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/spinner" />
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="bottom"
+        android:layout_below="@+id/spinnerlayout"
+        android:id="@+id/newCardHolder"
+        android:layout_height="43dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="26dp"
+            android:textSize="20sp"
+            android:textColor="#c3bba7"
+            android:text="Card Holder"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="30"
+            android:background="@android:color/transparent"
+            android:id="@+id/cardholder" />
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_below="@+id/newCardHolder"
+        android:id="@+id/divider1"
+        android:layout_height="12dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/create_maintenance_divider"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="bottom"
+        android:layout_below="@+id/divider1"
+        android:id="@+id/cardnumberlayout"
+        android:layout_height="43dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="26dp"
+            android:textSize="20sp"
+            android:textColor="#c3bba7"
+            android:text="Card Number"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:ems="30"
+            android:id="@+id/creditcardnumber" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_below="@+id/cardnumberlayout"
+        android:id="@+id/divider2"
+        android:layout_height="12dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/create_maintenance_divider"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="bottom"
+        android:layout_below="@+id/divider2"
+        android:id="@+id/expirationlayout"
+        android:layout_height="43dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="26dp"
+            android:textSize="20sp"
+            android:textColor="#c3bba7"
+            android:text="Expiration"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="6dp"
+            android:inputType="number"
+            android:ems="2"
+            android:hint="MM"
+            android:textSize="20sp"
+            android:background="@android:color/transparent"
+            android:id="@+id/expirationMonth"
+            android:gravity="left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#c3bba7"
+            android:gravity="left"
+            android:text="/ "/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="2"
+            android:background="@android:color/transparent"
+            android:hint="YY"
+            android:textSize="20sp"
+            android:id="@+id/expirationYear"
+            android:gravity="left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#c3bba7"
+            android:text="CCV"/>
+
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:paddingLeft="6dp"
+            android:textSize="20sp"
+            android:background="@android:color/transparent"
+            android:ems="3"
+            android:hint="CVV"
+            android:id="@+id/cvv" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_below="@+id/expirationlayout"
+        android:id="@+id/divider3"
+        android:layout_height="12dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/create_maintenance_divider"/>
+
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="right"
+        android:layout_below="@+id/divider3"
+        android:id="@+id/submitlayout"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20px"
+            android:text="Submit"
+            android:onClick="submitpayment"
+            android:id="@+id/submitpaymentbutton" />
+    </LinearLayout>
+</RelativeLayout>

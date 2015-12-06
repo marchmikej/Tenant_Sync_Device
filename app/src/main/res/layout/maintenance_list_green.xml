@@ -10,14 +10,14 @@
         android:orientation="horizontal" android:layout_width="match_parent"
         android:gravity="left"
         android:id="@+id/top_view"
-        android:background="@drawable/maintenance_red_background"
+        android:background="@drawable/maintenance_green_background"
         android:layout_height="wrap_content">
         <TextView
             android:paddingLeft="20dp"
             android:id="@+id/datetime"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
-            android:text="!!!!!"
+            android:text="Wed Nov 22, 2105 | 10:00am"
             android:textColor="#ffffff"
             android:textSize="17px" >
         </TextView>
@@ -26,9 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/accept"
-            android:background="@drawable/maintenance_accept_reject_button"
-            android:text="Accept"
-            android:onClick="accept"
+            android:background="@drawable/maintenance_accepted_button"
+            android:text="Accepted"
             android:textColor="#ffffff" />
 
         <TextView
@@ -41,9 +40,9 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/reject"
-            android:background="@drawable/maintenance_accept_reject_button"
-            android:text="Reject"
+            android:id="@+id/reschedule"
+            android:background="@drawable/maintenance_reschedule_button"
+            android:text="Reschedule"
             android:textColor="#ffffff" />
     </LinearLayout>
 
@@ -53,26 +52,22 @@
         android:id="@+id/bottom_view"
         android:background="@drawable/maintenance_white_background"
         android:layout_height="wrap_content">
-
         <TextView
             android:paddingLeft="20dp"
             android:id="@+id/response"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="blah blah"
-            android:textColor="#ff0000"
+            android:textColor="#508378"
             android:textSize="20px" >
         </TextView>
-
         <TextView
-            android:id="@+id/request"
             android:paddingLeft="20dp"
-            android:gravity="center_vertical"
+            android:id="@+id/request"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="blah blah blah blah"
-            android:textColor="#ff0000"
+            android:textColor="#508378"
             android:textSize="20px" >
         </TextView>
 

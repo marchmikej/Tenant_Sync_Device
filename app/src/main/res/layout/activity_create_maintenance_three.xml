@@ -1,0 +1,279 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:background="@drawable/app_background"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:id="@+id/customactionbar"
+        android:background="@drawable/action_bar_background"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:id="@+id/showactivity"
+            android:src="@drawable/schedule_maintenance_heading_text" />
+
+        <TextView
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:id="@+id/actionspace1"
+            android:text=""
+            android:textSize="95px" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/homeButton"
+            android:background="@drawable/home_button_white"
+            android:onClick="goback" />
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:id="@+id/actionspace2"
+            android:text=""
+            android:textSize="95px" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/paymentButton"
+            android:onClick="schedulePayment"
+            android:background="@drawable/money_white" />
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:id="@+id/actionspace3"
+            android:text=""
+            android:textSize="95px" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chatButton"
+            android:onClick="goToContact"
+            android:background="@drawable/chat_bubble_white" />
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:id="@+id/actionspace4"
+            android:text=""
+            android:textSize="95px" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/maintenanceButton"
+            android:background="@drawable/wrench_green" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_below="@+id/customactionbar"
+        android:id="@+id/maintenanceBar"
+        android:layout_height="85dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/viewSchedule"
+            android:background="@drawable/white_button"
+            android:text="View Schedule"
+            android:onClick="maintenanceHome"
+            android:textColor="#3e8d7d" />
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:id="@+id/actionspace5"
+            android:text=""
+            android:textSize="95px" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scheduleMaintenance"
+            android:background="@drawable/green_button"
+            android:text="Schedule Maintenance"
+            android:onClick="createMaintenance"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="bottom"
+        android:layout_below="@+id/maintenanceBar"
+        android:id="@+id/newMaintenanceForm"
+        android:layout_height="43dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="26dp"
+            android:src="@drawable/property_image"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:id="@+id/editText2" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_below="@+id/newMaintenanceForm"
+        android:id="@+id/divider1"
+        android:layout_height="12dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/create_maintenance_divider"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="bottom"
+        android:layout_below="@+id/divider1"
+        android:id="@+id/addressUnit"
+        android:layout_height="43dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="26dp"
+            android:src="@drawable/address_image"/>
+        <EditText
+            android:layout_width="227dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textColor="#ffffff"
+            android:id="@+id/editText3" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/unit_image"/>
+        <EditText
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:id="@+id/editText4" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_below="@+id/addressUnit"
+        android:id="@+id/divider2"
+        android:layout_height="12dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/create_maintenance_divider"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="bottom"
+        android:layout_below="@+id/divider2"
+        android:id="@+id/phoneUnit"
+        android:layout_height="43dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="26dp"
+            android:src="@drawable/caller_name_text"/>
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textColor="#ffffff"
+            android:id="@+id/editText33" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/call_phone_text"/>
+        <EditText
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:id="@+id/editText34" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_below="@+id/phoneUnit"
+        android:id="@+id/divider3"
+        android:layout_height="12dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/create_maintenance_divider"/>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="bottom"
+        android:layout_below="@+id/divider3"
+        android:id="@+id/desiredDateForm"
+        android:layout_height="43dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="26dp"
+            android:src="@drawable/desired_date_text"/>
+        <EditText
+            android:layout_width="450dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:id="@+id/editText82" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_below="@+id/desiredDateForm"
+        android:id="@+id/divider4"
+        android:layout_height="12dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/create_maintenance_divider"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_below="@+id/divider4"
+        android:id="@+id/briefDescription"
+        android:layout_height="wrap_content">
+        <EditText
+            android:background="@drawable/edittext_description_background"
+            android:hint="Please provide a brief description of the problem."
+            android:gravity="top"
+            android:id="@+id/request"
+            android:textColor="#e9ecea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="right"
+        android:layout_below="@+id/briefDescription"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="createMaintenance"
+            android:text="Submit"/>
+    </LinearLayout>
+
+</RelativeLayout>

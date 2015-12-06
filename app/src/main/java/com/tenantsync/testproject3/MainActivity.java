@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -130,13 +131,29 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("xxxReceived GCM message: " + incomingMessage);
             if(incomingMessage.startsWith("NEWMESSAGE:")) {
                 // New Message Received
+                /*
                 ImageButton button = (ImageButton)findViewById(R.id.contactButton);
                 button.setBackgroundColor(Color.YELLOW);
+                */
+                LinearLayout newMessageList = (LinearLayout)findViewById(R.id.newMessageButtonList);
+                newMessageList.setVisibility(View.VISIBLE);
+                LinearLayout noNewMessageList = (LinearLayout)findViewById(R.id.noNewMessageButtonList);
+                noNewMessageList.setVisibility(View.GONE);
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor edit = preferences.edit();
+                edit.putString("outstandingmessage", "NOTVIEWED");
+                edit.commit();
             }
             if(incomingMessage.startsWith("NEWMAINTENANCE:")) {
                 // New Message Received
+                /*
                 ImageButton button = (ImageButton)findViewById(R.id.maintenanceButton);
                 button.setBackgroundColor(Color.YELLOW);
+                */
+                LinearLayout maintenanceList = (LinearLayout)findViewById(R.id.maintenanceButtonList);
+                maintenanceList.setVisibility(View.VISIBLE);
+                LinearLayout noNewMessageList = (LinearLayout)findViewById(R.id.noNewMessageButtonList);
+                noNewMessageList.setVisibility(View.GONE);
             }
             if(incomingMessage.startsWith("REFRESH:")) {
                 // Requires a refresh on home screen
@@ -205,20 +222,21 @@ public class MainActivity extends AppCompatActivity {
                 String key = keys.next();
                 System.out.println("Key " + key);
                 if(!json.isNull(key)) {
-                    System.out.println("1111111");
                     if(key.equals("status")) {
                         json.getString(key);
-                        System.out.println("status_id is: " + json.getString(key));
+                        System.out.println("mmmstatus_id is: " + json.getString(key));
                     }
                     if(key.equals("messages")) {
+                        numberOfMessages=Integer.parseInt(json.getString(key));
+                        /*
                         JSONObject jsonTempArray = json.getJSONObject(key);
                         System.out.println("Temparray " + key + ": " + jsonTempArray.toString());
                         Iterator<String> messageKeys = jsonTempArray.keys();
                         while(messageKeys.hasNext()) {
                             numberOfMessages++;
                             String messageKey = messageKeys.next();
-                            System.out.println("messageKey: " + messageKey);
                         }
+                        */
                     }
                     if(key.equals("tickets")) {
                         JSONObject jsonTempArray = json.getJSONObject(key);
@@ -230,13 +248,16 @@ public class MainActivity extends AppCompatActivity {
                             System.out.println("ticketsKey: " + messageKey);
                         }
                     }
+                    if(key.equals("maintenanceRequests")) {
+                        numberOfTickets=Integer.parseInt(json.getString(key));
+                    }
                     if(key.equals("alarm_id")) {
                         json.getString(key);
                         System.out.println("alarm_id is: " + json.getString(key));
                         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-                        if(json.getInt(key)==0) {
+                        if(json.getInt(key)<0) {
                             setContentView(R.layout.activity_main);
-                        } else if(json.getInt(key)>0) {
+                        } else if(json.getInt(key)>=0) {
                             setContentView(R.layout.activity_main_three);
                         }
                         getWindow().getDecorView().setSystemUiVisibility(
@@ -250,6 +271,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             System.out.println("Number of tickets: " + numberOfTickets);
+            if(numberOfTickets>0) {
+                LinearLayout maintenanceList = (LinearLayout)findViewById(R.id.maintenanceButtonList);
+                maintenanceList.setVisibility(View.VISIBLE);
+                LinearLayout noNewMessageList = (LinearLayout)findViewById(R.id.noNewMessageButtonList);
+                noNewMessageList.setVisibility(View.GONE);
+            }
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            String outstandingMessages = preferences.getString("outstandingmessage", "n/a");
+            if(outstandingMessages.equals("NOTVIEWED")) {
+                LinearLayout newMessageList = (LinearLayout)findViewById(R.id.newMessageButtonList);
+                newMessageList.setVisibility(View.VISIBLE);
+                LinearLayout noNewMessageList = (LinearLayout)findViewById(R.id.noNewMessageButtonList);
+                noNewMessageList.setVisibility(View.GONE);
+            }
             System.out.println("Number of messages: " + numberOfMessages);
             /*
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
