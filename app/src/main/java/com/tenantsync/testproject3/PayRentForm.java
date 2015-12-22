@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -37,10 +38,11 @@ public class PayRentForm extends Activity {
     private String exp;
     private String cvv2;
     private String card_holder;
+    private String payment_amount;
     private Context context;
     private String serial;
     private String token;
-    Spinner spnr;
+    private int firstRun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,46 +56,43 @@ public class PayRentForm extends Activity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
         System.out.println("xxxInOnCreatePayRentForm");
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        //fab.setOnClickListener(new View.OnClickListener() {
-          //  @Override
-           // public void onClick(View view) {
-           //     Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-           //             .setAction("Action", null).show();
-           //     finish();
-          //  }
-        //});
         context = this;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         token = preferences.getString("securitytoken", "n/a");
         serial = preferences.getString("serial", "n/a");
-        card_number="4000100011112224";
-        exp="0919";
-        cvv2="000";
-        card_holder="John Doe";
-        //sendMessage();
-        final String[] paymentType = {
-                "Credit",
-                "Check"
-        };
-        spnr = (Spinner)findViewById(R.id.spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_item, paymentType);
-
+        card_number="";
+        exp="";
+        cvv2="";
+        card_holder="";
+        payment_amount="";
+        firstRun=0;
+        Spinner spnr = (Spinner) findViewById(R.id.spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.payment_type, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
         spnr.setAdapter(adapter);
         spnr.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
 
                     @Override
-                    public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                               int arg2, long arg3) {
-
-                        int position = spnr.getSelectedItemPosition();
-                        Toast.makeText(getApplicationContext(),"You have selected "+paymentType[+position],Toast.LENGTH_LONG).show();
-                        // TODO Auto-generated method stub
+                    public void onItemSelected(AdapterView<?> parent, View view,
+                                               int pos, long id) {
+                        // An item was selected. You can retrieve the selected item using
+                        // parent.getItemAtPosition(pos)
+                        String selection = parent.getItemAtPosition(pos).toString();
+                        if(firstRun==0) {
+                            firstRun++;
+                        } else if(selection.equals("Credit")) {
+                                System.out.println("whoa1");
+                                //setContentView(R.layout.content_pay_rent_form_three);
+                        } else if(selection.equals("Check")) {
+                            System.out.println("whoa2");
+                            setContentView(R.layout.content_pay_rent_form_check);
+                        }
                     }
 
                     @Override
@@ -161,6 +160,8 @@ public class PayRentForm extends Activity {
     }
 
     public void submitpayment(View view) {
+        Button submitButton = (Button) findViewById(R.id.submitpaymentbutton);
+        submitButton.setVisibility(View.GONE);
         EditText card_holder_button = (EditText) findViewById(R.id.cardholder);
         card_holder = card_holder_button.getText().toString();
         EditText exp_button = (EditText) findViewById(R.id.expirationYear);
@@ -169,6 +170,8 @@ public class PayRentForm extends Activity {
         cvv2 = cvv2_button.getText().toString();
         EditText card_number_button = (EditText) findViewById(R.id.creditcardnumber);
         card_number = card_number_button.getText().toString();
+        EditText payment_amount_button = (EditText) findViewById(R.id.paymentamount);
+        payment_amount = payment_amount_button.getText().toString();
         sendMessage();
     }
 
@@ -203,8 +206,10 @@ public class PayRentForm extends Activity {
                 System.out.println("xxxcard_number: " + card_number);
                 System.out.println("xxxcvv2: " + cvv2);
                 System.out.println("xxxcard_holder: " + card_holder);
+                System.out.println("xxxpayment_amount: " + payment_amount);
 
                 params.put("card_number", card_number);
+                params.put("payment_amount", payment_amount);
                 params.put("exp", exp);
                 params.put("cvv2",cvv2);
                 params.put("name",card_holder);

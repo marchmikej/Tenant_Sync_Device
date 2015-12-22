@@ -22,11 +22,11 @@ import java.util.Map;
  * Created by Dad on 9/17/2015.
  */
 public class MySQLConnect {
-    public static final String API_BASE= "http://159.203.115.137/api/maintenance";
-    public static final String API_SEND_MAINT_UPDATE= "http://159.203.115.137/api/maintenance";
-    public static final String API_SUMMARY= "http://159.203.115.137/api/device";
-    public static final String API_SEND_MESSAGE= "http://159.203.115.137/api/message";
-    public static final String API_SEND_RENT= "http://159.203.115.137/api/pay";
+    public static final String API_BASE= "http://rootedindezign.com/api/maintenance";
+    public static final String API_SEND_MAINT_UPDATE= "http://rootedindezign.com/api/maintenance";
+    public static final String API_SUMMARY= "http://rootedindezign.com/api/device";
+    public static final String API_SEND_MESSAGE= "http://rootedindezign.com/api/message";
+    public static final String API_SEND_RENT= "http://rootedindezign.com/api/pay";
     public static final String DISPLAY_REQUEST= "display_request";
     public static final String DISPLAY_RESPONSE= "display_response";
     public static final String DISPLAY_APPTIME= "display_apptime";
