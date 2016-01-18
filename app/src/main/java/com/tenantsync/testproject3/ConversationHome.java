@@ -140,7 +140,7 @@ public class ConversationHome extends Activity {
             return;
         }
         if(messageBody.equals("End Screen Pinning 12345!!")) {
-            //stopLockTask();
+            stopLockTask();
             return;
         }
         messageBodyField.setText("");

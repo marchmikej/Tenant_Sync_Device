@@ -21,4 +21,5 @@
     <string name="title_activity_pay_rent_form">Enter Payment Information</string>
     <string name="title_activity_rent_confirmation_form">Payment Confirmation</string>
     <string name="basicdeivedescription">TenantSync</string>
+    <string name="title_activity_display_device">DisplayDevice</string>
 </resources>

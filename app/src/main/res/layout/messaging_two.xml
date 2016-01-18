@@ -17,7 +17,7 @@
         android:src="@drawable/contact_heading_text" />
 
         <TextView
-            android:layout_width="170dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
             android:id="@+id/actionspace1"
             android:text=""

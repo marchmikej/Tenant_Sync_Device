@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -106,6 +107,11 @@ public class CreateMaintenance extends Activity {
         finish();
     }
 
+    public void goToDeviceData(View view) {
+        Intent intent = new Intent(this, DisplayDevice.class);
+        startActivity(intent);
+    }
+
     public void goback(View view) {
         finish();
     }
@@ -113,6 +119,8 @@ public class CreateMaintenance extends Activity {
     public void createMaintenance(View view) {
         EditText requestField = (EditText)findViewById(R.id.request);
         messageBody = requestField.getText().toString();
+        Button maintButton = (Button) findViewById(R.id.submitNewMaintButton);
+        maintButton.setVisibility(View.GONE);
         System.out.println("request: " + messageBody);
         System.out.println("request length: " + messageBody.length());
         if(messageBody.length()>0) {

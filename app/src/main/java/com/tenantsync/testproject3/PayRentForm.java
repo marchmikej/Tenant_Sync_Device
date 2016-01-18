@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -29,7 +30,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class PayRentForm extends Activity {
@@ -43,6 +47,12 @@ public class PayRentForm extends Activity {
     private String serial;
     private String token;
     private int firstRun;
+    private String balanceDue;
+    private String rentAmount;
+    private String paymentType;
+    private String account_number;
+    private String routing_number;
+    private String check_number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +76,13 @@ public class PayRentForm extends Activity {
         cvv2="";
         card_holder="";
         payment_amount="";
+        balanceDue="0";
+        rentAmount="0";
         firstRun=0;
+        paymentType="";
+        account_number="";
+        routing_number="";
+        check_number="";
         Spinner spnr = (Spinner) findViewById(R.id.spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -92,6 +108,10 @@ public class PayRentForm extends Activity {
                         } else if(selection.equals("Check")) {
                             System.out.println("whoa2");
                             setContentView(R.layout.content_pay_rent_form_check);
+                            TextView rent_amount = (TextView)findViewById(R.id.monthlyrent);
+                            rent_amount.setText("$" + rentAmount);
+                            TextView amount_due = (TextView)findViewById(R.id.amountdue);
+                            amount_due.setText("$" + balanceDue);
                         }
                     }
 
@@ -100,9 +120,9 @@ public class PayRentForm extends Activity {
                         // TODO Auto-generated method stub
 
                     }
-
                 }
         );
+        rentStatus();
     }
 
     // handler for received Intents for the "my-event" event
@@ -155,27 +175,88 @@ public class PayRentForm extends Activity {
         finish();
     }
 
+    public void goToDeviceData(View view) {
+        Intent intent = new Intent(this, DisplayDevice.class);
+        startActivity(intent);
+    }
+
     public void goback(View view) {
         finish();
     }
 
-    public void submitpayment(View view) {
+    public void submitcreditpayment(View view) {
+        paymentType="card";
         Button submitButton = (Button) findViewById(R.id.submitpaymentbutton);
         submitButton.setVisibility(View.GONE);
         EditText card_holder_button = (EditText) findViewById(R.id.cardholder);
         card_holder = card_holder_button.getText().toString();
-        EditText exp_button = (EditText) findViewById(R.id.expirationYear);
-        exp = exp_button.getText().toString();
+        EditText exp_month = (EditText) findViewById(R.id.expirationMonth);
+        EditText exp_year = (EditText) findViewById(R.id.expirationYear);
+        exp = exp_month.getText().toString() + exp_year.getText().toString();
         EditText cvv2_button = (EditText) findViewById(R.id.cvv);
         cvv2 = cvv2_button.getText().toString();
         EditText card_number_button = (EditText) findViewById(R.id.creditcardnumber);
         card_number = card_number_button.getText().toString();
         EditText payment_amount_button = (EditText) findViewById(R.id.paymentamount);
         payment_amount = payment_amount_button.getText().toString();
-        sendMessage();
+        int paymentProceed = 1;
+        String errorText="";
+        if(exp_month.getText().toString().length()!=2) {
+            // Expiration month incorrect
+            paymentProceed=0;
+            errorText="Expiration Month Incorrect\n" + errorText;
+        }
+        if(exp_year.getText().toString().length()!=2) {
+            // Expiration year incorrect
+            paymentProceed=0;
+            errorText="Expiration Year Incorrect\n" + errorText;
+        }
+        if(payment_amount.length()==0) {
+            // Payment amount needs to be inserted
+            paymentProceed=0;
+            errorText="Payment Amount Incorrect\n" + errorText;
+        }
+        if(card_number.length()==0) {
+            // Card number incorrect
+            paymentProceed=0;
+            errorText="Card Number Incorrect\n" + errorText;
+        }
+        if(card_holder.length()==0) {
+            // Card holder incorrect
+            paymentProceed=0;
+            errorText="Card Holder Incorrect\n" + errorText;
+        }
+        if(paymentProceed==1) {
+            sendCreditMessage();
+        } else {
+            System.out.println("xxxError Message: " + errorText);
+            TextView error_text = (TextView) findViewById(R.id.errortext);
+            error_text.setText(errorText);
+            submitButton.setVisibility(View.VISIBLE);
+        }
     }
 
-    private void sendMessage() {
+    public void submitcheckpayment(View view) {
+        account_number="";
+        routing_number="";
+        check_number="";
+        paymentType="check";
+        Button submitButton = (Button) findViewById(R.id.submitpaymentbutton);
+        submitButton.setVisibility(View.GONE);
+        EditText card_holder_button = (EditText) findViewById(R.id.cardholder);
+        card_holder = card_holder_button.getText().toString();
+        EditText routing_button = (EditText) findViewById(R.id.routingnumber);
+        routing_number = routing_button.getText().toString();
+        EditText card_number_button = (EditText) findViewById(R.id.accountnumber);
+        account_number = card_number_button.getText().toString();
+        EditText payment_amount_button = (EditText) findViewById(R.id.paymentamount);
+        payment_amount = payment_amount_button.getText().toString();
+        EditText check_number_button = (EditText) findViewById(R.id.checknumber);
+        check_number = check_number_button.getText().toString();
+        sendCreditMessage();
+    }
+
+    private void sendCreditMessage() {
         System.out.println("xxxIn send message");
         //Send message to server here
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -202,20 +283,72 @@ public class PayRentForm extends Activity {
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                System.out.println("xxxexp: " + exp);
-                System.out.println("xxxcard_number: " + card_number);
-                System.out.println("xxxcvv2: " + cvv2);
-                System.out.println("xxxcard_holder: " + card_holder);
-                System.out.println("xxxpayment_amount: " + payment_amount);
+                if(paymentType.equals("card")) {
+                    System.out.println("xxxexpiration: " + exp);
+                    System.out.println("xxxcard_number: " + card_number);
+                    System.out.println("xxxcvv2: " + cvv2);
+                    System.out.println("xxxcard_holder: " + card_holder);
+                    System.out.println("xxxpayment_amount: " + payment_amount);
 
-                params.put("card_number", card_number);
-                params.put("payment_amount", payment_amount);
-                params.put("exp", exp);
-                params.put("cvv2",cvv2);
-                params.put("name",card_holder);
-                params.put("type","card");
+                    params.put("card_number", card_number);
+                    params.put("payment_type", paymentType);
+                    params.put("payment_amount", payment_amount);
+                    params.put("expiration", exp);
+                    params.put("cvv2", cvv2);
+                    params.put("account_holder", card_holder);
+                } else if(paymentType.equals("check")) {
+                    System.out.println("xxxaccount_number: " + account_number);
+                    System.out.println("xxxrouting_number: " + routing_number);
+                    System.out.println("xxxaccount_holder: " + card_holder);
+                    System.out.println("xxxpayment_amount: " + payment_amount);
+                    System.out.println("xxxcheck_number: " + payment_amount);
+                    params.put("payment_type", paymentType);
+                    params.put("payment_amount", payment_amount);
+                    params.put("routing_number", routing_number);
+                    params.put("account_number", account_number);
+                    params.put("account_holder", card_holder);
+                } else if(paymentType.equals("transfer")) {
+
+                }
                 return params;
             }
+
+            @Override
+            public Map<String, String> getHeaders() throws
+                    com.android.volley.AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                System.out.println("serial is: '" + serial + "'");
+                System.out.println("token is: '" + token + "'");
+                params.put("token", token);
+                params.put("serial", serial);
+                return params;
+            };
+        };
+        queue.add(myReq);
+    }
+
+    private void rentStatus() {
+        System.out.println("xxxIn rent status");
+        //Send message to server here
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest myReq = new StringRequest(Request.Method.POST,
+                MySQLConnect.API_RENT_STATUS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        System.out.println("xxxResponse is: " + response.toString());
+                        handleRentStatus(response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("xxxThat didn't work: "  + error.toString());
+                        Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
+                    }
+                }) {
 
             @Override
             public Map<String, String> getHeaders() throws
@@ -237,6 +370,30 @@ public class PayRentForm extends Activity {
         intent.putExtra(MySQLConnect.SEND_RENT_CONFIRMATION, sendInfo);
         startActivity(intent);
         finish();
+    }
+
+    private void handleRentStatus(String incomingString) {
+        try {
+            JSONObject json = new JSONObject(incomingString);
+            System.out.println("xxxjsonObject: " + json.toString());
+            System.out.println("xxxjson size: " + json.length());
+            if(!json.isNull("rent_amount")) {
+                System.out.println("xxxrent_amount is: " + json.getString("rent_amount"));
+                TextView rent_amount = (TextView)findViewById(R.id.monthlyrent);
+                rentAmount=json.getString("rent_amount");
+                rent_amount.setText("$" + rentAmount);
+            }
+            if(!json.isNull("balance_due")) {
+                System.out.println("xxxbalance_due is: " + json.getString("balance_due"));
+                TextView amount_due = (TextView)findViewById(R.id.amountdue);
+                balanceDue=json.getString("balance_due");
+                amount_due.setText("$" + balanceDue);
+            }
+        } catch (Exception e) {
+            System.out.println("xxxexception in json");
+            e.printStackTrace();
+            finish();
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////

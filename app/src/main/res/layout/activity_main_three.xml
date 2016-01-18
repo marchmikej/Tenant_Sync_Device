@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@drawable/app_background"
+    android:id="@+id/mainLayout"
     android:layout_height="match_parent">
 
     <TextView
@@ -15,7 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textColor="#668686"
+        android:textColor="#ffffff"
         android:textSize="75dp" />
 
     <TextView
@@ -64,6 +65,26 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="5dp"
+        android:id="@+id/space11"
+        android:text=""
+        android:textSize="95px" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rentDueList"
+        android:visibility="gone"
+        android:gravity="center">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rentDueButton"
+            android:background="@drawable/rentdue_button" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
         android:id="@+id/space13"
         android:text=""
         android:textSize="95px" />
@@ -71,6 +92,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal" android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:id="@+id/noNewMessageButtonList"
         android:gravity="center">
         <ImageView
@@ -185,24 +207,4 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/space11"
-        android:text=""
-        android:textSize="95px" />
-
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal" android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/technicalSupportText"
-            android:src="@drawable/technical_support_text" />
-
-    </LinearLayout>
 </LinearLayout>

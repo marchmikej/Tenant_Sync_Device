@@ -174,10 +174,10 @@ public class MaintenanceHome extends ListActivity {
         // This for when you have no outstanding requests
         String dataCheck = incomingMaintenance.substring(2,47);
         System.out.println("zzzdatacheck: " + dataCheck);
-        if(dataCheck.equals("There are no active requests for this device.")) {
-            valuesMaintenance[0] = new MaintenaceRequest("No Outstanding Requests", "", "", "", "");
-            myMaintenanceListAdapter adapter = new myMaintenanceListAdapter(this, valuesMaintenance);
-            setListAdapter(adapter);
+        if(dataCheck.contains("There are no active requests for this device.")) {
+            //valuesMaintenance[0] = new MaintenaceRequest("No Outstanding Requests", "", "", "", "");
+            //myMaintenanceListAdapter adapter = new myMaintenanceListAdapter(this, valuesMaintenance);
+            //setListAdapter(adapter);
             return;
         }
 

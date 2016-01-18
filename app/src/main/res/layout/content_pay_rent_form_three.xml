@@ -9,15 +9,16 @@
         android:id="@+id/customactionbar"
         android:background="@drawable/action_bar_background"
         android:layout_height="wrap_content">
-        <ImageView
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
             android:id="@+id/showactivity"
+            android:onClick="goToDeviceData"
             android:src="@drawable/schedule_payment_heading" />
 
         <TextView
-            android:layout_width="75dp"
+            android:layout_width="5dp"
             android:layout_height="match_parent"
             android:id="@+id/actionspace1"
             android:text=""
@@ -66,14 +67,60 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/maintenanceButton"
-            android:onClick="goToContact"
+            android:onClick="maintenanceHome"
             android:background="@drawable/wrench_white" />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal" android:layout_width="match_parent"
-        android:id="@+id/spinnerlayout"
+        android:id="@+id/amountlayout"
         android:layout_below="@+id/customactionbar"
+        android:gravity="center_vertical"
+        android:layout_height="80dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:paddingLeft="24dp"
+            android:textColor="#c3bba7"
+            android:text="Amount Due"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/amountdue"
+            android:textSize="60sp"
+            android:paddingLeft="26dp"
+            android:textColor="#ffffff"
+            android:text="$0"/>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:id="@+id/monthlyrentlayout"
+        android:layout_below="@+id/amountlayout"
+        android:gravity="center_vertical"
+        android:layout_height="80dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:paddingLeft="24dp"
+            android:textColor="#c3bba7"
+            android:text="Rent Amount"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/monthlyrent"
+            android:textSize="60sp"
+            android:paddingLeft="26dp"
+            android:textColor="#ffffff"
+            android:text="$0"/>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:id="@+id/spinnerlayout"
+        android:layout_below="@+id/monthlyrentlayout"
         android:gravity="bottom"
         android:layout_height="wrap_content">
         <TextView
@@ -110,7 +157,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="30"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:background="@android:color/transparent"
             android:id="@+id/paymentamount" />
     </LinearLayout>
@@ -293,7 +340,21 @@
             android:layout_height="wrap_content"
             android:textSize="20px"
             android:text="Submit"
-            android:onClick="submitpayment"
+            android:onClick="submitcreditpayment"
             android:id="@+id/submitpaymentbutton" />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="left"
+        android:layout_below="@+id/submitlayout"
+        android:id="@+id/errorlayout"
+        android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:id="@+id/errortext"
+                android:textColor="#c3bba7"
+                android:text=""/>
     </LinearLayout>
 </RelativeLayout>

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tenantsync.testproject3" >
+    package="com.tenantsync.testproject3">
 
-    <uses-permission android:name="android.permission.INTERNET" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- [START gcm_permission] -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -18,8 +16,8 @@
         android:icon="@drawable/tenantsync_logo"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
-        android:theme="@style/AppTheme" >
-        <receiver android:name=".BootReceiver" >
+        android:theme="@style/AppTheme">
+        <receiver android:name=".BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -28,8 +26,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,23 +37,20 @@
         <activity
             android:name=".MaintenanceHome"
             android:label="@string/title_activity_maintenance_home"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".EnterToken"
             android:label="@string/title_activity_enter_token"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".DisplayMaintenance"
             android:label="@string/title_activity_display_maintenance"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <!-- [START gcm_receiver] -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
@@ -68,7 +63,7 @@
         <!-- [START gcm_listener] -->
         <service
             android:name=".MyGcmListenerService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -77,7 +72,7 @@
         <!-- [START instanceId_listener] -->
         <service
             android:name=".MyInstanceIDListenerService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
@@ -85,50 +80,50 @@
         <!-- [END instanceId_listener] -->
         <service
             android:name=".RegistrationIntentService"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
 
         <activity
             android:name=".WebInterface"
             android:label="@string/title_activity_web_interface"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ConversationHome"
             android:label="@string/title_activity_conversation_home"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".CreateMaintenance"
             android:label="@string/title_activity_create_maintenance"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".PayRentForm"
             android:label="@string/title_activity_pay_rent_form"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".RentConfirmationForm"
             android:label="@string/title_activity_rent_confirmation_form"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <receiver
             android:name=".BasicDeviceAdminReceiver"
-            android:label="BasicDeviceAdminReceiver"
             android:description="@string/basicdeivedescription"
+            android:label="BasicDeviceAdminReceiver"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
-
-            <meta-data android:name="android.app.device_admin"
+            <meta-data
+                android:name="android.app.device_admin"
                 android:resource="@xml/device_admin" />
 
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".DisplayDevice"
+            android:label="@string/title_activity_display_device"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

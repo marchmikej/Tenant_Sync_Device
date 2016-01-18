@@ -72,8 +72,54 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal" android:layout_width="match_parent"
-        android:gravity="bottom"
+        android:id="@+id/amountlayout"
         android:layout_below="@+id/customactionbar"
+        android:gravity="center_vertical"
+        android:layout_height="80dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:paddingLeft="24dp"
+            android:textColor="#c3bba7"
+            android:text="Amount Due"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/amountdue"
+            android:textSize="60sp"
+            android:paddingLeft="26dp"
+            android:textColor="#ffffff"
+            android:text="$0"/>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:id="@+id/monthlyrentlayout"
+        android:layout_below="@+id/amountlayout"
+        android:gravity="center_vertical"
+        android:layout_height="80dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:paddingLeft="24dp"
+            android:textColor="#c3bba7"
+            android:text="Rent Amount"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/monthlyrent"
+            android:textSize="60sp"
+            android:paddingLeft="26dp"
+            android:textColor="#ffffff"
+            android:text="$0"/>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="bottom"
+        android:layout_below="@+id/monthlyrentlayout"
         android:id="@+id/newPayment"
         android:layout_height="43dp">
 
@@ -173,6 +219,45 @@
         android:orientation="horizontal" android:layout_width="match_parent"
         android:gravity="center"
         android:layout_below="@+id/cardnumberlayout"
+        android:id="@+id/divider12"
+        android:layout_height="12dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/create_maintenance_divider"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="bottom"
+        android:layout_below="@+id/divider12"
+        android:id="@+id/accountnumberlayout"
+        android:layout_height="43dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="26dp"
+            android:textSize="20sp"
+            android:textColor="#c3bba7"
+            android:text="Account Number"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:ems="30"
+            android:inputType="number"
+            android:id="@+id/accountnumber" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_below="@+id/accountnumberlayout"
         android:id="@+id/divider2"
         android:layout_height="12dp">
 
@@ -185,8 +270,46 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal" android:layout_width="match_parent"
-        android:gravity="right"
+        android:gravity="bottom"
         android:layout_below="@+id/divider2"
+        android:id="@+id/checknumberlayout"
+        android:layout_height="43dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="26dp"
+            android:textSize="20sp"
+            android:textColor="#c3bba7"
+            android:text="Check Number"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:ems="30"
+            android:inputType="number"
+            android:id="@+id/checknumber" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_below="@+id/checknumberlayout"
+        android:id="@+id/divider32"
+        android:layout_height="12dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/create_maintenance_divider"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:gravity="right"
+        android:layout_below="@+id/divider32"
         android:id="@+id/submitlayout"
         android:layout_height="wrap_content">
         <Button
@@ -194,7 +317,7 @@
             android:layout_height="wrap_content"
             android:textSize="20px"
             android:text="Submit"
-            android:onClick="submitpayment"
+            android:onClick="submitcheckpayment"
             android:id="@+id/submitpaymentbutton" />
     </LinearLayout>
 </RelativeLayout>

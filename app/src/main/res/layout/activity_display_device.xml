@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left">
+        <TextView
+            android:id="@+id/label1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Release: "
+            android:textSize="40px" >
+        </TextView>
+        <TextView
+            android:id="@+id/releasenumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.0"
+            android:textSize="40px" >
+        </TextView>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left">
+        <TextView
+            android:id="@+id/label2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Device Number: "
+            android:textSize="40px" >
+        </TextView>
+        <TextView
+            android:id="@+id/devicenumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="40px" >
+        </TextView>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left">
+        <TextView
+            android:id="@+id/label3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Token: "
+            android:textSize="40px" >
+        </TextView>
+        <TextView
+            android:id="@+id/token"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="40px" >
+        </TextView>
+    </LinearLayout>
+</LinearLayout>

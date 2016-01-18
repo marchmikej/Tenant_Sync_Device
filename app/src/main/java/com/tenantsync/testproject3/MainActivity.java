@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         //Puts app in kiosk mode
-        //provisionOwner();
+        provisionOwner();
 
         setContentView(R.layout.activity_main_three);
         // Keep screen on
@@ -218,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
             Iterator<String> keys = json.keys();
             int numberOfTickets = 0;
             int numberOfMessages = 0;
+            int rentStatus = 0;
             while(keys.hasNext()){
                 String key = keys.next();
                 System.out.println("Key " + key);
@@ -255,10 +256,17 @@ public class MainActivity extends AppCompatActivity {
                         json.getString(key);
                         System.out.println("alarm_id is: " + json.getString(key));
                         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-                        if(json.getInt(key)<0) {
-                            setContentView(R.layout.activity_main);
-                        } else if(json.getInt(key)>=0) {
-                            setContentView(R.layout.activity_main_three);
+                        setContentView(R.layout.activity_main_three);
+                        if(json.getInt(key)==0) {
+                            rentStatus=0;
+                        } else if(json.getInt(key)==1) {
+                            rentStatus=1;
+                            LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+                            mainLayout.setBackgroundResource(R.drawable.rent_due_background);
+                            LinearLayout rentDue = (LinearLayout) findViewById(R.id.rentDueList);
+                            rentDue.setVisibility(View.VISIBLE);
+                            LinearLayout noNewMessageList = (LinearLayout) findViewById(R.id.noNewMessageButtonList);
+                            noNewMessageList.setVisibility(View.GONE);
                         }
                         getWindow().getDecorView().setSystemUiVisibility(
                                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -271,27 +279,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             System.out.println("Number of tickets: " + numberOfTickets);
-            if(numberOfTickets>0) {
-                LinearLayout maintenanceList = (LinearLayout)findViewById(R.id.maintenanceButtonList);
+            if (numberOfTickets > 0) {
+                LinearLayout maintenanceList = (LinearLayout) findViewById(R.id.maintenanceButtonList);
                 maintenanceList.setVisibility(View.VISIBLE);
-                LinearLayout noNewMessageList = (LinearLayout)findViewById(R.id.noNewMessageButtonList);
+                LinearLayout noNewMessageList = (LinearLayout) findViewById(R.id.noNewMessageButtonList);
                 noNewMessageList.setVisibility(View.GONE);
             }
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             String outstandingMessages = preferences.getString("outstandingmessage", "n/a");
-            if(outstandingMessages.equals("NOTVIEWED")) {
-                LinearLayout newMessageList = (LinearLayout)findViewById(R.id.newMessageButtonList);
+            if (outstandingMessages.equals("NOTVIEWED")) {
+                LinearLayout newMessageList = (LinearLayout) findViewById(R.id.newMessageButtonList);
                 newMessageList.setVisibility(View.VISIBLE);
-                LinearLayout noNewMessageList = (LinearLayout)findViewById(R.id.noNewMessageButtonList);
+                LinearLayout noNewMessageList = (LinearLayout) findViewById(R.id.noNewMessageButtonList);
                 noNewMessageList.setVisibility(View.GONE);
             }
             System.out.println("Number of messages: " + numberOfMessages);
-            /*
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, values);
-            setListAdapter(adapter);
-            */
-
         }
         catch (Exception e) {
             System.out.println("exception in json");
@@ -396,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-/*
+
      // This puts the app in kiosk mode if we are a device owner
     private void provisionOwner() {
 
@@ -418,5 +420,4 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("isLockTaskPermitted: NOT ALLOWED");
         }
     }
-    */
 }
