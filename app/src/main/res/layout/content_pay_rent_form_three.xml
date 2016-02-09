@@ -339,8 +339,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20px"
-            android:text="Submit"
             android:onClick="submitcreditpayment"
+            android:background="@drawable/button_send"
             android:id="@+id/submitpaymentbutton" />
     </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

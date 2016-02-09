@@ -81,9 +81,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/viewSchedule"
-            android:background="@drawable/green_button"
+            android:background="@drawable/white_button"
             android:text="View Schedule"
-            android:textColor="#ffffff" />
+            android:textColor="#3e8d7d" />
 
         <TextView
             android:layout_width="20dp"
@@ -96,10 +96,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/scheduleMaintenance"
-            android:background="@drawable/white_button"
+            android:background="@drawable/green_button"
             android:text="Schedule Maintenance"
             android:onClick="createMaintenance"
-            android:textColor="#3e8d7d" />
+            android:textColor="#ffffff" />
     </LinearLayout>
 
     <ListView

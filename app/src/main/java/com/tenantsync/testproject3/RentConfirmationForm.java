@@ -1,5 +1,6 @@
 package com.tenantsync.testproject3;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,14 +20,12 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
-public class RentConfirmationForm extends AppCompatActivity {
+public class RentConfirmationForm extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rent_confirmation_form);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.content_rent_confirmation_form);
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -38,17 +37,9 @@ public class RentConfirmationForm extends AppCompatActivity {
         Intent intent = getIntent();
         String incomingData = intent.getStringExtra(MySQLConnect.SEND_RENT_CONFIRMATION);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                finish();
-            }
-        });
         displayConfirmation(incomingData);
     }
+
 
     // handler for received Intents for the "my-event" event
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -82,8 +73,39 @@ public class RentConfirmationForm extends AppCompatActivity {
         finish();
     }
 
+    public void maintenanceHome(View view) {
+        Intent intent = new Intent(this, MaintenanceHome.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void goToContact(View view) {
+        Intent intent = new Intent(this, ConversationHome.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void schedulePayment(View view) {
+        Intent intent = new Intent(this, PayRentForm.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void goToDeviceData(View view) {
+        Intent intent = new Intent(this, DisplayDevice.class);
+        startActivity(intent);
+    }
+
+    public void goback(View view) {
+        finish();
+    }
+
     public void displayConfirmation(String displayData) {
         TextView confirmation = (TextView) findViewById(R.id.confirmation);
+        String errorText = "OK";
+        String resultText = "";
+        String refnumText = "";
+        String outputText = "";
         if(displayData.equals(MySQLConnect.RENT_CONFIRMATION_ERROR)) {
             confirmation.setText("There was an error processing the request.");
         } else {
@@ -92,9 +114,18 @@ public class RentConfirmationForm extends AppCompatActivity {
                 System.out.println("xxxjsonObject: " + json.toString());
                 if(!json.isNull("Result")) {
                     System.out.println("xxxResult is:" + json.get("Result"));
+                    if(json.get("Result").equals("Error")) {
+                        if(!json.isNull("Error")) {
+                            System.out.println("xxxError is:" + json.get("Error"));
+                            outputText = "Error: " + json.get("Error") + "\n" + outputText;
+                        }
+                    } else if(json.get("Result").equals("Approved")) {
+                        outputText = "Payment Accepted!  Thank you!\n" + outputText;
+                    }
                 }
                 if(!json.isNull("RefNum")) {
                     System.out.println("xxxRefNum is:" + json.get("RefNum"));
+                    outputText = "Reference Number: " + json.get("RefNum") + "\n" + outputText;
                 }
                 if(!json.isNull("Error")) {
                     System.out.println("xxxError is:" + json.get("Error"));
@@ -105,7 +136,7 @@ public class RentConfirmationForm extends AppCompatActivity {
                 e.printStackTrace();
                 finish();
             }
-            confirmation.setText(displayData);
+            confirmation.setText(outputText);
         }
     }
 

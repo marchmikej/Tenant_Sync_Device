@@ -26,12 +26,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class CreateMaintenance extends Activity {
     private Context context;
     private String messageBody;
+    private String strDate;
     private String serial;
     private String token;
 
@@ -51,6 +55,7 @@ public class CreateMaintenance extends Activity {
         setContentView(R.layout.activity_create_maintenance_three);
 
         messageBody="";
+        strDate="";
         context=this;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         token = preferences.getString("securitytoken", "n/a");
@@ -89,6 +94,12 @@ public class CreateMaintenance extends Activity {
         finish();
     }
 
+    public void returnToMaintenance() {
+        Intent intent = new Intent(this, MaintenanceHome.class);
+        startActivity(intent);
+        finish();
+    }
+
     public void maintenanceHome(View view) {
         Intent intent = new Intent(this, MaintenanceHome.class);
         startActivity(intent);
@@ -119,6 +130,9 @@ public class CreateMaintenance extends Activity {
     public void createMaintenance(View view) {
         EditText requestField = (EditText)findViewById(R.id.request);
         messageBody = requestField.getText().toString();
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
+        Date now = new Date();
+        strDate = sdfDate.format(now);
         Button maintButton = (Button) findViewById(R.id.submitNewMaintButton);
         maintButton.setVisibility(View.GONE);
         System.out.println("request: " + messageBody);
@@ -133,7 +147,7 @@ public class CreateMaintenance extends Activity {
                         public void onResponse(String response) {
                             // Display the first 500 characters of the response string.
                             System.out.println("Response is: " + response.toString());
-                            finish();
+                            returnToMaintenance();
                         }
                     },
                     new Response.ErrorListener() {
@@ -141,7 +155,7 @@ public class CreateMaintenance extends Activity {
                         public void onErrorResponse(VolleyError error) {
                             System.out.println("That didn't work!");
                             Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
-                            finish();
+                            returnToMaintenance();
                         }
                     }) {
 
@@ -149,7 +163,9 @@ public class CreateMaintenance extends Activity {
                 protected Map<String,String> getParams(){
                     Map<String,String> params = new HashMap<String, String>();
                     System.out.println("putting: " + messageBody);
+                    System.out.println("update_key: " + strDate);
                     params.put("message",messageBody);
+                    params.put("update_key",strDate);
 
                     return params;
                 }
@@ -169,8 +185,8 @@ public class CreateMaintenance extends Activity {
         } else {
             Context context = getApplicationContext();
             CharSequence text = "Please Enter Maintenance Description.";
+            maintButton.setVisibility(View.VISIBLE);
             int duration = Toast.LENGTH_SHORT;
-
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }

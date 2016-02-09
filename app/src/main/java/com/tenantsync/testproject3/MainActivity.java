@@ -11,6 +11,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
     private String serial;
     private String token;
+    private MediaPlayer mPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         //Puts app in kiosk mode
-        provisionOwner();
-
+        //provisionOwner();
         setContentView(R.layout.activity_main_three);
         // Keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -101,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
         }
+        mPlayer = MediaPlayer.create(context, R.raw.tenantsyncchime2); // in 2nd param u have to pass your desire ringtone
+        mPlayer.setVolume(100, 100);
     }
 
     @Override
@@ -154,6 +159,25 @@ public class MainActivity extends AppCompatActivity {
                 maintenanceList.setVisibility(View.VISIBLE);
                 LinearLayout noNewMessageList = (LinearLayout)findViewById(R.id.noNewMessageButtonList);
                 noNewMessageList.setVisibility(View.GONE);
+            }
+            if(incomingMessage.startsWith("UNPINDEVICE:")) {
+                // New Message Received
+                //stopLockTask();
+            }
+            if(incomingMessage.startsWith("PLAYSOUND:")) {
+                // Going to play chime
+                System.out.println("xxxPlaying chime.");
+                try {
+                    MediaPlayer mPlayer = MediaPlayer.create(context, R.raw.tenantsyncchime2); // in 2nd param u have to pass your desire ringtone
+                    //mPlayer.prepare();
+                    mPlayer.setVolume(100,100);
+                    mPlayer.start();
+                    //sp.play(soundId, 10, 10, 1, 0, 1f);
+                }
+                catch (Exception e) {
+                    System.out.println("xxxexception with sound");
+                    e.printStackTrace();
+                }
             }
             if(incomingMessage.startsWith("REFRESH:")) {
                 // Requires a refresh on home screen
@@ -398,7 +422,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-
+/*
      // This puts the app in kiosk mode if we are a device owner
     private void provisionOwner() {
 
@@ -419,5 +443,5 @@ public class MainActivity extends AppCompatActivity {
         } else {
             System.out.println("isLockTaskPermitted: NOT ALLOWED");
         }
-    }
+    } */
 }

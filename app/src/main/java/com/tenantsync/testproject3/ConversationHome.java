@@ -42,6 +42,7 @@ public class ConversationHome extends Activity {
     private MessageAdapter messageAdapter;
     private EditText messageBodyField;
     private ListView messagesList;
+    private String strDate;
     private String serial;
     private String token;
     private String messageBody;
@@ -57,6 +58,7 @@ public class ConversationHome extends Activity {
         SharedPreferences.Editor edit = preferences.edit();
         edit.putString("outstandingmessage", "viewed");
         edit.commit();
+        strDate="";
 
         messagesList = (ListView) findViewById(R.id.listMessages);
         messageAdapter = new MessageAdapter(this);
@@ -135,12 +137,15 @@ public class ConversationHome extends Activity {
 
     private void sendMessage() {
         messageBody = messageBodyField.getText().toString();
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
+        java.util.Date now = new java.util.Date();
+        strDate = sdfDate.format(now);
         if (messageBody.isEmpty()) {
             Toast.makeText(this, "Please enter a message", Toast.LENGTH_LONG).show();
             return;
         }
         if(messageBody.equals("End Screen Pinning 12345!!")) {
-            stopLockTask();
+            //stopLockTask();
             return;
         }
         messageBodyField.setText("");
@@ -171,7 +176,9 @@ public class ConversationHome extends Activity {
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
                 System.out.println("putting: " + messageBody);
-                params.put("message",messageBody);
+                System.out.println("update_key: " + strDate);
+                params.put("message", messageBody);
+                params.put("update_key",strDate);
 
                 return params;
             }
