@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.media.ToneGenerator;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -167,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
             if(incomingMessage.startsWith("PLAYSOUND:")) {
                 // Going to play chime
                 System.out.println("xxxPlaying chime.");
+                /*
                 try {
                     MediaPlayer mPlayer = MediaPlayer.create(context, R.raw.tenantsyncchime2); // in 2nd param u have to pass your desire ringtone
                     //mPlayer.prepare();
@@ -178,6 +181,12 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("xxxexception with sound");
                     e.printStackTrace();
                 }
+*/
+                System.out.println("should play sound");
+                // send the tone to the "alarm" stream (classic beeps go there) with 50% volume
+                ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+                toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 500); // 200 is duration in ms
+
             }
             if(incomingMessage.startsWith("REFRESH:")) {
                 // Requires a refresh on home screen

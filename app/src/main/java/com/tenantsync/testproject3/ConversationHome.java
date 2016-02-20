@@ -260,9 +260,9 @@ public class ConversationHome extends Activity {
                     minute = created_at.substring(14,16);
                 }
 
-                if(!jsonMessageObject.isNull("is_from_device")) {
-                    System.out.println("xxis_from_device: " + jsonMessageObject.getInt("is_from_device"));
-                    if (jsonMessageObject.getInt("is_from_device")== 0) {
+                if(!jsonMessageObject.isNull("from_device")) {
+                    System.out.println("xxxfrom_device: " + jsonMessageObject.getInt("from_device"));
+                    if (jsonMessageObject.getInt("from_device")== 0) {
                         messageAdapter.addMessage(new MessageContain(messageBody, MessageAdapter.DIRECTION_OUTGOING, created_at));
                     } else {
                         messageAdapter.addMessage(new MessageContain(messageBody, MessageAdapter.DIRECTION_INCOMING, created_at));
