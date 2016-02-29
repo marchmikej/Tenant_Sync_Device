@@ -5,21 +5,21 @@
     <string name="contact_button">Contact</string>
     <string name="pay_rent_button">Pay Rent</string>
     <string name="action_settings">Enter Token</string>
-    <string name="title_activity_maintenance_home">MaintenanceHome</string>
+    <string name="title_activity_maintenance_home">Maintenance Home</string>
     <string name="maintenance_home_header">Maintenance Page</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_enter_token">EnterToken</string>
-    <string name="title_activity_display_maintenance">DisplayMaintenance</string>
+    <string name="title_activity_enter_token">Enter Token</string>
+    <string name="title_activity_display_maintenance">Display Maintenance</string>
     <string name="title_activity_web_view_interface">WebViewInterface</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_web_view">WebView</string>
     <string name="title_activity_web_interface">WebInterface</string>
-    <string name="title_activity_conversation_home">ConversationHome</string>
+    <string name="title_activity_conversation_home">Conversation Home</string>
     <string name="message_elipses">Message...</string>
-    <string name="title_activity_create_maintenance">CreateMaintenance</string>
+    <string name="title_activity_create_maintenance">Create Maintenance</string>
     <string name="title_activity_pay_rent_form">Enter Payment Information</string>
     <string name="title_activity_rent_confirmation_form">Payment Confirmation</string>
     <string name="basicdeivedescription">TenantSync</string>
-    <string name="title_activity_display_device">DisplayDevice</string>
+    <string name="title_activity_display_device">Display Device</string>
 </resources>

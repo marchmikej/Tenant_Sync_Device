@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,25 +36,21 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class MaintenanceHome extends ListActivity {
+public class MaintenanceHome extends AppCompatActivity {
 
     private Context context;
     private String serial;
     private String token;
     private MaintenaceRequest[] valuesMaintenance;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_maintenance_home_three);
         context=this;
+        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);
         // This is how we will get the Android ID of the device
         serial=android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
         // This is getting the internal security token of the device this is done at initial boot of app
@@ -172,7 +169,7 @@ public class MaintenanceHome extends ListActivity {
     private void handleMaintenanceAll(String incomingMaintenance) {
         System.out.println("zzzIncoming maintenance: " + incomingMaintenance);
         // This for when you have no outstanding requests
-        String dataCheck = incomingMaintenance.substring(2,47);
+        String dataCheck = incomingMaintenance.substring(2, 47);
         System.out.println("zzzdatacheck: " + dataCheck);
         if(dataCheck.contains("There are no active requests for this device.")) {
             //valuesMaintenance[0] = new MaintenaceRequest("No Outstanding Requests", "", "", "", "");
@@ -221,8 +218,13 @@ public class MaintenanceHome extends ListActivity {
                 valuesMaintenance[i] = new MaintenaceRequest(incomingRequest, incomingResponse, incomingStatus, incomingAppointment, incomingId);
                 i++;
             }
+            System.out.println("aaa6");
             myMaintenanceListAdapter adapter = new myMaintenanceListAdapter(this, valuesMaintenance);
-            setListAdapter(adapter);
+            System.out.println("aaa7");
+            ListView mainListView = (ListView) findViewById(R.id.list_maintenance);
+            System.out.println("aaa8");
+            mainListView.setAdapter(adapter);
+            System.out.println("aaa9");
         }
         catch (Exception e) {
             System.out.println("zzzexception in jsonkey");
@@ -236,8 +238,52 @@ public class MaintenanceHome extends ListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_maintenance_home, menu);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_home) {
+            System.out.println("bbbhome");
+            finish();
+            return true;
+        }
+        if (id == R.id.action_payment) {
+            System.out.println("bbbpayment");
+            Intent intent = new Intent(this, PayRentForm.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        if (id == R.id.action_contact) {
+            System.out.println("bbbcontact");
+            Intent intent = new Intent(this, ConversationHome.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        if (id == R.id.action_maintenance) {
+            System.out.println("bbbmaintenance");
+            Intent intent = new Intent(this, MaintenanceHome.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        if (id == R.id.action_info) {
+            System.out.println("bbbinfo");
+            Intent intent = new Intent(this, DisplayDevice.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 /*
     @Override
@@ -254,6 +300,7 @@ public class MaintenanceHome extends ListActivity {
         }
     }
 */
+
     /////////////////////////////////////////////////////////////////////////////
     // This function disables dialogues which keeps the power from turning off //
     /////////////////////////////////////////////////////////////////////////////
@@ -264,13 +311,6 @@ public class MaintenanceHome extends ListActivity {
             // Close every kind of system dialog
             Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             sendBroadcast(closeDialog);
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
 }

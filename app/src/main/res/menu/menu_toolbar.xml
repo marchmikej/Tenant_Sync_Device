@@ -1,0 +1,37 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item
+        android:id="@+id/action_info"
+        android:orderInCategory="100"
+        android:title="Device Info"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_home"
+        android:orderInCategory="150"
+        android:title="Home"
+        android:icon="@drawable/home_return"
+        app:showAsAction="ifRoom"
+        ></item>
+    <item
+        android:id="@+id/action_maintenance"
+        android:orderInCategory="200"
+        android:title="Maintenance"
+        android:icon="@drawable/maintenance_icon_128"
+        app:showAsAction="ifRoom"
+        ></item>
+    <item
+        android:id="@+id/action_payment"
+        android:orderInCategory="300"
+        android:title="Payment"
+        android:icon="@drawable/money_sign_128"
+        app:showAsAction="ifRoom"></item>
+    <item
+        android:id="@+id/action_contact"
+        android:orderInCategory="400"
+        android:title="Contact"
+        android:icon="@drawable/conversation_menu"
+        app:showAsAction="ifRoom"></item>
+
+</menu>

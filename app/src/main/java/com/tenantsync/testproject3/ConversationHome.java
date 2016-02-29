@@ -10,13 +10,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,7 +40,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ConversationHome extends Activity {
+public class ConversationHome extends AppCompatActivity {
 
     private Context context;
     private MessageAdapter messageAdapter;
@@ -46,11 +50,14 @@ public class ConversationHome extends Activity {
     private String serial;
     private String token;
     private String messageBody;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messaging_two);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);
         context = this;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         token = preferences.getString("securitytoken", "n/a");
@@ -279,6 +286,57 @@ public class ConversationHome extends Activity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_home) {
+            System.out.println("bbbhome");
+            finish();
+            return true;
+        }
+        if (id == R.id.action_payment) {
+            System.out.println("bbbpayment");
+            Intent intent = new Intent(this, PayRentForm.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        if (id == R.id.action_contact) {
+            System.out.println("bbbcontact");
+            Intent intent = new Intent(this, ConversationHome.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        if (id == R.id.action_maintenance) {
+            System.out.println("bbbmaintenance");
+            Intent intent = new Intent(this, MaintenanceHome.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        if (id == R.id.action_info) {
+            System.out.println("bbbinfo");
+            Intent intent = new Intent(this, DisplayDevice.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     /////////////////////////////////////////////////////////////////////////////
     // This function disables dialogues which keeps the power from turning off //
     /////////////////////////////////////////////////////////////////////////////
@@ -289,13 +347,6 @@ public class ConversationHome extends Activity {
             // Close every kind of system dialog
             Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             sendBroadcast(closeDialog);
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
 }

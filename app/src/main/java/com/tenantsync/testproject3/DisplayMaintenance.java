@@ -10,7 +10,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,23 +36,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class DisplayMaintenance extends Activity {
+public class DisplayMaintenance extends AppCompatActivity {
     private Context context;
     private String serial;
     private String token;
     private String id;
     private String statusUpdate;
+    private Toolbar toolbar;
 
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         context = this;
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         token = preferences.getString("securitytoken", "n/a");
         serial = preferences.getString("serial", "n/a");
@@ -66,6 +64,8 @@ public class DisplayMaintenance extends Activity {
         } else {
             setContentView(R.layout.activity_display_maintenance_two);
         }
+        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);
 
         id = intent.getStringExtra(MySQLConnect.DISPLAY_MAINT_ID);
         TextView requestView = (TextView) findViewById(R.id.request);
@@ -204,6 +204,57 @@ public class DisplayMaintenance extends Activity {
         queue.add(myReq);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_home) {
+            System.out.println("bbbhome");
+            finish();
+            return true;
+        }
+        if (id == R.id.action_payment) {
+            System.out.println("bbbpayment");
+            Intent intent = new Intent(this, PayRentForm.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        if (id == R.id.action_contact) {
+            System.out.println("bbbcontact");
+            Intent intent = new Intent(this, ConversationHome.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        if (id == R.id.action_maintenance) {
+            System.out.println("bbbmaintenance");
+            Intent intent = new Intent(this, MaintenanceHome.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        if (id == R.id.action_info) {
+            System.out.println("bbbinfo");
+            Intent intent = new Intent(this, DisplayDevice.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     /////////////////////////////////////////////////////////////////////////////
     // This function disables dialogues which keeps the power from turning off //
     /////////////////////////////////////////////////////////////////////////////
@@ -214,13 +265,6 @@ public class DisplayMaintenance extends Activity {
             // Close every kind of system dialog
             Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             sendBroadcast(closeDialog);
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
 }

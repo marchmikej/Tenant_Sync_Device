@@ -33,9 +33,13 @@ public class myMaintenanceListAdapter extends ArrayAdapter<MaintenaceRequest> {
 
     public myMaintenanceListAdapter(Context context, MaintenaceRequest[] values) {
         super(context, R.layout.maintenance_list_display, values);
+        System.out.println("aaa1");
         this.context = context;
+        System.out.println("aaa2");
         this.values = values;
+        System.out.println("aaa3");
         serial=android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+        System.out.println("aaa4");
         // This is getting the internal security token of the device this is done at initial boot of app
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         token = preferences.getString("securitytoken", "n/a");
@@ -43,6 +47,7 @@ public class myMaintenanceListAdapter extends ArrayAdapter<MaintenaceRequest> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        System.out.println("aaa5");
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView=convertView;

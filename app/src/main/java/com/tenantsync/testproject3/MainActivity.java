@@ -33,9 +33,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -169,21 +171,7 @@ public class MainActivity extends AppCompatActivity {
             if(incomingMessage.startsWith("PLAYSOUND:")) {
                 // Going to play chime
                 System.out.println("xxxPlaying chime.");
-                /*
-                try {
-                    MediaPlayer mPlayer = MediaPlayer.create(context, R.raw.tenantsyncchime2); // in 2nd param u have to pass your desire ringtone
-                    //mPlayer.prepare();
-                    mPlayer.setVolume(100,100);
-                    mPlayer.start();
-                    //sp.play(soundId, 10, 10, 1, 0, 1f);
-                }
-                catch (Exception e) {
-                    System.out.println("xxxexception with sound");
-                    e.printStackTrace();
-                }
-*/
-                System.out.println("should play sound");
-                // send the tone to the "alarm" stream (classic beeps go there) with 50% volume
+                // send the tone to the "alarm" stream (classic beeps go there) with 100% volume
                 ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
                 toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 500); // 200 is duration in ms
 
@@ -201,13 +189,6 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onPause();
     }
-
-    //@Override
-    //protected void onNewIntent(Intent intent) {
-    //    super.onNewIntent(intent);
-    //    String message = intent.getStringExtra("message");
-    //    System.out.println("Intent message:" + message);
-    //}
 
     private void getSummary() {
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -452,5 +433,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             System.out.println("isLockTaskPermitted: NOT ALLOWED");
         }
-    } */
+    }
+    */
 }

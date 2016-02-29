@@ -3,77 +3,15 @@
     android:background="@drawable/app_background"
     android:layout_height="match_parent"
     >
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal" android:layout_width="match_parent"
-        android:gravity="center_vertical"
-        android:id="@+id/customactionbar"
-        android:background="@drawable/action_bar_background"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
-            android:id="@+id/showactivity"
-            android:src="@drawable/schedule_maintenance_heading_text" />
-
-        <TextView
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:id="@+id/actionspace1"
-            android:text=""
-            android:textSize="95px" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/homeButton"
-            android:background="@drawable/home_button_white"
-            android:onClick="goback" />
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:id="@+id/actionspace2"
-            android:text=""
-            android:textSize="95px" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/paymentButton"
-            android:onClick="schedulePayment"
-            android:background="@drawable/money_white" />
-
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:id="@+id/actionspace3"
-            android:text=""
-            android:textSize="95px" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/chatButton"
-            android:onClick="goToContact"
-            android:background="@drawable/chat_bubble_white" />
-
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:id="@+id/actionspace4"
-            android:text=""
-            android:textSize="95px" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/maintenanceButton"
-            android:background="@drawable/wrench_green" />
-    </LinearLayout>
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
+        ></include>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal" android:layout_width="match_parent"
         android:gravity="center"
-        android:layout_below="@+id/customactionbar"
+        android:layout_below="@+id/tool_bar"
         android:id="@+id/maintenanceBar"
         android:layout_height="85dp">
 
