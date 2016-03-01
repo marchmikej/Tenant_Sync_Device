@@ -37,6 +37,7 @@
         <activity
             android:name=".MaintenanceHome"
             android:label="@string/title_activity_maintenance_home"
+            android:theme="@style/AppTheme.NoActionBar">
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".EnterToken"
@@ -45,6 +46,7 @@
         <activity
             android:name=".DisplayMaintenance"
             android:label="@string/title_activity_display_maintenance"
+            android:theme="@style/AppTheme.NoActionBar">
             android:screenOrientation="portrait"></activity>
         <!-- [START gcm_receiver] -->
         <receiver
@@ -89,6 +91,7 @@
         <activity
             android:name=".ConversationHome"
             android:label="@string/title_activity_conversation_home"
+            android:theme="@style/AppTheme.NoActionBar">
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".CreateMaintenance"

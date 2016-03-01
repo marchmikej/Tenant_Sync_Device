@@ -55,10 +55,13 @@ public class ConversationHome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("mmm1");
         setContentView(R.layout.messaging_two);
+        System.out.println("mmm2");
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
         context = this;
+        System.out.println("mmm3");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         token = preferences.getString("securitytoken", "n/a");
         serial = preferences.getString("serial", "n/a");
@@ -79,8 +82,9 @@ public class ConversationHome extends AppCompatActivity {
                 sendMessage();
             }
         });
-
+        System.out.println("mmm4");
         getSummary();
+
     }
 
     // handler for received Intents for the "my-event" event
