@@ -296,7 +296,7 @@ public class PayRentForm extends AppCompatActivity {
 
                     params.put("card_number", card_number);
                     params.put("payment_type", paymentType);
-                    params.put("payment_amount", payment_amount);
+                    params.put("amount", payment_amount);
                     params.put("expiration", exp);
                     params.put("cvv2", cvv2);
                     params.put("account_holder", card_holder);
@@ -307,7 +307,7 @@ public class PayRentForm extends AppCompatActivity {
                     System.out.println("xxxpayment_amount: " + payment_amount);
                     System.out.println("xxxcheck_number: " + payment_amount);
                     params.put("payment_type", paymentType);
-                    params.put("payment_amount", payment_amount);
+                    params.put("amount", payment_amount);
                     params.put("routing_number", routing_number);
                     params.put("account_number", account_number);
                     params.put("account_holder", card_holder);

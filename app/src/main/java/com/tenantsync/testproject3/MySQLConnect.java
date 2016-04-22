@@ -22,7 +22,8 @@ import java.util.Map;
  * Created by Dad on 9/17/2015.
  */
 public class MySQLConnect {
-    public static final String URL_BASE= "https://device.tenantsync.com";
+    //public static final String URL_BASE= "https://device.tenantsync.com";
+    public static final String URL_BASE= "https://tenantsyncdev.com";
 
     public static final String API_BASE= URL_BASE + "/device-api/maintenance";
     public static final String API_SEND_MAINT_UPDATE= URL_BASE + "/device-api/maintenance";
@@ -53,7 +54,7 @@ public class MySQLConnect {
     public static final String DISPLAY_MAINT_ID= "display_maintenance_id";
     public static final String SEND_RENT_CONFIRMATION= "send_rent_data";
     public static final String RENT_CONFIRMATION_ERROR= "rent_payment_error";
-    public static final String RELEASE_NUMBER= "1.0";
+    public static final String RELEASE_NUMBER= "1.1";
 
     public MySQLConnect() {
     }

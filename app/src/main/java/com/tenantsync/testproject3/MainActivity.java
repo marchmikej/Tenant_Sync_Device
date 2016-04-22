@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if(incomingMessage.startsWith("UNPINDEVICE:")) {
                 // New Message Received
-                //stopLockTask();
+                stopLockTask();
             }
             if(incomingMessage.startsWith("PLAYSOUND:")) {
                 // Going to play chime
@@ -317,6 +317,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToMaintenance(View view) {
         Intent intent = new Intent(this, MaintenanceHome.class);
+        //Intent intent = new Intent(this, WebInterface.class);
         startActivity(intent);
     }
 
@@ -412,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-/*
+
      // This puts the app in kiosk mode if we are a device owner
     private void provisionOwner() {
 
@@ -434,5 +435,4 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("isLockTaskPermitted: NOT ALLOWED");
         }
     }
-    */
 }
