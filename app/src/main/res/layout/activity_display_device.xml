@@ -68,7 +68,19 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/contactButton"
+        android:id="@+id/verifyButton"
         android:text="CHECK FOR UPDATE"
         android:onClick="goToUpdate" />
+    <EditText
+        android:id="@+id/verifyText"
+        android:layout_width="220dp"
+        android:layout_height="80dp"
+        android:visibility="gone" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/updateDevice"
+        android:text="UPDATE DEVICE"
+        android:onClick="updateDevice"
+        android:visibility="gone" />
 </LinearLayout>

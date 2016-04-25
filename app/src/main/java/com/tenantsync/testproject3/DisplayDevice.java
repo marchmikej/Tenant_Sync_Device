@@ -18,8 +18,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.tenantsync.testproject3.util.SystemUiHider;
 
 import java.io.BufferedInputStream;
@@ -34,11 +43,16 @@ import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DisplayDevice extends AppCompatActivity {
 
     private Context context;
     private Toolbar toolbar;
+    private String token;
+    private String serial;
+    private String updateAPK;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +61,10 @@ public class DisplayDevice extends AppCompatActivity {
         context = this;
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
+        updateAPK="nofilegiven.txt";
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String token = preferences.getString("securitytoken", "n/a");
-        String serial = preferences.getString("serial", "n/a");
+        token = preferences.getString("securitytoken", "n/a");
+        serial = preferences.getString("serial", "n/a");
         TextView releaseView = (TextView) findViewById(R.id.releasenumber);
         releaseView.setText(MySQLConnect.RELEASE_NUMBER);
         TextView tokenView = (TextView) findViewById(R.id.token);
@@ -119,10 +134,29 @@ public class DisplayDevice extends AppCompatActivity {
     }
 
     public void goToUpdate(View view) {
-        String url = "https://tenantsyncdev.com/images/app-debug.apk";
-        new ApkUpdateAsyncTask().execute(url);
+        //String url = "https://tenantsyncdev.com/images/app-debug.apk";
+        //new ApkUpdateAsyncTask().execute(url);
+
+        Button verifyButton = (Button) findViewById(R.id.verifyButton);
+        verifyButton.setVisibility(View.GONE);
+
+        verifyUpdate();
 
         System.out.println("yyy check for update button hit");
+    }
+
+    public void updateDevice(View view) {
+
+        Button verifyButton = (Button) findViewById(R.id.updateDevice);
+        verifyButton.setVisibility(View.GONE);
+
+        EditText verifyText = (EditText) findViewById(R.id.verifyText);
+        if(verifyText.getText().toString().equals(updateAPK)) {
+            String url = MySQLConnect.URL_BASE + "/images/" + updateAPK;
+            new ApkUpdateAsyncTask().execute(url);
+        } else {
+            Toast.makeText(getApplicationContext(),"Invalid Verification",Toast.LENGTH_LONG).show();
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -136,6 +170,60 @@ public class DisplayDevice extends AppCompatActivity {
             Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             sendBroadcast(closeDialog);
         }
+    }
+
+    private void verifyUpdate() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest myReq = new StringRequest(Request.Method.POST,
+                MySQLConnect.API_VERIFY_UPGRADE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        System.out.println("Response is: " + response.toString());
+                        if(response.toString().contains(".apk")) {
+                            updateAPK=response.toString();
+                            Button verifyButton = (Button) findViewById(R.id.updateDevice);
+                            verifyButton.setVisibility(View.VISIBLE);
+                            EditText verifyText = (EditText) findViewById(R.id.verifyText);
+                            verifyText.setVisibility(View.VISIBLE);
+                        } else if(response.toString().contains("NOUPDATE")) {
+                            Toast.makeText(getApplicationContext(),"No Update Available",Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(),"Error Checking Update",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("That didn't work!");
+                        Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
+                    }
+                }) {
+
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                System.out.println("version: " + MySQLConnect.RELEASE_NUMBER);
+                params.put("version", MySQLConnect.RELEASE_NUMBER);
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws
+                    com.android.volley.AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                System.out.println("serial is: '" + serial + "'");
+                System.out.println("token is: '" + token + "'");
+                params.put("token", token);
+                params.put("serial", serial);
+                return params;
+            };
+        };
+        queue.add(myReq);
     }
 
     public class ApkUpdateAsyncTask extends AsyncTask<String , Void, String> {
@@ -229,7 +317,6 @@ public class DisplayDevice extends AppCompatActivity {
             intent.setDataAndType(Uri.fromFile(fileLocation),
                     "application/vnd.android.package-archive");
             context.startActivity(intent);
-
 
             return "whatever";
         }

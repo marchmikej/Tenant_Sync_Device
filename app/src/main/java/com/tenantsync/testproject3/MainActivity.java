@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         //Puts app in kiosk mode
-        //provisionOwner();
+        provisionOwner();
         setContentView(R.layout.activity_main_three);
         // Keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
