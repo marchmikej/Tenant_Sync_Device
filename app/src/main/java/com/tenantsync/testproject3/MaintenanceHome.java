@@ -140,7 +140,6 @@ public class MaintenanceHome extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("zzzResponse is: " + response.toString());
                         handleMaintenanceAll(response.toString());
                     }
                 },
@@ -156,8 +155,6 @@ public class MaintenanceHome extends AppCompatActivity {
             public Map<String, String> getHeaders() throws
                     com.android.volley.AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                System.out.println("zzzserial is: '" + serial + "'");
-                System.out.println("zzztoken is: '" + token + "'");
                 params.put("token", token);
                 params.put("serial", serial);
                 return params;
@@ -180,8 +177,6 @@ public class MaintenanceHome extends AppCompatActivity {
 
         try {
             JSONObject json = new JSONObject(incomingMaintenance);
-            System.out.println("zzzjsonObject: " + json.toString());
-            System.out.println("zzzjson size: " + json.length());
             valuesMaintenance = new MaintenaceRequest[json.length()];
             Iterator<String> keys = json.keys();
             int i=0;
@@ -194,37 +189,27 @@ public class MaintenanceHome extends AppCompatActivity {
 
                 String key = keys.next();
                 JSONObject jsonTempArray = json.getJSONObject(key);
-                System.out.println("zzztemparray " + key + ": " + jsonTempArray.toString());
                 if(!jsonTempArray.isNull("request")) {
-                    System.out.println("zzzrequest is: " + jsonTempArray.getString("request"));
                     incomingRequest=jsonTempArray.getString("request");
                 }
                 if(!jsonTempArray.isNull("response")) {
-                    System.out.println("zzzresponse is: " + jsonTempArray.getString("response"));
                     incomingResponse=(jsonTempArray.getString("response"));
                 }
                 if(!jsonTempArray.isNull("status")) {
-                    System.out.println("zzzstatus is: " + jsonTempArray.getString("status"));
                     incomingStatus=(jsonTempArray.getString("status"));
                 }
                 if(!jsonTempArray.isNull("appointment")) {
-                    System.out.println("zzzappointment is: " + jsonTempArray.getString("appointment"));
                     incomingAppointment=(jsonTempArray.getString("appointment"));
                 }
                 if(!jsonTempArray.isNull("id")) {
-                    System.out.println("zzzid is: " + jsonTempArray.getString("id"));
                     incomingId=(jsonTempArray.getString("id"));
                 }
                 valuesMaintenance[i] = new MaintenaceRequest(incomingRequest, incomingResponse, incomingStatus, incomingAppointment, incomingId);
                 i++;
             }
-            System.out.println("aaa6");
             myMaintenanceListAdapter adapter = new myMaintenanceListAdapter(this, valuesMaintenance);
-            System.out.println("aaa7");
             ListView mainListView = (ListView) findViewById(R.id.list_maintenance);
-            System.out.println("aaa8");
             mainListView.setAdapter(adapter);
-            System.out.println("aaa9");
         }
         catch (Exception e) {
             System.out.println("zzzexception in jsonkey");
@@ -251,33 +236,28 @@ public class MaintenanceHome extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_home) {
-            System.out.println("bbbhome");
             finish();
             return true;
         }
         if (id == R.id.action_payment) {
-            System.out.println("bbbpayment");
             Intent intent = new Intent(this, PayRentForm.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_contact) {
-            System.out.println("bbbcontact");
             Intent intent = new Intent(this, ConversationHome.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_maintenance) {
-            System.out.println("bbbmaintenance");
             Intent intent = new Intent(this, MaintenanceHome.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_info) {
-            System.out.println("bbbinfo");
             Intent intent = new Intent(this, DisplayDevice.class);
             startActivity(intent);
             finish();
@@ -285,21 +265,6 @@ public class MaintenanceHome extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-/*
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        MaintenaceRequest item = (MaintenaceRequest) getListAdapter().getItem(position);
-        if(!item.getRequest().equals("Loading ...") && !item.getRequest().equals("No Outstanding Requests")) {
-            Intent intent = new Intent(this, DisplayMaintenance.class);
-            intent.putExtra(MySQLConnect.DISPLAY_REQUEST, item.request);
-            intent.putExtra(MySQLConnect.DISPLAY_RESPONSE, item.response);
-            intent.putExtra(MySQLConnect.DISPLAY_APPTIME, item.appointment);
-            intent.putExtra(MySQLConnect.DISPLAY_MAINT_STATUS, item.status);
-            intent.putExtra(MySQLConnect.DISPLAY_MAINT_ID, item.id);
-            startActivity(intent);
-        }
-    }
-*/
 
     /////////////////////////////////////////////////////////////////////////////
     // This function disables dialogues which keeps the power from turning off //

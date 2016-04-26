@@ -56,10 +56,8 @@ public class DisplayMaintenance extends AppCompatActivity {
         String response = intent.getStringExtra(MySQLConnect.DISPLAY_RESPONSE);
         String apptime = intent.getStringExtra(MySQLConnect.DISPLAY_APPTIME);
         String mainStatus = intent.getStringExtra(MySQLConnect.DISPLAY_MAINT_STATUS);
-        System.out.println("bbbMAINT_STATUS is: " + mainStatus);
         // HIDES REJECT AND ACCEPT BUTTONS IF THEY ARE NOT NEEDED
         if(!mainStatus.equals("open")) {
-            System.out.println("bbbButtons not needed.");
             setContentView(R.layout.activity_display_maintenance_nobutton);
         } else {
             setContentView(R.layout.activity_display_maintenance_two);
@@ -128,21 +126,17 @@ public class DisplayMaintenance extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url=MySQLConnect.API_SEND_MAINT_UPDATE + "/" + id;
-        System.out.println("bbburl: " + url);
         StringRequest myReq = new StringRequest(Request.Method.POST,
                 url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        System.out.println("bbbResponse is: " + response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("bbbThat didn't work!");
-                        System.out.println("bbbError: " + error.getMessage());
                         Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
                     }
                 }) {
@@ -150,7 +144,6 @@ public class DisplayMaintenance extends AppCompatActivity {
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                System.out.println("bbbputting: " + statusUpdate);
                 params.put("status",statusUpdate);
 
                 return params;
@@ -160,8 +153,6 @@ public class DisplayMaintenance extends AppCompatActivity {
             public Map<String, String> getHeaders() throws
                     com.android.volley.AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                System.out.println("bbbserial is: '" + serial + "'");
-                System.out.println("bbbtoken is: '" + token + "'");
                 params.put("token", token);
                 params.put("serial", serial);
                 return params;
@@ -178,14 +169,12 @@ public class DisplayMaintenance extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("bbbResponse is: " + response.toString());
                         finish();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("bbbError communicating with maintenance API");
                         Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
                         finish();
                     }
@@ -194,8 +183,6 @@ public class DisplayMaintenance extends AppCompatActivity {
             public Map<String, String> getHeaders() throws
                     com.android.volley.AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                System.out.println("bbbserial is: '" + serial + "'");
-                System.out.println("bbbtoken is: '" + token + "'");
                 params.put("token", token);
                 params.put("serial", serial);
                 return params;
@@ -220,33 +207,28 @@ public class DisplayMaintenance extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_home) {
-            System.out.println("bbbhome");
             finish();
             return true;
         }
         if (id == R.id.action_payment) {
-            System.out.println("bbbpayment");
             Intent intent = new Intent(this, PayRentForm.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_contact) {
-            System.out.println("bbbcontact");
             Intent intent = new Intent(this, ConversationHome.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_maintenance) {
-            System.out.println("bbbmaintenance");
             Intent intent = new Intent(this, MaintenanceHome.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_info) {
-            System.out.println("bbbinfo");
             Intent intent = new Intent(this, DisplayDevice.class);
             startActivity(intent);
             finish();

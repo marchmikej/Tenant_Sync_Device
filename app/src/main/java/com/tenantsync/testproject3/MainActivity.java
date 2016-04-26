@@ -227,40 +227,25 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Incoming Summary: " + incomingSummary);
         try {
             JSONObject json = new JSONObject(incomingSummary);
-            System.out.println("jsonObject: " + json.toString());
-            System.out.println("json size: " + json.length());
             Iterator<String> keys = json.keys();
             int numberOfTickets = 0;
             int numberOfMessages = 0;
             int rentStatus = 0;
             while(keys.hasNext()){
                 String key = keys.next();
-                System.out.println("Key " + key);
                 if(!json.isNull(key)) {
                     if(key.equals("status")) {
                         json.getString(key);
-                        System.out.println("mmmstatus_id is: " + json.getString(key));
                     }
                     if(key.equals("messages")) {
                         numberOfMessages=Integer.parseInt(json.getString(key));
-                        /*
-                        JSONObject jsonTempArray = json.getJSONObject(key);
-                        System.out.println("Temparray " + key + ": " + jsonTempArray.toString());
-                        Iterator<String> messageKeys = jsonTempArray.keys();
-                        while(messageKeys.hasNext()) {
-                            numberOfMessages++;
-                            String messageKey = messageKeys.next();
-                        }
-                        */
                     }
                     if(key.equals("tickets")) {
                         JSONObject jsonTempArray = json.getJSONObject(key);
-                        System.out.println("Temparray " + key + ": " + jsonTempArray.toString());
                         Iterator<String> messageKeys = jsonTempArray.keys();
                         while(messageKeys.hasNext()) {
                             numberOfTickets++;
                             String messageKey = messageKeys.next();
-                            System.out.println("ticketsKey: " + messageKey);
                         }
                     }
                     if(key.equals("maintenanceRequests")) {
@@ -268,7 +253,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     if(key.equals("alarm_id")) {
                         json.getString(key);
-                        System.out.println("alarm_id is: " + json.getString(key));
                         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
                         setContentView(R.layout.activity_main_three);
                         if(json.getInt(key)==0) {
@@ -292,7 +276,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-            System.out.println("Number of tickets: " + numberOfTickets);
             if (numberOfTickets > 0) {
                 LinearLayout maintenanceList = (LinearLayout) findViewById(R.id.maintenanceButtonList);
                 maintenanceList.setVisibility(View.VISIBLE);
@@ -307,7 +290,6 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayout noNewMessageList = (LinearLayout) findViewById(R.id.noNewMessageButtonList);
                 noNewMessageList.setVisibility(View.GONE);
             }
-            System.out.println("Number of messages: " + numberOfMessages);
         }
         catch (Exception e) {
             System.out.println("exception in json");

@@ -33,7 +33,6 @@ public class AppContext extends Application {
     }
 
     public PowerManager.WakeLock getWakeLock() {
-        System.out.println("In AppContext getWakeLock");
         if(wakeLock == null) {
             System.out.println("In AppContext getWakeLock part 2");
             // lazy loading: first call, create wakeLock via PowerManager.

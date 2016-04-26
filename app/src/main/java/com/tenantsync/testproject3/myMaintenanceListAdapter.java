@@ -33,13 +33,10 @@ public class myMaintenanceListAdapter extends ArrayAdapter<MaintenaceRequest> {
 
     public myMaintenanceListAdapter(Context context, MaintenaceRequest[] values) {
         super(context, R.layout.maintenance_list_display, values);
-        System.out.println("aaa1");
         this.context = context;
-        System.out.println("aaa2");
         this.values = values;
-        System.out.println("aaa3");
         serial=android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-        System.out.println("aaa4");
+
         // This is getting the internal security token of the device this is done at initial boot of app
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         token = preferences.getString("securitytoken", "n/a");
@@ -47,7 +44,6 @@ public class myMaintenanceListAdapter extends ArrayAdapter<MaintenaceRequest> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        System.out.println("aaa5");
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView=convertView;
@@ -59,12 +55,10 @@ public class myMaintenanceListAdapter extends ArrayAdapter<MaintenaceRequest> {
                 @Override
                 public void onClick(View v) {
                     //do something
-                    System.out.println("zzzHIMIKE!!!");
                     values[position].status="reschedule";
                     notifyDataSetChanged();
                     RequestQueue queue = Volley.newRequestQueue(context);
                     String url=MySQLConnect.API_SEND_MAINT_UPDATE + "/" + values[position].id;
-                    System.out.println("bbburl: " + url);
                     StringRequest myReq = new StringRequest(Request.Method.POST,
                             url,
                             new Response.Listener<String>() {
@@ -86,7 +80,6 @@ public class myMaintenanceListAdapter extends ArrayAdapter<MaintenaceRequest> {
                         @Override
                         protected Map<String,String> getParams(){
                             Map<String,String> params = new HashMap<String, String>();
-                            System.out.println("bbbputting: " + values[position].status);
                             params.put("status", values[position].status);
 
                             return params;
@@ -96,8 +89,6 @@ public class myMaintenanceListAdapter extends ArrayAdapter<MaintenaceRequest> {
                         public Map<String, String> getHeaders() throws
                                 com.android.volley.AuthFailureError {
                             Map<String, String> params = new HashMap<String, String>();
-                            System.out.println("bbbserial is: '" + serial + "'");
-                            System.out.println("bbbtoken is: '" + token + "'");
                             params.put("token", token);
                             params.put("serial", serial);
                             return params;
@@ -123,14 +114,12 @@ public class myMaintenanceListAdapter extends ArrayAdapter<MaintenaceRequest> {
 
                         RequestQueue queue = Volley.newRequestQueue(context);
                         String url=MySQLConnect.API_SEND_MAINT_UPDATE + "/" + values[position].id;
-                        System.out.println("bbburl: " + url);
                         StringRequest myReq = new StringRequest(Request.Method.POST,
                                 url,
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
                                         // Display the first 500 characters of the response string.
-                                        System.out.println("bbbResponse is: " + response.toString());
                                     }
                                 },
                                 new Response.ErrorListener() {
@@ -145,7 +134,6 @@ public class myMaintenanceListAdapter extends ArrayAdapter<MaintenaceRequest> {
                             @Override
                             protected Map<String,String> getParams(){
                                 Map<String,String> params = new HashMap<String, String>();
-                                System.out.println("bbbputting: " + values[position].status);
                                 params.put("status", values[position].status);
 
                                 return params;
@@ -155,8 +143,6 @@ public class myMaintenanceListAdapter extends ArrayAdapter<MaintenaceRequest> {
                             public Map<String, String> getHeaders() throws
                                     com.android.volley.AuthFailureError {
                                 Map<String, String> params = new HashMap<String, String>();
-                                System.out.println("bbbserial is: '" + serial + "'");
-                                System.out.println("bbbtoken is: '" + token + "'");
                                 params.put("token", token);
                                 params.put("serial", serial);
                                 return params;
@@ -171,16 +157,11 @@ public class myMaintenanceListAdapter extends ArrayAdapter<MaintenaceRequest> {
                 rejectButton.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        //do something
-                        System.out.println("zzzHIMIKE!!!");
-                        System.out.println("zzzserial: " + serial);
-                        System.out.println("zzztoken: " + token);
                         values[position].status="rejected";
                         notifyDataSetChanged();
 
                         RequestQueue queue = Volley.newRequestQueue(context);
                         String url=MySQLConnect.API_SEND_MAINT_UPDATE + "/" + values[position].id;
-                        System.out.println("bbburl: " + url);
                         StringRequest myReq = new StringRequest(Request.Method.POST,
                                 url,
                                 new Response.Listener<String>() {
@@ -202,7 +183,6 @@ public class myMaintenanceListAdapter extends ArrayAdapter<MaintenaceRequest> {
                             @Override
                             protected Map<String,String> getParams(){
                                 Map<String,String> params = new HashMap<String, String>();
-                                System.out.println("bbbputting: " + values[position].status);
                                 params.put("status", values[position].status);
 
                                 return params;
@@ -212,8 +192,6 @@ public class myMaintenanceListAdapter extends ArrayAdapter<MaintenaceRequest> {
                             public Map<String, String> getHeaders() throws
                                     com.android.volley.AuthFailureError {
                                 Map<String, String> params = new HashMap<String, String>();
-                                System.out.println("bbbserial is: '" + serial + "'");
-                                System.out.println("bbbtoken is: '" + token + "'");
                                 params.put("token", token);
                                 params.put("serial", serial);
                                 return params;

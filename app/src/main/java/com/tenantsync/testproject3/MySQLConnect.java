@@ -23,9 +23,9 @@ import java.util.Map;
  */
 public class MySQLConnect {
     //public static final String URL_BASE= "https://device.tenantsync.com";
-    //public static final String URL_BASE= "https://tenantsyncdev.com";
+    public static final String URL_BASE= "https://tenantsyncdev.com";
 
-    public static final String URL_BASE= "https://portal.tenantsync.com";
+    //public static final String URL_BASE= "https://portal.tenantsync.com";
 
     public static final String API_BASE= URL_BASE + "/device-api/maintenance";
     public static final String API_SEND_MAINT_UPDATE= URL_BASE + "/device-api/maintenance";
@@ -34,22 +34,7 @@ public class MySQLConnect {
     public static final String API_SEND_RENT= URL_BASE + "/device-api/pay";
     public static final String API_RENT_STATUS= URL_BASE + "/device-api/rent-status";
     public static final String API_VERIFY_UPGRADE= URL_BASE + "/device-api/verifyupgrade";
-    /*
-    public static final String API_BASE= "https://device.tenantsync.com/api/maintenance";
-    public static final String API_SEND_MAINT_UPDATE= "https://device.tenantsync.com/api/maintenance";
-    public static final String API_SUMMARY= "https://device.tenantsync.com/api/device";
-    public static final String API_SEND_MESSAGE= "https://device.tenantsync.com/api/message";
-    public static final String API_SEND_RENT= "https://device.tenantsync.com/api/pay";
-    public static final String API_RENT_STATUS= "https://device.tenantsync.com/api/rent-status";
-    */
-/*
-    public static final String API_BASE= "https://www.tenantsyncdev.com/api/maintenance";
-    public static final String API_SEND_MAINT_UPDATE= "https://www.tenantsyncdev.com/api/maintenance";
-    public static final String API_SUMMARY= "https://www.tenantsyncdev.com/api/device";
-    public static final String API_SEND_MESSAGE= "https://www.tenantsyncdev.com/api/message";
-    public static final String API_SEND_RENT= "https://www.tenantsyncdev.com/api/pay";
-    public static final String API_RENT_STATUS= "https://www.tenantsyncdev.com/api/rent-status";
-    */
+
     public static final String DISPLAY_REQUEST= "display_request";
     public static final String DISPLAY_RESPONSE= "display_response";
     public static final String DISPLAY_APPTIME= "display_apptime";

@@ -55,13 +55,10 @@ public class ConversationHome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("mmm1");
         setContentView(R.layout.messaging_two);
-        System.out.println("mmm2");
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
         context = this;
-        System.out.println("mmm3");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         token = preferences.getString("securitytoken", "n/a");
         serial = preferences.getString("serial", "n/a");
@@ -82,7 +79,6 @@ public class ConversationHome extends AppCompatActivity {
                 sendMessage();
             }
         });
-        System.out.println("mmm4");
         getSummary();
 
     }
@@ -96,7 +92,6 @@ public class ConversationHome extends AppCompatActivity {
             if(message.startsWith("NEWMESSAGE:")) {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Calendar cal = Calendar.getInstance();
-                System.out.println("xxxdate: " + dateFormat.format(cal.getTime())); //2014/08/06 16:00:22
                 messageAdapter.addMessage(new MessageContain(message.substring(12), MessageAdapter.DIRECTION_OUTGOING, dateFormat.format(cal.getTime())));
             }
         }
@@ -168,17 +163,14 @@ public class ConversationHome extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        System.out.println("Response is: " + response.toString());
                         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Calendar cal = Calendar.getInstance();
-                        System.out.println("xxxdate: " + dateFormat.format(cal.getTime())); //2014/08/06 16:00:22
                         messageAdapter.addMessage(new MessageContain(messageBody, MessageAdapter.DIRECTION_INCOMING, dateFormat.format(cal.getTime())));
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("That didn't work!");
                         Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
                     }
                 }) {
@@ -186,8 +178,6 @@ public class ConversationHome extends AppCompatActivity {
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                System.out.println("putting: " + messageBody);
-                System.out.println("update_key: " + strDate);
                 params.put("message", messageBody);
                 params.put("update_key",strDate);
 
@@ -198,8 +188,6 @@ public class ConversationHome extends AppCompatActivity {
             public Map<String, String> getHeaders() throws
                     com.android.volley.AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                System.out.println("serial is: '" + serial + "'");
-                System.out.println("token is: '" + token + "'");
                 params.put("token", token);
                 params.put("serial", serial);
                 return params;
@@ -216,14 +204,12 @@ public class ConversationHome extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("Response is: " + response.toString());
                         handleSummary(response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("Error communicating with maintenance API");
                         Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
                     }
                 }) {
@@ -231,8 +217,6 @@ public class ConversationHome extends AppCompatActivity {
             public Map<String, String> getHeaders() throws
                     com.android.volley.AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                System.out.println("serial is: '" + serial + "'");
-                System.out.println("token is: '" + token + "'");
                 params.put("token", token);
                 params.put("serial", serial);
                 return params;
@@ -242,14 +226,10 @@ public class ConversationHome extends AppCompatActivity {
     }
 
     private void handleSummary(String incomingSummary) {
-        System.out.println("Incoming Summary: " + incomingSummary);
         try {
             JSONArray json = new JSONArray(incomingSummary);
-            System.out.println("xxjsonObject: " + json.toString());
-            System.out.println("xxjson size: " + json.length());
             for(int i=0;i<json.length();i++) {
                 JSONObject jsonMessageObject = json.getJSONObject(i);
-                System.out.println("jsonMArray: " + jsonMessageObject.toString());
                 String messageBody="";
                 if(!jsonMessageObject.isNull("body")) {
                     messageBody=jsonMessageObject.getString("body");
@@ -263,7 +243,6 @@ public class ConversationHome extends AppCompatActivity {
                 String created_at="";
                 if(!jsonMessageObject.isNull("created_at")) {
                     created_at =  jsonMessageObject.getString("created_at");
-                    System.out.println("xxxcreated_at: " + created_at);
                     year = created_at.substring(0, 4);
                     month = created_at.substring(5,7);
                     day = created_at.substring(8,10);
@@ -272,7 +251,6 @@ public class ConversationHome extends AppCompatActivity {
                 }
 
                 if(!jsonMessageObject.isNull("from_device")) {
-                    System.out.println("xxxfrom_device: " + jsonMessageObject.getInt("from_device"));
                     if (jsonMessageObject.getInt("from_device")== 0) {
                         messageAdapter.addMessage(new MessageContain(messageBody, MessageAdapter.DIRECTION_OUTGOING, created_at));
                     } else {
@@ -285,7 +263,6 @@ public class ConversationHome extends AppCompatActivity {
             }
         }
         catch (Exception e) {
-            System.out.println("exception in json");
             e.printStackTrace();
         }
     }
@@ -306,33 +283,28 @@ public class ConversationHome extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_home) {
-            System.out.println("bbbhome");
             finish();
             return true;
         }
         if (id == R.id.action_payment) {
-            System.out.println("bbbpayment");
             Intent intent = new Intent(this, PayRentForm.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_contact) {
-            System.out.println("bbbcontact");
             Intent intent = new Intent(this, ConversationHome.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_maintenance) {
-            System.out.println("bbbmaintenance");
             Intent intent = new Intent(this, MaintenanceHome.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_info) {
-            System.out.println("bbbinfo");
             Intent intent = new Intent(this, DisplayDevice.class);
             startActivity(intent);
             finish();

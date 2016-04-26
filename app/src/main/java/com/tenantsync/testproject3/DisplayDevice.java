@@ -98,33 +98,28 @@ public class DisplayDevice extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_home) {
-            System.out.println("bbbhome");
             finish();
             return true;
         }
         if (id == R.id.action_payment) {
-            System.out.println("bbbpayment");
             Intent intent = new Intent(this, PayRentForm.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_contact) {
-            System.out.println("bbbcontact");
             Intent intent = new Intent(this, ConversationHome.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_maintenance) {
-            System.out.println("bbbmaintenance");
             Intent intent = new Intent(this, MaintenanceHome.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_info) {
-            System.out.println("bbbinfo");
             Intent intent = new Intent(this, DisplayDevice.class);
             startActivity(intent);
             finish();
@@ -141,8 +136,6 @@ public class DisplayDevice extends AppCompatActivity {
         verifyButton.setVisibility(View.GONE);
 
         verifyUpdate();
-
-        System.out.println("yyy check for update button hit");
     }
 
     public void updateDevice(View view) {
@@ -181,7 +174,6 @@ public class DisplayDevice extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        System.out.println("Response is: " + response.toString());
                         if(response.toString().contains(".apk")) {
                             updateAPK=response.toString();
                             Button verifyButton = (Button) findViewById(R.id.updateDevice);
@@ -198,7 +190,6 @@ public class DisplayDevice extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("That didn't work!");
                         Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
                     }
                 }) {
@@ -206,7 +197,6 @@ public class DisplayDevice extends AppCompatActivity {
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                System.out.println("version: " + MySQLConnect.RELEASE_NUMBER);
                 params.put("version", MySQLConnect.RELEASE_NUMBER);
 
                 return params;
@@ -216,8 +206,6 @@ public class DisplayDevice extends AppCompatActivity {
             public Map<String, String> getHeaders() throws
                     com.android.volley.AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                System.out.println("serial is: '" + serial + "'");
-                System.out.println("token is: '" + token + "'");
                 params.put("token", token);
                 params.put("serial", serial);
                 return params;
@@ -231,51 +219,6 @@ public class DisplayDevice extends AppCompatActivity {
         public ApkUpdateAsyncTask(){}
 
         protected String doInBackground(String... urls){
-/*
-            String path = Environment.getExternalStorageDirectory()+"/awesomeapp.apk";
-            System.out.println("yyy Original Path: " + path);
-            File file = new File(context.getFilesDir(), "newapk.apk");
-            System.out.println("yyy filename: " + file.toString());
-            //path = file.toString();
-            //String path = Environment.getDownloadCacheDirectory()+"/awesomeapp.apk";
-            System.out.println("yyy trying to run update in background");
-            //download the apk from your server and save to sdk card here
-            try{
-                URL url = new URL(urls[0]);
-                URLConnection connection = url.openConnection();
-                connection.connect();
-                System.out.println("yyy 111");
-                System.out.println("yyy: " + urls[0]);
-                System.out.println("yyy: " + path);
-                // download the file
-                InputStream input = new BufferedInputStream(url.openStream());
-                OutputStream output = new FileOutputStream(path);
-
-
-
-                System.out.println("yyy 222");
-
-                byte data[] = new byte[1024];
-                int count;
-                while ((count = input.read(data)) != -1)
-                {
-                    output.write(data, 0, count);
-                }
-
-                System.out.println("yyy 333");
-
-                output.flush();
-                output.close();
-                input.close();
-                System.out.println("yyy closing input");
-            }catch(Exception e)
-            {
-                System.out.println("yyy exception1");
-                Log.e("YOUR_APP_LOG_TAG", "yyy I got an error", e);
-                System.out.println(e.toString());
-            }
-            return path;
-            */
 
             String fileName = "tmp.apk";
             try {
@@ -283,12 +226,8 @@ public class DisplayDevice extends AppCompatActivity {
                 URL url = new URL(urls[0]);
                 URLConnection connection = url.openConnection();
                 connection.connect();
-                System.out.println("yyy 111");
-                System.out.println("yyy: " + urls[0]);
                 // download the file
                 InputStream input = new BufferedInputStream(url.openStream());
-
-                System.out.println("yyy 222");
 
                 byte data[] = new byte[1024];
                 int count;
@@ -297,17 +236,12 @@ public class DisplayDevice extends AppCompatActivity {
                     output.write(data, 0, count);
                 }
 
-                System.out.println("yyy 333");
-
                 output.flush();
                 output.close();
                 input.close();
-                System.out.println("yyy closing input");
             } catch(Exception e)
             {
-                System.out.println("yyy exception1");
-                Log.e("YOUR_APP_LOG_TAG", "yyy I got an error", e);
-                System.out.println(e.toString());
+                Log.e("TENANTSYNC", "yyy I got an error", e);
             }
 // write the .apk content here ... flush() and close()
 
@@ -324,44 +258,7 @@ public class DisplayDevice extends AppCompatActivity {
         @Override
         protected void onPostExecute(String path)
         {
-            /*  This is how you install through the Play Store
-            Intent goToMarket = new Intent(Intent.ACTION_VIEW)
-                    .setData(Uri.parse("market://details?id=com.example.yourapp"));
-            startActivity(goToMarket);
-            */
 
-            /*
-            Intent promptInstall = new Intent(Intent.ACTION_VIEW)
-                    .setDataAndType(Uri.parse("file:///" + path),
-                            "application/vnd.android.package-archive");
-            startActivity(promptInstall);
-            */
-
-
-            /*
-            Process process = null;
-            System.out.println("yyy post execute");
-            // call to superuser command, pipe install updated APK without writing over files/DB
-            try
-            {
-                process = Runtime.getRuntime().exec("/system/xbin/  su");
-                System.out.println("yyy inbetween1");
-                DataOutputStream outs = new DataOutputStream(process.getOutputStream());
-
-                System.out.println("yyy inbetween2");
-
-                String cmd = "pm install -r "+path;
-
-                outs.writeBytes(cmd+"\n");
-                System.out.println("yyy should be over");
-            }
-            catch (IOException e)
-            {
-                System.out.println("yyy exception2");
-                Log.e("YOUR_APP_LOG_TAG", "yyy I got an error", e);
-                System.out.println(e.toString());
-            }
-            */
         }
     }
 }

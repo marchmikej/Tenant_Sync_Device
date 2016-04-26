@@ -65,7 +65,6 @@ public class CreateMaintenance extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
             String incomingMessage = intent.getStringExtra("message");
-            System.out.println("xxxReceived GCM message: " + incomingMessage);
             if(incomingMessage.startsWith("NEWMESSAGE:")) {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
                 SharedPreferences.Editor edit = preferences.edit();
@@ -140,33 +139,28 @@ public class CreateMaintenance extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_home) {
-            System.out.println("bbbhome");
             finish();
             return true;
         }
         if (id == R.id.action_payment) {
-            System.out.println("bbbpayment");
             Intent intent = new Intent(this, PayRentForm.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_contact) {
-            System.out.println("bbbcontact");
             Intent intent = new Intent(this, ConversationHome.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_maintenance) {
-            System.out.println("bbbmaintenance");
             Intent intent = new Intent(this, MaintenanceHome.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_info) {
-            System.out.println("bbbinfo");
             Intent intent = new Intent(this, DisplayDevice.class);
             startActivity(intent);
             finish();
@@ -183,8 +177,6 @@ public class CreateMaintenance extends AppCompatActivity {
         strDate = sdfDate.format(now);
         Button maintButton = (Button) findViewById(R.id.submitNewMaintButton);
         maintButton.setVisibility(View.GONE);
-        System.out.println("request: " + messageBody);
-        System.out.println("request length: " + messageBody.length());
         if(messageBody.length()>0) {
             RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -194,14 +186,12 @@ public class CreateMaintenance extends AppCompatActivity {
                         @Override
                         public void onResponse(String response) {
                             // Display the first 500 characters of the response string.
-                            System.out.println("Response is: " + response.toString());
                             returnToMaintenance();
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            System.out.println("That didn't work!");
                             Toast.makeText(getApplicationContext(),"Network Error",Toast.LENGTH_LONG).show();
                             returnToMaintenance();
                         }
@@ -210,8 +200,6 @@ public class CreateMaintenance extends AppCompatActivity {
                 @Override
                 protected Map<String,String> getParams(){
                     Map<String,String> params = new HashMap<String, String>();
-                    System.out.println("putting: " + messageBody);
-                    System.out.println("update_key: " + strDate);
                     params.put("message",messageBody);
                     params.put("update_key",strDate);
 
@@ -222,8 +210,6 @@ public class CreateMaintenance extends AppCompatActivity {
                 public Map<String, String> getHeaders() throws
                         com.android.volley.AuthFailureError {
                     Map<String, String> params = new HashMap<String, String>();
-                    System.out.println("serial is: '" + serial + "'");
-                    System.out.println("token is: '" + token + "'");
                     params.put("token", token);
                     params.put("serial", serial);
                     return params;

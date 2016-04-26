@@ -105,10 +105,8 @@ public class PayRentForm extends AppCompatActivity {
                         if(firstRun==0) {
                             firstRun++;
                         } else if(selection.equals("Credit")) {
-                                System.out.println("whoa1");
                                 //setContentView(R.layout.content_pay_rent_form_three);
                         } else if(selection.equals("Check")) {
-                            System.out.println("whoa2");
                             setContentView(R.layout.content_pay_rent_form_check);
                             toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
                             setSupportActionBar(toolbar);
@@ -271,7 +269,6 @@ public class PayRentForm extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        System.out.println("xxxResponse is: " + response.toString());
                         openConfirmationActivity(response.toString());
                     }
                 },
@@ -288,11 +285,6 @@ public class PayRentForm extends AppCompatActivity {
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
                 if(paymentType.equals("card")) {
-                    System.out.println("xxxexpiration: " + exp);
-                    System.out.println("xxxcard_number: " + card_number);
-                    System.out.println("xxxcvv2: " + cvv2);
-                    System.out.println("xxxcard_holder: " + card_holder);
-                    System.out.println("xxxpayment_amount: " + payment_amount);
 
                     params.put("card_number", card_number);
                     params.put("payment_type", paymentType);
@@ -301,11 +293,6 @@ public class PayRentForm extends AppCompatActivity {
                     params.put("cvv2", cvv2);
                     params.put("account_holder", card_holder);
                 } else if(paymentType.equals("check")) {
-                    System.out.println("xxxaccount_number: " + account_number);
-                    System.out.println("xxxrouting_number: " + routing_number);
-                    System.out.println("xxxaccount_holder: " + card_holder);
-                    System.out.println("xxxpayment_amount: " + payment_amount);
-                    System.out.println("xxxcheck_number: " + payment_amount);
                     params.put("payment_type", paymentType);
                     params.put("amount", payment_amount);
                     params.put("routing_number", routing_number);
@@ -321,8 +308,6 @@ public class PayRentForm extends AppCompatActivity {
             public Map<String, String> getHeaders() throws
                     com.android.volley.AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                System.out.println("serial is: '" + serial + "'");
-                System.out.println("token is: '" + token + "'");
                 params.put("token", token);
                 params.put("serial", serial);
                 return params;
@@ -336,7 +321,6 @@ public class PayRentForm extends AppCompatActivity {
     }
 
     private void rentStatus() {
-        System.out.println("xxxIn rent status");
         //Send message to server here
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -346,7 +330,6 @@ public class PayRentForm extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        System.out.println("xxxResponse is: " + response.toString());
                         handleRentStatus(response.toString());
                     }
                 },
@@ -362,8 +345,6 @@ public class PayRentForm extends AppCompatActivity {
             public Map<String, String> getHeaders() throws
                     com.android.volley.AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                System.out.println("serial is: '" + serial + "'");
-                System.out.println("token is: '" + token + "'");
                 params.put("token", token);
                 params.put("serial", serial);
                 return params;
@@ -383,22 +364,17 @@ public class PayRentForm extends AppCompatActivity {
     private void handleRentStatus(String incomingString) {
         try {
             JSONObject json = new JSONObject(incomingString);
-            System.out.println("xxxjsonObject: " + json.toString());
-            System.out.println("xxxjson size: " + json.length());
             if(!json.isNull("rent_amount")) {
-                System.out.println("xxxrent_amount is: " + json.getString("rent_amount"));
                 TextView rent_amount = (TextView)findViewById(R.id.monthlyrent);
                 rentAmount=json.getString("rent_amount");
                 rent_amount.setText("$" + rentAmount);
             }
             if(!json.isNull("balance_due")) {
-                System.out.println("xxxbalance_due is: " + json.getString("balance_due"));
                 TextView amount_due = (TextView)findViewById(R.id.amountdue);
                 balanceDue=json.getString("balance_due");
                 amount_due.setText("$" + balanceDue);
             }
         } catch (Exception e) {
-            System.out.println("xxxexception in json");
             e.printStackTrace();
             finish();
         }
@@ -420,33 +396,28 @@ public class PayRentForm extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_home) {
-            System.out.println("bbbhome");
             finish();
             return true;
         }
         if (id == R.id.action_payment) {
-            System.out.println("bbbpayment");
             Intent intent = new Intent(this, PayRentForm.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_contact) {
-            System.out.println("bbbcontact");
             Intent intent = new Intent(this, ConversationHome.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_maintenance) {
-            System.out.println("bbbmaintenance");
             Intent intent = new Intent(this, MaintenanceHome.class);
             startActivity(intent);
             finish();
             return true;
         }
         if (id == R.id.action_info) {
-            System.out.println("bbbinfo");
             Intent intent = new Intent(this, DisplayDevice.class);
             startActivity(intent);
             finish();
