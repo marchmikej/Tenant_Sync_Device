@@ -52,8 +52,11 @@
             android:background="@drawable/edittext_description_background"
             android:hint="Please provide a brief description of the problem."
             android:gravity="top"
+            android:maxLength="540"
             android:id="@+id/request"
             android:textColor="#e9ecea"
+            android:singleLine="true"
+            android:inputType="textEmailAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

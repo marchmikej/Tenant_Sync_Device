@@ -261,6 +261,7 @@ public class ConversationHome extends AppCompatActivity {
                     messageAdapter.addMessage(new MessageContain(messageBody, MessageAdapter.DIRECTION_OUTGOING, created_at));
                 }
             }
+            messageBodyField.setHint("Message...");
         }
         catch (Exception e) {
             e.printStackTrace();

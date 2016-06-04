@@ -245,6 +245,9 @@ public class DisplayDevice extends AppCompatActivity {
             }
 // write the .apk content here ... flush() and close()
 
+            // Unlock device
+            stopLockTask();
+
 // Now start the standard instalation window
             File fileLocation = new File(context.getFilesDir(), fileName);
             Intent intent = new Intent(Intent.ACTION_VIEW);

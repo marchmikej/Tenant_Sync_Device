@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class EnterToken extends AppCompatActivity {
@@ -24,6 +25,10 @@ public class EnterToken extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_enter_token);
+        Context context=this;
+        String serial=android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+        TextView serialText = (TextView) findViewById(R.id.serial);
+        serialText.setText(serial);
     }
 
     public void tokenEntered(View view) {

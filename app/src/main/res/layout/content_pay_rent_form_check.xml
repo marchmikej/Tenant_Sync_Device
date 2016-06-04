@@ -73,6 +73,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="30"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
             android:inputType="number"
             android:background="@android:color/transparent"
             android:id="@+id/paymentamount" />
@@ -111,6 +113,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="30"
+            android:singleLine="true"
+            android:inputType="textEmailAddress"
+            android:imeOptions="actionNext"
             android:background="@android:color/transparent"
             android:id="@+id/cardholder" />
     </LinearLayout>
@@ -149,6 +154,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:ems="30"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
             android:inputType="number"
             android:id="@+id/routingnumber" />
     </LinearLayout>
@@ -188,7 +195,9 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:ems="30"
+            android:imeOptions="actionNext"
             android:inputType="number"
+            android:singleLine="true"
             android:id="@+id/accountnumber" />
     </LinearLayout>
 
@@ -226,6 +235,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:ems="30"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
             android:inputType="number"
             android:id="@+id/checknumber" />
     </LinearLayout>

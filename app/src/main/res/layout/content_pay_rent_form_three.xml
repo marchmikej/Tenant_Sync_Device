@@ -28,7 +28,7 @@
             android:textSize="60sp"
             android:paddingLeft="26dp"
             android:textColor="#ffffff"
-            android:text="$0"/>
+            android:text="Loading..."/>
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -51,7 +51,7 @@
             android:textSize="60sp"
             android:paddingLeft="26dp"
             android:textColor="#ffffff"
-            android:text="$0"/>
+            android:text="Loading..."/>
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -93,7 +93,9 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:ems="30"
+            android:maxLength="8"
             android:inputType="numberDecimal"
             android:background="@android:color/transparent"
             android:id="@+id/paymentamount" />
@@ -132,6 +134,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="30"
+            android:maxLength="40"
+            android:singleLine="true"
+            android:inputType="textEmailAddress"
             android:background="@android:color/transparent"
             android:id="@+id/cardholder" />
     </LinearLayout>
@@ -171,6 +176,8 @@
             android:background="@android:color/transparent"
             android:ems="30"
             android:inputType="number"
+            android:singleLine="true"
+            android:maxLength="20"
             android:id="@+id/creditcardnumber" />
     </LinearLayout>
 
@@ -209,7 +216,10 @@
             android:paddingLeft="6dp"
             android:inputType="number"
             android:ems="2"
+            android:singleLine="true"
             android:hint="MM"
+            android:imeOptions="actionNext"
+            android:maxLength="2"
             android:textSize="20sp"
             android:background="@android:color/transparent"
             android:id="@+id/expirationMonth"
@@ -230,6 +240,9 @@
             android:ems="2"
             android:background="@android:color/transparent"
             android:hint="YY"
+            android:maxLength="2"
+            android:imeOptions="actionNext"
+            android:singleLine="true"
             android:textSize="20sp"
             android:id="@+id/expirationYear"
             android:gravity="left" />
@@ -245,10 +258,12 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:paddingLeft="6dp"
+            android:singleLine="true"
             android:textSize="20sp"
             android:background="@android:color/transparent"
             android:inputType="number"
             android:ems="3"
+            android:maxLength="5"
             android:hint="CVV"
             android:id="@+id/cvv" />
     </LinearLayout>

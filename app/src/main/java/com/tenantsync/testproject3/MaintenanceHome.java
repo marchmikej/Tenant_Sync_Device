@@ -49,6 +49,7 @@ public class MaintenanceHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maintenance_home_three);
         context=this;
+        System.out.println("zzz In MaintenancHome Oncreate");
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
         // This is how we will get the Android ID of the device
@@ -140,6 +141,7 @@ public class MaintenanceHome extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        System.out.println("Response is: " + response.toString());
                         handleMaintenanceAll(response.toString());
                     }
                 },
@@ -176,37 +178,73 @@ public class MaintenanceHome extends AppCompatActivity {
         }
 
         try {
-            JSONObject json = new JSONObject(incomingMaintenance);
-            valuesMaintenance = new MaintenaceRequest[json.length()];
-            Iterator<String> keys = json.keys();
-            int i=0;
-            while(keys.hasNext()){
-                String incomingResponse = "";
-                String incomingRequest= "";
-                String incomingStatus="";
-                String incomingAppointment="";
-                String incomingId="";
+            System.out.println("zzz a");
+            System.out.println("zzz first character: " + incomingMaintenance.substring(0,1));
+            if(incomingMaintenance.substring(0,1).equals("[")) {
+                JSONArray json = new JSONArray(incomingMaintenance);
+                System.out.println("zzz b");
+                valuesMaintenance = new MaintenaceRequest[json.length()];
+                for (int i = 0; i < json.length(); i++) {
+                    System.out.println("zzz i is: " + i);
+                    String incomingResponse = "";
+                    String incomingRequest = "";
+                    String incomingStatus = "";
+                    String incomingAppointment = "";
+                    String incomingId = "";
 
-                String key = keys.next();
-                JSONObject jsonTempArray = json.getJSONObject(key);
-                if(!jsonTempArray.isNull("request")) {
-                    incomingRequest=jsonTempArray.getString("request");
+                    JSONObject jsonTempArray = json.getJSONObject(i);
+                    if (!jsonTempArray.isNull("request")) {
+                        incomingRequest = jsonTempArray.getString("request");
+                    }
+                    if (!jsonTempArray.isNull("response")) {
+                        incomingResponse = (jsonTempArray.getString("response"));
+                    }
+                    if (!jsonTempArray.isNull("status")) {
+                        incomingStatus = (jsonTempArray.getString("status"));
+                    }
+                    if (!jsonTempArray.isNull("appointment")) {
+                        incomingAppointment = (jsonTempArray.getString("appointment"));
+                    }
+                    if (!jsonTempArray.isNull("id")) {
+                        incomingId = (jsonTempArray.getString("id"));
+                    }
+                    valuesMaintenance[i] = new MaintenaceRequest(incomingRequest, incomingResponse, incomingStatus, incomingAppointment, incomingId);
                 }
-                if(!jsonTempArray.isNull("response")) {
-                    incomingResponse=(jsonTempArray.getString("response"));
+            } else {
+                    JSONObject json = new JSONObject(incomingMaintenance);
+                    System.out.println("zzz b");
+                    valuesMaintenance = new MaintenaceRequest[json.length()];
+                    Iterator<String> keys = json.keys();
+                    int i = 0;
+                    while (keys.hasNext()) {
+                        System.out.println("zzz i is: " + i);
+                        String incomingResponse = "";
+                        String incomingRequest = "";
+                        String incomingStatus = "";
+                        String incomingAppointment = "";
+                        String incomingId = "";
+
+                        String key = keys.next();
+                        JSONObject jsonTempArray = json.getJSONObject(key);
+                        if (!jsonTempArray.isNull("request")) {
+                            incomingRequest = jsonTempArray.getString("request");
+                        }
+                        if (!jsonTempArray.isNull("response")) {
+                            incomingResponse = (jsonTempArray.getString("response"));
+                        }
+                        if (!jsonTempArray.isNull("status")) {
+                            incomingStatus = (jsonTempArray.getString("status"));
+                        }
+                        if (!jsonTempArray.isNull("appointment")) {
+                            incomingAppointment = (jsonTempArray.getString("appointment"));
+                        }
+                        if (!jsonTempArray.isNull("id")) {
+                            incomingId = (jsonTempArray.getString("id"));
+                        }
+                        valuesMaintenance[i] = new MaintenaceRequest(incomingRequest, incomingResponse, incomingStatus, incomingAppointment, incomingId);
+                        i++;
+                    }
                 }
-                if(!jsonTempArray.isNull("status")) {
-                    incomingStatus=(jsonTempArray.getString("status"));
-                }
-                if(!jsonTempArray.isNull("appointment")) {
-                    incomingAppointment=(jsonTempArray.getString("appointment"));
-                }
-                if(!jsonTempArray.isNull("id")) {
-                    incomingId=(jsonTempArray.getString("id"));
-                }
-                valuesMaintenance[i] = new MaintenaceRequest(incomingRequest, incomingResponse, incomingStatus, incomingAppointment, incomingId);
-                i++;
-            }
             myMaintenanceListAdapter adapter = new myMaintenanceListAdapter(this, valuesMaintenance);
             ListView mainListView = (ListView) findViewById(R.id.list_maintenance);
             mainListView.setAdapter(adapter);
